@@ -1,0 +1,9 @@
+Name: usercenter-api
+Host: 0.0.0.0
+Port: 8000
+Mode: dev
+
+UsercenterRpcConf:
+  Endpoints:
+    - 127.0.0.1:7000
+  NonBlock: true
