@@ -26,9 +26,36 @@ type RegisterResp struct {
 }
 
 type User struct {
-	Id       int64  `json:"id"`
-	Mobile   string `json:"mobile"`
-	Nickname string `json:"nickname"`
-	Sex      int64  `json:"sex"`
-	Avatar   string `json:"avatar"`
+	Id           int64   `json:"id"`
+	Mobile       string  `json:"mobile"`
+	Nickname     string  `json:"nickname"`
+	Sex          int64   `json:"sex"`
+	Avatar       string  `json:"avatar"`
+	Info         string  `json:"info"`
+	IsAdmin      int64   `json:"isAdmin"`
+	Signature    string  `json:"signature"`
+	LocationName string  `json:"locationName"`
+	Longitude    float64 `json:"longitude"`
+	Latitude     float64 `json:"latitude"`
+}
+
+type UserInfoReq struct {
+}
+
+type UserInfoResp struct {
+	UserInfo User `json:"userInfo"`
+}
+
+type WXMiniAuthReq struct {
+	Code          string `json:"code"`
+	IV            string `json:"iv"`
+	EncryptedData string `json:"encryptedData"`
+	Nickname      string `json:"nickname, optional"`
+	Avatar        string `json:"avatar, optional"`
+}
+
+type WXMiniAuthResp struct {
+	AccessToken  string `json:"accessToken"`
+	AccessExpire int64  `json:"accessExpire"`
+	RefreshAfter int64  `json:"refreshAfter"`
 }

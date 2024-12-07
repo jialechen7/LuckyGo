@@ -7,5 +7,12 @@ import (
 
 type Config struct {
 	rest.RestConf
+	JwtAuth struct {
+		AccessSecret string
+	}
+	WxMiniConf struct {
+		AppId     string
+		AppSecret string
+	}
 	UsercenterRpcConf zrpc.RpcClientConf
 }

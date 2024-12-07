@@ -14,20 +14,30 @@ import (
 )
 
 type (
-	AddUserReq        = pb.AddUserReq
-	AddUserResp       = pb.AddUserResp
-	GenerateTokenReq  = pb.GenerateTokenReq
-	GenerateTokenResp = pb.GenerateTokenResp
-	LoginReq          = pb.LoginReq
-	LoginResp         = pb.LoginResp
-	RegisterReq       = pb.RegisterReq
-	RegisterResp      = pb.RegisterResp
-	User              = pb.User
+	AddUserReq               = pb.AddUserReq
+	AddUserResp              = pb.AddUserResp
+	GenerateTokenReq         = pb.GenerateTokenReq
+	GenerateTokenResp        = pb.GenerateTokenResp
+	GetUserAuthByAuthKeyReq  = pb.GetUserAuthByAuthKeyReq
+	GetUserAuthByAuthKeyResp = pb.GetUserAuthByAuthKeyResp
+	GetUserInfoReq           = pb.GetUserInfoReq
+	GetUserInfoResp          = pb.GetUserInfoResp
+	LoginReq                 = pb.LoginReq
+	LoginResp                = pb.LoginResp
+	RegisterReq              = pb.RegisterReq
+	RegisterResp             = pb.RegisterResp
+	User                     = pb.User
+	UserAuth                 = pb.UserAuth
+	WxMiniAuthReq            = pb.WxMiniAuthReq
+	WxMiniAuthResp           = pb.WxMiniAuthResp
 
 	Usercenter interface {
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+		WxMiniAuth(ctx context.Context, in *WxMiniAuthReq, opts ...grpc.CallOption) (*WxMiniAuthResp, error)
 		GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
+		GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
+		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
 	}
 
 	defaultUsercenter struct {
@@ -51,7 +61,22 @@ func (m *defaultUsercenter) Register(ctx context.Context, in *RegisterReq, opts 
 	return client.Register(ctx, in, opts...)
 }
 
+func (m *defaultUsercenter) WxMiniAuth(ctx context.Context, in *WxMiniAuthReq, opts ...grpc.CallOption) (*WxMiniAuthResp, error) {
+	client := pb.NewUsercenterClient(m.cli.Conn())
+	return client.WxMiniAuth(ctx, in, opts...)
+}
+
 func (m *defaultUsercenter) GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error) {
 	client := pb.NewUsercenterClient(m.cli.Conn())
 	return client.GenerateToken(ctx, in, opts...)
+}
+
+func (m *defaultUsercenter) GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error) {
+	client := pb.NewUsercenterClient(m.cli.Conn())
+	return client.GetUserAuthByAuthKey(ctx, in, opts...)
+}
+
+func (m *defaultUsercenter) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
+	client := pb.NewUsercenterClient(m.cli.Conn())
+	return client.GetUserInfo(ctx, in, opts...)
 }

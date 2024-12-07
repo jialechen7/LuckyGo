@@ -27,7 +27,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/register",
 				Handler: user.RegisterHandler(serverCtx),
 			},
+			{
+				// 微信登录注册
+				Method:  http.MethodPost,
+				Path:    "/user/wxMiniAuth",
+				Handler: user.WxMiniAuthHandler(serverCtx),
+			},
 		},
+		rest.WithPrefix("/usercenter/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 获取用户信息
+				Method:  http.MethodPost,
+				Path:    "/user/detail",
+				Handler: user.DetailHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JwtAuth.AccessSecret),
 		rest.WithPrefix("/usercenter/v1"),
 	)
 }

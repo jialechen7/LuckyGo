@@ -27,6 +27,16 @@ message User {
   int64 winning_record = 19;    // 中奖记录次数
 }
 
+// 用户认证信息
+message UserAuth {
+  int64 id = 1;
+  int64 createTime = 2; //创建时间（时间戳）
+  int64 updateTime = 3; //更新时间（时间戳）
+  int64 userId = 4;     //用户id
+  string authKey = 5;   //平台唯一id
+  string authType = 6;  //平台类型
+}
+
 // 添加用户请求
 message AddUserReq {
   string mobile = 1;            // 手机号码
@@ -76,6 +86,35 @@ message RegisterResp {
   int64  refreshAfter = 3;
 }
 
+message WxMiniAuthReq {
+  string nickname = 1;
+  string avatar = 2;
+  string authKey = 3;
+  string authType = 4;
+}
+
+message WxMiniAuthResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+message GetUserAuthByAuthKeyReq {
+  string authKey = 1;
+  string authType = 2;
+}
+
+message GetUserAuthByAuthKeyResp {
+  UserAuth userAuth = 1;
+}
+
+message GetUserInfoReq {
+  int64 id = 1;
+}
+message GetUserInfoResp {
+  User user = 1;
+}
+
 message GenerateTokenReq {
   int64 userId = 1;
 }
@@ -88,5 +127,8 @@ message GenerateTokenResp {
 service usercenter {
   rpc login(LoginReq) returns(LoginResp);
   rpc register(RegisterReq) returns(RegisterResp);
+  rpc wxMiniAuth(WxMiniAuthReq) returns(WxMiniAuthResp);
   rpc generateToken(GenerateTokenReq) returns(GenerateTokenResp);
+  rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
+  rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
 }

@@ -24,5 +24,20 @@ service usercenter {
 	@doc "登录"
 	@handler login
 	post /user/login (LoginReq) returns (LoginResp)
+
+	@doc "微信登录注册"
+	@handler wxMiniAuth
+	post /user/wxMiniAuth (WXMiniAuthReq) returns (WXMiniAuthResp)
+}
+
+@server (
+	prefix: usercenter/v1
+	group:  user
+	jwt:    JwtAuth
+)
+service usercenter {
+	@doc "获取用户信息"
+	@handler detail
+	post /user/detail (UserInfoReq) returns (UserInfoResp)
 }
 

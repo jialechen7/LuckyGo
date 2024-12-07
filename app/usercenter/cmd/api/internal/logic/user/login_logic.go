@@ -5,6 +5,7 @@ import (
 	"github.com/jialechen7/go-lottery/app/usercenter/cmd/rpc/pb"
 	"github.com/jialechen7/go-lottery/common/constants"
 	"github.com/jinzhu/copier"
+	"github.com/pkg/errors"
 
 	"github.com/jialechen7/go-lottery/app/usercenter/cmd/api/internal/svc"
 	"github.com/jialechen7/go-lottery/app/usercenter/cmd/api/internal/types"
@@ -34,7 +35,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		Password: req.Password,
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "req: %+v", req)
 	}
 
 	resp = &types.LoginResp{}
