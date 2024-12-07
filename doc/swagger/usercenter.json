@@ -16,6 +16,38 @@
     "application/json"
   ],
   "paths": {
+    "/usercenter/v1/user/detail": {
+      "post": {
+        "summary": "获取用户信息",
+        "operationId": "detail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInfoReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/usercenter/v1/user/login": {
       "post": {
         "summary": "登录",
@@ -62,6 +94,33 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/RegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/usercenter/v1/user/wxMiniAuth": {
+      "post": {
+        "summary": "微信登录注册",
+        "operationId": "wxMiniAuth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/WXMiniAuthResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WXMiniAuthReq"
             }
           }
         ],
@@ -167,6 +226,27 @@
         },
         "avatar": {
           "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "locationName": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
         }
       },
       "title": "User",
@@ -175,7 +255,79 @@
         "mobile",
         "nickname",
         "sex",
+        "avatar",
+        "info",
+        "isAdmin",
+        "signature",
+        "locationName",
+        "longitude",
+        "latitude"
+      ]
+    },
+    "UserInfoReq": {
+      "type": "object",
+      "title": "UserInfoReq"
+    },
+    "UserInfoResp": {
+      "type": "object",
+      "properties": {
+        "userInfo": {
+          "$ref": "#/definitions/User"
+        }
+      },
+      "title": "UserInfoResp",
+      "required": [
+        "userInfo"
+      ]
+    },
+    "WXMiniAuthReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "iv": {
+          "type": "string"
+        },
+        "encryptedData": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "title": "WXMiniAuthReq",
+      "required": [
+        "code",
+        "iv",
+        "encryptedData",
+        "nickname",
         "avatar"
+      ]
+    },
+    "WXMiniAuthResp": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessExpire": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "refreshAfter": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "WXMiniAuthResp",
+      "required": [
+        "accessToken",
+        "accessExpire",
+        "refreshAfter"
       ]
     }
   },

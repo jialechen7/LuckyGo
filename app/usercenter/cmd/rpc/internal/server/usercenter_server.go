@@ -33,7 +33,22 @@ func (s *UsercenterServer) Register(ctx context.Context, in *pb.RegisterReq) (*p
 	return l.Register(in)
 }
 
+func (s *UsercenterServer) WxMiniAuth(ctx context.Context, in *pb.WxMiniAuthReq) (*pb.WxMiniAuthResp, error) {
+	l := logic.NewWxMiniAuthLogic(ctx, s.svcCtx)
+	return l.WxMiniAuth(in)
+}
+
 func (s *UsercenterServer) GenerateToken(ctx context.Context, in *pb.GenerateTokenReq) (*pb.GenerateTokenResp, error) {
 	l := logic.NewGenerateTokenLogic(ctx, s.svcCtx)
 	return l.GenerateToken(in)
+}
+
+func (s *UsercenterServer) GetUserAuthByAuthKey(ctx context.Context, in *pb.GetUserAuthByAuthKeyReq) (*pb.GetUserAuthByAuthKeyResp, error) {
+	l := logic.NewGetUserAuthByAuthKeyLogic(ctx, s.svcCtx)
+	return l.GetUserAuthByAuthKey(in)
+}
+
+func (s *UsercenterServer) GetUserInfo(ctx context.Context, in *pb.GetUserInfoReq) (*pb.GetUserInfoResp, error) {
+	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
+	return l.GetUserInfo(in)
 }

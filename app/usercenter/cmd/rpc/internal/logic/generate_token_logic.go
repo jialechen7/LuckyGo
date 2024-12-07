@@ -6,6 +6,7 @@ import (
 	"github.com/jialechen7/go-lottery/app/usercenter/cmd/rpc/pb"
 	"github.com/jialechen7/go-lottery/common/utility"
 	"github.com/pkg/errors"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,8 +26,9 @@ func NewGenerateTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Gen
 }
 
 func (l *GenerateTokenLogic) GenerateToken(in *pb.GenerateTokenReq) (*pb.GenerateTokenResp, error) {
+	now := time.Now().Unix()
 	accessToken, err :=
-		utility.GenerateJWT([]byte(l.svcCtx.Config.JwtAuth.AccessSecret), l.svcCtx.Config.JwtAuth.AccessExpire, in.UserId)
+		utility.GenerateJWT(l.svcCtx.Config.JwtAuth.AccessSecret, now, l.svcCtx.Config.JwtAuth.AccessExpire, in.UserId)
 	if err != nil {
 		return nil, errors.Wrapf(err, "GenerateToken err:%v", err)
 	}

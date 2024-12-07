@@ -19,9 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Usercenter_Login_FullMethodName         = "/pb.usercenter/login"
-	Usercenter_Register_FullMethodName      = "/pb.usercenter/register"
-	Usercenter_GenerateToken_FullMethodName = "/pb.usercenter/generateToken"
+	Usercenter_Login_FullMethodName                = "/pb.usercenter/login"
+	Usercenter_Register_FullMethodName             = "/pb.usercenter/register"
+	Usercenter_WxMiniAuth_FullMethodName           = "/pb.usercenter/wxMiniAuth"
+	Usercenter_GenerateToken_FullMethodName        = "/pb.usercenter/generateToken"
+	Usercenter_GetUserAuthByAuthKey_FullMethodName = "/pb.usercenter/getUserAuthByAuthKey"
+	Usercenter_GetUserInfo_FullMethodName          = "/pb.usercenter/getUserInfo"
 )
 
 // UsercenterClient is the client API for Usercenter service.
@@ -30,7 +33,10 @@ const (
 type UsercenterClient interface {
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+	WxMiniAuth(ctx context.Context, in *WxMiniAuthReq, opts ...grpc.CallOption) (*WxMiniAuthResp, error)
 	GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
+	GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
+	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
 }
 
 type usercenterClient struct {
@@ -61,6 +67,16 @@ func (c *usercenterClient) Register(ctx context.Context, in *RegisterReq, opts .
 	return out, nil
 }
 
+func (c *usercenterClient) WxMiniAuth(ctx context.Context, in *WxMiniAuthReq, opts ...grpc.CallOption) (*WxMiniAuthResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WxMiniAuthResp)
+	err := c.cc.Invoke(ctx, Usercenter_WxMiniAuth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usercenterClient) GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GenerateTokenResp)
@@ -71,13 +87,36 @@ func (c *usercenterClient) GenerateToken(ctx context.Context, in *GenerateTokenR
 	return out, nil
 }
 
-// UsercenterServer is the rpcserver API for Usercenter service.
+func (c *usercenterClient) GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserAuthByAuthKeyResp)
+	err := c.cc.Invoke(ctx, Usercenter_GetUserAuthByAuthKey_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usercenterClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserInfoResp)
+	err := c.cc.Invoke(ctx, Usercenter_GetUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UsercenterServer is the server API for Usercenter service.
 // All implementations must embed UnimplementedUsercenterServer
 // for forward compatibility.
 type UsercenterServer interface {
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
+	WxMiniAuth(context.Context, *WxMiniAuthReq) (*WxMiniAuthResp, error)
 	GenerateToken(context.Context, *GenerateTokenReq) (*GenerateTokenResp, error)
+	GetUserAuthByAuthKey(context.Context, *GetUserAuthByAuthKeyReq) (*GetUserAuthByAuthKeyResp, error)
+	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error)
 	mustEmbedUnimplementedUsercenterServer()
 }
 
@@ -94,8 +133,17 @@ func (UnimplementedUsercenterServer) Login(context.Context, *LoginReq) (*LoginRe
 func (UnimplementedUsercenterServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
+func (UnimplementedUsercenterServer) WxMiniAuth(context.Context, *WxMiniAuthReq) (*WxMiniAuthResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WxMiniAuth not implemented")
+}
 func (UnimplementedUsercenterServer) GenerateToken(context.Context, *GenerateTokenReq) (*GenerateTokenResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenerateToken not implemented")
+}
+func (UnimplementedUsercenterServer) GetUserAuthByAuthKey(context.Context, *GetUserAuthByAuthKeyReq) (*GetUserAuthByAuthKeyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserAuthByAuthKey not implemented")
+}
+func (UnimplementedUsercenterServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
 func (UnimplementedUsercenterServer) mustEmbedUnimplementedUsercenterServer() {}
 func (UnimplementedUsercenterServer) testEmbeddedByValue()                    {}
@@ -154,6 +202,24 @@ func _Usercenter_Register_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Usercenter_WxMiniAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WxMiniAuthReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsercenterServer).WxMiniAuth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Usercenter_WxMiniAuth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsercenterServer).WxMiniAuth(ctx, req.(*WxMiniAuthReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Usercenter_GenerateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GenerateTokenReq)
 	if err := dec(in); err != nil {
@@ -168,6 +234,42 @@ func _Usercenter_GenerateToken_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsercenterServer).GenerateToken(ctx, req.(*GenerateTokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Usercenter_GetUserAuthByAuthKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserAuthByAuthKeyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsercenterServer).GetUserAuthByAuthKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Usercenter_GetUserAuthByAuthKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsercenterServer).GetUserAuthByAuthKey(ctx, req.(*GetUserAuthByAuthKeyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Usercenter_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsercenterServer).GetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Usercenter_GetUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsercenterServer).GetUserInfo(ctx, req.(*GetUserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -188,8 +290,20 @@ var Usercenter_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Usercenter_Register_Handler,
 		},
 		{
+			MethodName: "wxMiniAuth",
+			Handler:    _Usercenter_WxMiniAuth_Handler,
+		},
+		{
 			MethodName: "generateToken",
 			Handler:    _Usercenter_GenerateToken_Handler,
+		},
+		{
+			MethodName: "getUserAuthByAuthKey",
+			Handler:    _Usercenter_GetUserAuthByAuthKey_Handler,
+		},
+		{
+			MethodName: "getUserInfo",
+			Handler:    _Usercenter_GetUserInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
