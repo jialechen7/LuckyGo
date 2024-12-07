@@ -1,0 +1,28 @@
+syntax = "v1"
+
+info (
+	title:   "用户中心服务"
+	desc:    "用户中心服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+import (
+	"user/user.api"
+)
+
+@server (
+	prefix: usercenter/v1
+	group:  user
+)
+service usercenter {
+	@doc "注册"
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+
+	@doc "登录"
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+}
+
