@@ -1,0 +1,13 @@
+Name: upload-api
+Host: 0.0.0.0
+Port: 8001
+Mode: dev
+
+JwtAuth:
+  AccessSecret: 4f3D8E6A29c7D4B1aF83Fb92c9e1E2D7A56fC0G8
+  AccessExpire: 604800
+
+UploadRpcConf:
+  Endpoints:
+    - 127.0.0.1:7001
+  NonBlock: true
