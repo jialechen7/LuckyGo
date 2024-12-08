@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+// 用户信息
+message User {
+  int64 id = 1;                 // 用户ID
+  int64 create_time = 2;        // 创建时间（时间戳）
+  int64 update_time = 3;        // 更新时间（时间戳）
+  string mobile = 4;            // 手机号码
+  string password = 5;          // 用户密码
+  string nickname = 6;          // 用户昵称
+  int64 sex = 7;                // 性别 (0: 男, 1: 女)
+  string avatar = 8;            // 用户头像URL
+  string info = 9;              // 用户简介
+  int64 is_admin = 10;          // 是否管理员 (0: 否, 1: 是)
+  string signature = 11;        // 个性签名
+  string location_name = 12;    // 位置名称（地址）
+  double longitude = 13;        // 位置经度
+  double latitude = 14;         // 位置纬度
+  int64 total_prize = 15;       // 累计获得的奖品数量
+  int64 fans = 16;              // 粉丝数量
+  int64 all_lottery = 17;       // 总抽奖次数（包括发起的和中奖的）
+  int64 initiation_record = 18; // 发起抽奖的记录次数
+  int64 winning_record = 19;    // 中奖记录次数
+}
+
+// 用户认证信息
+message UserAuth {
+  int64 id = 1;
+  int64 createTime = 2; //创建时间（时间戳）
+  int64 updateTime = 3; //更新时间（时间戳）
+  int64 userId = 4;     //用户id
+  string authKey = 5;   //平台唯一id
+  string authType = 6;  //平台类型
+}
+
+// 添加用户请求
+message AddUserReq {
+  string mobile = 1;            // 手机号码
+  string password = 2;          // 用户密码
+  string nickname = 3;          // 用户昵称
+  int64 sex = 4;                // 性别 (0: 男, 1: 女)
+  string avatar = 5;            // 用户头像URL
+  string info = 6;              // 用户简介
+  int64 is_admin = 7;           // 是否管理员 (0: 否, 1: 是)
+  string signature = 8;         // 个性签名
+  string location_name = 9;     // 位置名称（地址）
+  double longitude = 10;        // 位置经度
+  double latitude = 11;         // 位置纬度
+  int64 total_prize = 12;       // 累计获得的奖品数量
+  int64 fans = 13;              // 粉丝数量
+  int64 all_lottery = 14;       // 总抽奖次数（包括发起的和中奖的）
+  int64 initiation_record = 15; // 发起抽奖的记录次数
+  int64 winning_record = 16;    // 中奖记录次数
+}
+
+// 添加用户响应
+message AddUserResp {
+}
+
+message LoginReq {
+  string  authType = 1;
+  string  authKey = 2;
+  string  password = 3;
+}
+message LoginResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+message RegisterReq {
+  string mobile = 1;
+  string nickname = 2;
+  string password = 3;
+  string authKey = 4;
+  string authType = 5;
+}
+
+message RegisterResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+message WxMiniAuthReq {
+  string nickname = 1;
+  string avatar = 2;
+  string authKey = 3;
+  string authType = 4;
+}
+
+message WxMiniAuthResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+message GetUserAuthByAuthKeyReq {
+  string authKey = 1;
+  string authType = 2;
+}
+
+message GetUserAuthByAuthKeyResp {
+  UserAuth userAuth = 1;
+}
+
+message GetUserInfoReq {
+  int64 id = 1;
+}
+message GetUserInfoResp {
+  User user = 1;
+}
+
+message GenerateTokenReq {
+  int64 userId = 1;
+}
+message GenerateTokenResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+message UpdateUserBaseInfoReq {
+  int64 id = 1;
+  string Nickname = 2;
+  int64 sex = 3;
+  string avatar = 4;
+  string info = 5;
+  string signature = 6;
+  double longitude = 7;
+  double latitude = 8;
+}
+
+message UpdateUserBaseInfoResp {
+}
+
+service usercenter {
+  rpc login(LoginReq) returns(LoginResp);
+  rpc register(RegisterReq) returns(RegisterResp);
+  rpc wxMiniAuth(WxMiniAuthReq) returns(WxMiniAuthResp);
+  rpc generateToken(GenerateTokenReq) returns(GenerateTokenResp);
+  rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
+  rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  rpc updateUserBaseInfo(UpdateUserBaseInfoReq) returns(UpdateUserBaseInfoResp);
+}

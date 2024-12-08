@@ -19,15 +19,68 @@ go-lottery 是一个基于 [go-zero](https://github.com/zeromicro/go-zero) 框�
 
 ## 系统架构
 
+## 目录结构
+- **app**：应用层，负责处理业务逻辑。
+- **common**：公共模块，包含常量、错误码、工具函数等。
+- **deploy**：部署脚本。
+- **doc**：文档目录，包含项目设计文档和 API 文档。
+
+## 开发模块流程
+
+### 1. 设计数据库表结构并生成 Model 层
+
+首先，设计好数据库表结构，并创建对应的数据库和表。然后，调用脚本 `deploy/scripts/genModel.sh` 来生成 Model 层代码，并将其放到对应的应用服务目录下。
+
+```sh
+./deploy/scripts/genModel.sh DATABASE_NAME TABLE_NAME DEST_DIR TEMPLATE_DIR
+# 示例
+./deploy/scripts/mysql/genModel.sh usercenter user app/usercenter/model deploy/goctl/1.7.3
+```
+### 2. 开发api层
+开发 API 层时，可以使用 goctl 生成 API 代码和 Swagger 文档，并配置 config.go 和相应的 YAML 配置文件，以确保 API 接口的正常调用。
+```sh
+goctl api go --api=API_FILE --dir=TARGET_DIR --style=go_zero --home=TEMPLATE_DIR
+goctl api plugin --plugin=PLUGIN_NAME --api=API_FILE --dir=TARGET_DIR
+# 示例
+goctl api go --api=app/usercenter/cmd/api/desc/main.api --dir=app/usercenter/cmd/api/ --style=go_zero --home=deploy/goctl/1.7.3/
+goctl api plugin --plugin=goctl-swagger="swagger -filename usercenter.json" --api=app/usercenter/cmd/api/desc/main.api --dir=doc/swagger
+```
+### 3. 开发rpc层
+开发 RPC 层时，同样可以使用 goctl 生成 RPC 代码，并配置 config.go 和 YAML 配置文件，以确保各个服务间的通信正常。
+```sh
+goctl rpc protoc PROTO_FILE --go_out=TARGET_DIR --go-grpc_out=TARGET_DIR --zrpc_out=TARGET_DIR --style=go_zero --home=TEMPLATE_DIR
+# 示例
+goctl rpc protoc app/usercenter/cmd/rpc/pb/usercenter.proto --go_out=app/usercenter/cmd/rpc/ --go-grpc_out=app/usercenter/cmd/rpc/ --zrpc_out=app/usercenter/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
+```
+
 ## 快速开始
 
 ### 环境要求
 
-- Go 1.22 及以上版本
+- Go 1.23 及以上版本
 - MySQL 8.0 及以上版本
 - Redis 7.0 及以上版本
 
-### 安装步骤
+### 启动步骤
+
+#### 1. 使用 `docker-compose` 启动
+如果需要手动启动服务，运行以下命令：
+```sh
+# 启动环境依赖
+docker-compose -f docker-compose-env.yml up -d
+
+# 启动主服务
+docker-compose -f docker-compose.yml up -d
+``` 
+#### 2. 使用 `make` 简化启动和关闭
+```sh
+# 启动所有服务
+make docker-up-env
+make docker-up-app
+# 停止所有服务
+make docker-down-env
+make docker-down-app
+```
 
 ## 感谢
 - 感谢 [Mikaelemmmm](https://github.com/Mikaelemmmm) 提供的 `go-zero-looklook` 项目，作为本项目的参考架构。

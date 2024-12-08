@@ -1,0 +1,33 @@
+syntax = "v1"
+
+info (
+	title:   "文件上传服务"
+	desc:    "文件上传服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+type (
+	UserUploadReq {
+		FileName string `json:"file_name,optional"`
+		Ext      string `json:"ext,optional"`
+		Size     int64  `json:"size,optional"`
+		FileData []byte `json:"file_data,optional"`
+	}
+	UserUploadResp {
+		Url string `json:"url"`
+	}
+)
+
+@server (
+	prefix: upload/v1
+	group:  upload
+	jwt:    JwtAuth
+)
+service upload {
+	@doc "文件上传"
+	@handler upload
+	post /upload/add (UserUploadReq) returns (UserUploadResp)
+}
+
