@@ -14,7 +14,7 @@ set -e
 
 # 数据库配置
 HOST="127.0.0.1"
-PORT="3306"
+PORT="33069"
 USERNAME="root"
 PASSWORD="root"
 

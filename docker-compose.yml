@@ -24,6 +24,8 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - GOPROXY=https://goproxy.cn,direct
+    env_file:
+      - ./.env
     working_dir: /go/go-lottery
     volumes:
       - .:/go/go-lottery
