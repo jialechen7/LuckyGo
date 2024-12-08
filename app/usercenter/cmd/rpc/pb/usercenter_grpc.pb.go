@@ -25,6 +25,7 @@ const (
 	Usercenter_GenerateToken_FullMethodName        = "/pb.usercenter/generateToken"
 	Usercenter_GetUserAuthByAuthKey_FullMethodName = "/pb.usercenter/getUserAuthByAuthKey"
 	Usercenter_GetUserInfo_FullMethodName          = "/pb.usercenter/getUserInfo"
+	Usercenter_UpdateUserBaseInfo_FullMethodName   = "/pb.usercenter/updateUserBaseInfo"
 )
 
 // UsercenterClient is the client API for Usercenter service.
@@ -37,6 +38,7 @@ type UsercenterClient interface {
 	GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
 	GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+	UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error)
 }
 
 type usercenterClient struct {
@@ -107,6 +109,16 @@ func (c *usercenterClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, 
 	return out, nil
 }
 
+func (c *usercenterClient) UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateUserBaseInfoResp)
+	err := c.cc.Invoke(ctx, Usercenter_UpdateUserBaseInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UsercenterServer is the server API for Usercenter service.
 // All implementations must embed UnimplementedUsercenterServer
 // for forward compatibility.
@@ -117,6 +129,7 @@ type UsercenterServer interface {
 	GenerateToken(context.Context, *GenerateTokenReq) (*GenerateTokenResp, error)
 	GetUserAuthByAuthKey(context.Context, *GetUserAuthByAuthKeyReq) (*GetUserAuthByAuthKeyResp, error)
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error)
+	UpdateUserBaseInfo(context.Context, *UpdateUserBaseInfoReq) (*UpdateUserBaseInfoResp, error)
 	mustEmbedUnimplementedUsercenterServer()
 }
 
@@ -144,6 +157,9 @@ func (UnimplementedUsercenterServer) GetUserAuthByAuthKey(context.Context, *GetU
 }
 func (UnimplementedUsercenterServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUsercenterServer) UpdateUserBaseInfo(context.Context, *UpdateUserBaseInfoReq) (*UpdateUserBaseInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserBaseInfo not implemented")
 }
 func (UnimplementedUsercenterServer) mustEmbedUnimplementedUsercenterServer() {}
 func (UnimplementedUsercenterServer) testEmbeddedByValue()                    {}
@@ -274,6 +290,24 @@ func _Usercenter_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Usercenter_UpdateUserBaseInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserBaseInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsercenterServer).UpdateUserBaseInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Usercenter_UpdateUserBaseInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsercenterServer).UpdateUserBaseInfo(ctx, req.(*UpdateUserBaseInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Usercenter_ServiceDesc is the grpc.ServiceDesc for Usercenter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -304,6 +338,10 @@ var Usercenter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getUserInfo",
 			Handler:    _Usercenter_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "updateUserBaseInfo",
+			Handler:    _Usercenter_UpdateUserBaseInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

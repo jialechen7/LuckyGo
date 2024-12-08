@@ -39,5 +39,9 @@ service usercenter {
 	@doc "获取用户信息"
 	@handler detail
 	post /user/detail (UserInfoReq) returns (UserInfoResp)
+
+	@doc "更新用户信息"
+	@handler update
+	put /user/update (UserUpdateReq) returns (UserUpdateResp)
 }
 

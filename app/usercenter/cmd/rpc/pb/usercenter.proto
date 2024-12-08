@@ -124,6 +124,20 @@ message GenerateTokenResp {
   int64  refreshAfter = 3;
 }
 
+message UpdateUserBaseInfoReq {
+  int64 id = 1;
+  string Nickname = 2;
+  int64 sex = 3;
+  string avatar = 4;
+  string info = 5;
+  string signature = 6;
+  double longitude = 7;
+  double latitude = 8;
+}
+
+message UpdateUserBaseInfoResp {
+}
+
 service usercenter {
   rpc login(LoginReq) returns(LoginResp);
   rpc register(RegisterReq) returns(RegisterResp);
@@ -131,4 +145,5 @@ service usercenter {
   rpc generateToken(GenerateTokenReq) returns(GenerateTokenResp);
   rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
   rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  rpc updateUserBaseInfo(UpdateUserBaseInfoReq) returns(UpdateUserBaseInfoResp);
 }

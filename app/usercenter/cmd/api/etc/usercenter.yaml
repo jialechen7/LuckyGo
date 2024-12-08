@@ -5,6 +5,7 @@ Mode: dev
 
 JwtAuth:
   AccessSecret: 4f3D8E6A29c7D4B1aF83Fb92c9e1E2D7A56fC0G8
+  AccessExpire: 604800
 
 UsercenterRpcConf:
   Endpoints:

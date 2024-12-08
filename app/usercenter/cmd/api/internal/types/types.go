@@ -46,6 +46,19 @@ type UserInfoResp struct {
 	UserInfo User `json:"userInfo"`
 }
 
+type UserUpdateReq struct {
+	Nickname  string  `json:"nickname"`
+	Sex       int64   `json:"sex"`
+	Avatar    string  `json:"avatar"`
+	Info      string  `json:"info"`
+	Signature string  `json:"signature"`
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+}
+
+type UserUpdateResp struct {
+}
+
 type WXMiniAuthReq struct {
 	Code          string `json:"code"`
 	IV            string `json:"iv"`

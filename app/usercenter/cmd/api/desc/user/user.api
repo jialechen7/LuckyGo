@@ -8,17 +8,17 @@ info (
 )
 
 type User {
-	Id       int64  `json:"id"`
-	Mobile   string `json:"mobile"`
-	Nickname string `json:"nickname"`
-	Sex      int64  `json:"sex"`
-	Avatar   string `json:"avatar"`
-	Info     string `json:"info"`
-	IsAdmin int64  `json:"isAdmin"`
-	Signature string `json:"signature"`
-	LocationName string `json:"locationName"`
-	Longitude float64 `json:"longitude"`
-	Latitude float64 `json:"latitude"`
+	Id           int64   `json:"id"`
+	Mobile       string  `json:"mobile"`
+	Nickname     string  `json:"nickname"`
+	Sex          int64   `json:"sex"`
+	Avatar       string  `json:"avatar"`
+	Info         string  `json:"info"`
+	IsAdmin      int64   `json:"isAdmin"`
+	Signature    string  `json:"signature"`
+	LocationName string  `json:"locationName"`
+	Longitude    float64 `json:"longitude"`
+	Latitude     float64 `json:"latitude"`
 }
 
 type (
@@ -46,11 +46,24 @@ type (
 )
 
 type (
+	UserUpdateReq {
+		Nickname  string  `json:"nickname"`
+		Sex       int64   `json:"sex"`
+		Avatar    string  `json:"avatar"`
+		Info      string  `json:"info"`
+		Signature string  `json:"signature"`
+		Longitude float64 `json:"longitude"`
+		Latitude  float64 `json:"latitude"`
+	}
+	UserUpdateResp  {}
+)
+
+type (
 	WXMiniAuthReq {
 		Code          string `json:"code"`
 		IV            string `json:"iv"`
 		EncryptedData string `json:"encryptedData"`
-		Nickname 	  string `json:"nickname, optional"`
+		Nickname      string `json:"nickname, optional"`
 		Avatar        string `json:"avatar, optional"`
 	}
 	WXMiniAuthResp {
@@ -61,9 +74,9 @@ type (
 )
 
 type (
-	UserInfoReq {
-	}
+	UserInfoReq  {}
 	UserInfoResp {
 		UserInfo User `json:"userInfo"`
 	}
 )
+
