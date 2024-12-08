@@ -26,6 +26,8 @@ type (
 	LoginResp                = pb.LoginResp
 	RegisterReq              = pb.RegisterReq
 	RegisterResp             = pb.RegisterResp
+	UpdateUserBaseInfoReq    = pb.UpdateUserBaseInfoReq
+	UpdateUserBaseInfoResp   = pb.UpdateUserBaseInfoResp
 	User                     = pb.User
 	UserAuth                 = pb.UserAuth
 	WxMiniAuthReq            = pb.WxMiniAuthReq
@@ -38,6 +40,7 @@ type (
 		GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
 		GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+		UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error)
 	}
 
 	defaultUsercenter struct {
@@ -79,4 +82,9 @@ func (m *defaultUsercenter) GetUserAuthByAuthKey(ctx context.Context, in *GetUse
 func (m *defaultUsercenter) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
 	client := pb.NewUsercenterClient(m.cli.Conn())
 	return client.GetUserInfo(ctx, in, opts...)
+}
+
+func (m *defaultUsercenter) UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error) {
+	client := pb.NewUsercenterClient(m.cli.Conn())
+	return client.UpdateUserBaseInfo(ctx, in, opts...)
 }

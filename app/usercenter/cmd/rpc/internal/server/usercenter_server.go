@@ -52,3 +52,8 @@ func (s *UsercenterServer) GetUserInfo(ctx context.Context, in *pb.GetUserInfoRe
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
 }
+
+func (s *UsercenterServer) UpdateUserBaseInfo(ctx context.Context, in *pb.UpdateUserBaseInfoReq) (*pb.UpdateUserBaseInfoResp, error) {
+	l := logic.NewUpdateUserBaseInfoLogic(ctx, s.svcCtx)
+	return l.UpdateUserBaseInfo(in)
+}

@@ -102,6 +102,38 @@
         ]
       }
     },
+    "/usercenter/v1/user/update": {
+      "put": {
+        "summary": "更新用户信息",
+        "operationId": "update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserUpdateResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/usercenter/v1/user/wxMiniAuth": {
       "post": {
         "summary": "微信登录注册",
@@ -279,6 +311,49 @@
       "required": [
         "userInfo"
       ]
+    },
+    "UserUpdateReq": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "UserUpdateReq",
+      "required": [
+        "nickname",
+        "sex",
+        "avatar",
+        "info",
+        "signature",
+        "longitude",
+        "latitude"
+      ]
+    },
+    "UserUpdateResp": {
+      "type": "object",
+      "title": "UserUpdateResp"
     },
     "WXMiniAuthReq": {
       "type": "object",

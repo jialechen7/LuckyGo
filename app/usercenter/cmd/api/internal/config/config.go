@@ -9,6 +9,7 @@ type Config struct {
 	rest.RestConf
 	JwtAuth struct {
 		AccessSecret string
+		AccessExpire int64
 	}
 	WxMiniConf struct {
 		AppId     string
