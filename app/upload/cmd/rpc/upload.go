@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 
+	"github.com/jialechen7/go-lottery/common/interceptor/rpcserver"
+
 	"github.com/jialechen7/go-lottery/app/upload/cmd/rpc/internal/config"
 	"github.com/jialechen7/go-lottery/app/upload/cmd/rpc/internal/server"
 	"github.com/jialechen7/go-lottery/app/upload/cmd/rpc/internal/svc"
@@ -33,6 +35,8 @@ func main() {
 		}
 	})
 	defer s.Stop()
+
+	s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
