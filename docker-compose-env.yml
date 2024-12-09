@@ -5,23 +5,26 @@ services:
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
     ports:
       - 33069:3306
     volumes:
       # 数据挂载 - Data mounting
       - ./data/mysql/data:/var/lib/mysql
+      # 挂载SQL文件的目录
+      - ./deploy/sql:/docker-entrypoint-initdb.d
     command:
       # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
-      # Modify the Mysql 8.0 default password strategy to the original strategy (MySQL8.0 to change its default strategy will cause the password to be unable to match)
       --default-authentication-plugin=mysql_native_password
-      --character-set-rpcserver=utf8mb4
-      --collation-rpcserver=utf8mb4_general_ci
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
       --lower_case_table_names=1
     privileged: true
     restart: always
     networks:
       - go-lottery-network
+
   redis:
     image: redis:7-alpine
     container_name: go-lottery-redis
@@ -32,7 +35,7 @@ services:
     volumes:
       # 数据文件 - data files
       - ./data/redis/data:/data:rw
-    command: "redis-rpcserver --requirepass root --appendonly yes"
+    command: "redis-server --requirepass root --appendonly yes"
     privileged: true
     restart: always
     networks:
