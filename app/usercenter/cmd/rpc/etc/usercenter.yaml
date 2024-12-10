@@ -14,3 +14,9 @@ MySQL:
 JwtAuth:
   AccessSecret: 4f3D8E6A29c7D4B1aF83Fb92c9e1E2D7A56fC0G8
   AccessExpire: 604800
+
+Telemetry:
+  Name: usercenter-rpc
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
