@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message Lottery {
+  int64 id = 1;
+  int64 userId = 2;
+  string name = 3;
+  string thumb = 4;
+  int64 publishTime = 5;
+  int64 joinNumber = 6;
+  string introduce = 7;
+  int64 awardDeadline = 8;
+  int64 isSelected = 9;
+  int64 announceType = 10;
+  int64 announceTime = 11;
+  int64 isAnnounced = 12;
+  int64 SponsorId = 13;
+}
+
+message SearchLotteryReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 userId = 4; //发起抽奖用户ID
+  string name = 5; //默认取一等奖名称
+  string thumb = 6; //默认取一等经配图
+  int64 publishTime = 7; // 发布抽奖时间
+  int64 joinNumber = 8; //自动开奖人数
+  string introduce = 9; //抽奖说明
+  int64 awardDeadline = 10; //领奖截止时间
+  int64 createTime = 11; //createTime
+  int64 updateTime = 12; //updateTime
+  int64 isSelected = 13; //是否精选 1是 0否
+  int64 lastId = 14; // 页面最后一条记录的id
+  int64 announceType = 15;
+  int64 announceTime = 16;
+  int64 isAnnounced = 17;
+  int64 SponsorId = 18;// 赞助商id
+}
+
+message SearchLotteryResp {
+  repeated Lottery lottery = 1; //lottery
+}
+
+service lottery {
+  rpc SearchLottery(SearchLotteryReq) returns (SearchLotteryResp);
+}

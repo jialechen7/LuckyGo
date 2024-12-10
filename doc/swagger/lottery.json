@@ -1,0 +1,177 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "抽奖服务",
+    "description": "抽奖服务",
+    "version": "v1"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/lottery/v1/lottery/lotteryList": {
+      "post": {
+        "summary": "获取抽奖列表",
+        "operationId": "lotteryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LotteryListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryListReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Lottery": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "发起抽奖用户ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "默认一等奖名称"
+        },
+        "thumb": {
+          "type": "string",
+          "description": "默认一等奖配图"
+        },
+        "publishTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "发布抽奖时间"
+        },
+        "joinNumber": {
+          "type": "integer",
+          "format": "int64",
+          "description": "自动开奖人数标准"
+        },
+        "introduce": {
+          "type": "string",
+          "description": "抽奖说明"
+        },
+        "awardDeadline": {
+          "type": "integer",
+          "format": "int64",
+          "description": "领奖截止时间"
+        },
+        "isSelected": {
+          "type": "integer",
+          "format": "int64",
+          "description": "是否精选 1是 0否"
+        },
+        "announceType": {
+          "type": "integer",
+          "format": "int64",
+          "description": "开奖设置：1按时间开奖 2按人数开奖 3即抽即中"
+        },
+        "announceTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": "开奖时间"
+        },
+        "isAnnounced": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否已经开奖：0未开奖 1已开奖"
+        },
+        "sponsorId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 赞助商Id"
+        }
+      },
+      "title": "Lottery",
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "thumb",
+        "publishTime",
+        "joinNumber",
+        "introduce",
+        "awardDeadline",
+        "isSelected",
+        "announceType",
+        "announceTime",
+        "isAnnounced",
+        "sponsorId"
+      ]
+    },
+    "LotteryListReq": {
+      "type": "object",
+      "properties": {
+        "lastId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isSelected": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LotteryListReq",
+      "required": [
+        "lastId",
+        "pageSize",
+        "isSelected"
+      ]
+    },
+    "LotteryListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lottery"
+          }
+        }
+      },
+      "title": "LotteryListResp",
+      "required": [
+        "list"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
