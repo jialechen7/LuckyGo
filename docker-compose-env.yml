@@ -1,15 +1,112 @@
 services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: go-lottery-zookeeper
+    environment:
+      TZ: Asia/Shanghai
+    restart: always
+    ports:
+      - "2181:2181"
+    networks:
+      - go-lottery-network
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: go-lottery-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
+      TZ: Asia/Shanghai
+    restart: always
+    volumes:
+      - ./data/kafka/data:/var/lib/kafka/data
+    networks:
+      - go-lottery-network
+    depends_on:
+      - zookeeper
+
+  # 搜集kafka业务日志、存储prometheus监控数据
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    container_name: elasticsearch
+    user: root
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+    restart: always
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - go-lottery-network
+
+  # 消费kafka中filebeat收集的数据输出到es
+  go-stash:
+    image: kevinwan/go-stash:1.0
+    container_name: go-stash
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    user: root
+    restart: always
+    volumes:
+      - ./deploy/go-stash/etc:/app/etc
+    networks:
+      - go-lottery-network
+    depends_on:
+      - elasticsearch
+      - kafka
+
+  # 查看elasticsearch数据
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.4
+    container_name: kibana
+    environment:
+      - elasticsearch.hosts=http://elasticsearch:9200
+      - TZ=Asia/Shanghai
+    restart: always
+    networks:
+      - go-lottery-network
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: elastic/filebeat:8.12.2
+    container_name: filebeat
+    environment:
+      TZ: Asia/Shanghai
+    user: root
+    restart: always
+    entrypoint: "filebeat -e -strict.perms=false"  # 解决配置文件权限问题
+    volumes:
+      - ./deploy/filebeat/conf/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      # 此处需指定docker的containers目录，取决于你docker的配置
+      - /mnt/docker/data/docker/containers:/var/lib/docker/containers
+    networks:
+      - go-lottery-network
+    depends_on:
+      - kafka
+
   mysql:
-    image: mysql/mysql-server:8.0.28
+    image: mysql:8.0.40
     container_name: go-lottery-mysql
+    user: root
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
     ports:
-      - 33069:3306
+      - "33069:3306"
     volumes:
-      # 数据挂载 - Data mounting
+      # 数据挂载
       - ./data/mysql/data:/var/lib/mysql
       # 挂载SQL文件的目录
       - ./deploy/sql:/docker-entrypoint-initdb.d
@@ -29,11 +126,11 @@ services:
     image: redis:7-alpine
     container_name: go-lottery-redis
     ports:
-      - 36379:6379
+      - "36379:6379"
     environment:
       TZ: Asia/Shanghai
     volumes:
-      # 数据文件 - data files
+      # 数据文件
       - ./data/redis/data:/data:rw
     command: "redis-server --requirepass root --appendonly yes"
     privileged: true

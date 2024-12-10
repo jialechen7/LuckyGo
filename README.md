@@ -53,6 +53,51 @@ goctl rpc protoc PROTO_FILE --go_out=TARGET_DIR --go-grpc_out=TARGET_DIR --zrpc_
 goctl rpc protoc app/usercenter/cmd/rpc/pb/usercenter.proto --go_out=app/usercenter/cmd/rpc/ --go-grpc_out=app/usercenter/cmd/rpc/ --zrpc_out=app/usercenter/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
 ```
 
+## 日志收集
+
+### 功能模块
+- **消息队列 Kafka**：负责接收并传输日志数据。
+- **日志收集 Filebeat**：负责从容器中收集日志数据。
+- **日志存储 Elasticsearch**：负责存储和索引日志数据。
+- **日志展示 Kibana**：负责展示和可视化日志数据。
+- **日志处理 Go-Stash**：负责从 Kafka 中获取日志数据并进行处理。
+
+
+### 常见问题
+
+#### MySQL 在 WSL 的 Root 用户下执行 Docker Compose 时出现权限问题？
+这个问题可能是由 [Permissions problem with mounted windows volume #4824](https://github.com/docker/for-win/issues/4824) 引起的，但目前仍未解决。
+
+#### 如何在 Windows 上的 Docker Desktop 映射容器日志文件？
+
+参考 [WSL2 docker volume location #145](https://github.com/Mikaelemmmm/go-zero-looklook/issues/145) 解决该问题。
+
+##### 操作步骤
+
+1. **映射 `H:` 驱动器到 WSL**  
+   在 Windows 中，运行以下命令将 Docker Desktop 数据挂载到 `H:` 驱动器：
+
+   ```bash
+   net use h: \\wsl$\docker-desktop-data
+    ```
+2. **创建 wsl 内部目录**
+    在 WSL 中，运行以下命令创建目录：
+    
+    ```bash
+    mkdir -p /mnt/docker
+    ```
+3. **挂载 `H:` 驱动器到 WSL**
+    在 WSL 中，运行以下命令将 `H:` 驱动器挂载到 `/mnt/docker` 目录：
+
+    ```bash
+    sudo mount -t drvfs H: /mnt/docker
+    ```
+4. **在wsl上下文环境中执行docker-compose**
+    在 WSL 中，进入项目目录，运行以下命令启动服务：
+    ```bash
+    docker-compose -f docker-compose-env.yml up -d
+    ```
+
 ## 快速开始
 
 ### 环境要求
