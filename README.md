@@ -61,7 +61,7 @@ goctl rpc protoc app/usercenter/cmd/rpc/pb/usercenter.proto --go_out=app/usercen
 - **日志存储 Elasticsearch**：负责存储和索引日志数据。
 - **日志展示 Kibana**：负责展示和可视化日志数据。
 - **日志处理 Go-Stash**：负责从 Kafka 中获取日志数据并进行处理。
-
+- **链路追踪 Jaeger**：负责追踪和分析日志数据。
 
 ### 常见问题
 
