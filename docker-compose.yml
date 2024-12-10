@@ -29,6 +29,7 @@ services:
     working_dir: /go/go-lottery
     volumes:
       - .:/go/go-lottery
+      - ./data/go-lottery/log:/go/go-lottery/log
     privileged: true
     restart: always
     networks:
