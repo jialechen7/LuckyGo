@@ -22,3 +22,14 @@ service lottery {
 	post /lottery/lotteryList (LotteryListReq) returns (LotteryListResp)
 }
 
+@server (
+	prefix: lottery/v1
+	group:  lottery
+	jwt:    JwtAuth
+)
+service lottery {
+	@doc "登录后获取抽奖列表"
+	@handler lotteryListAfterLogin
+	post /lottery/lotteryListAfterLogin (LotteryListReq) returns (LotteryListResp)
+}
+

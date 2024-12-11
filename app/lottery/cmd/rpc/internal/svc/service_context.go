@@ -10,9 +10,10 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	LotteryModel model.LotteryModel
-	TransactCtx  func(context.Context, func(db *gorm.DB) error, ...*sql.TxOptions) error
+	Config                    config.Config
+	LotteryModel              model.LotteryModel
+	LotteryParticipationModel model.LotteryParticipationModel
+	TransactCtx               func(context.Context, func(db *gorm.DB) error, ...*sql.TxOptions) error
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -21,8 +22,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 	return &ServiceContext{
-		Config:       c,
-		LotteryModel: model.NewLotteryModel(db, c.Cache),
+		Config:                    c,
+		LotteryModel:              model.NewLotteryModel(db, c.Cache),
+		LotteryParticipationModel: model.NewLotteryParticipationModel(db, c.Cache),
 		TransactCtx: func(ctx context.Context, fn func(db *gorm.DB) error, opts ...*sql.TxOptions) error {
 			return db.WithContext(ctx).Transaction(fn, opts...)
 		},

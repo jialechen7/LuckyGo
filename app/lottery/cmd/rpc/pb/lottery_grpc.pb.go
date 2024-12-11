@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Lottery_SearchLottery_FullMethodName = "/pb.lottery/SearchLottery"
+	Lottery_SearchLottery_FullMethodName            = "/pb.lottery/SearchLottery"
+	Lottery_GetLotteryListAfterLogin_FullMethodName = "/pb.lottery/GetLotteryListAfterLogin"
 )
 
 // LotteryClient is the client API for Lottery service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LotteryClient interface {
 	SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error)
+	GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error)
 }
 
 type lotteryClient struct {
@@ -47,11 +49,22 @@ func (c *lotteryClient) SearchLottery(ctx context.Context, in *SearchLotteryReq,
 	return out, nil
 }
 
+func (c *lotteryClient) GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetLotteryListAfterLoginResp)
+	err := c.cc.Invoke(ctx, Lottery_GetLotteryListAfterLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LotteryServer is the server API for Lottery service.
 // All implementations must embed UnimplementedLotteryServer
 // for forward compatibility.
 type LotteryServer interface {
 	SearchLottery(context.Context, *SearchLotteryReq) (*SearchLotteryResp, error)
+	GetLotteryListAfterLogin(context.Context, *GetLotteryListAfterLoginReq) (*GetLotteryListAfterLoginResp, error)
 	mustEmbedUnimplementedLotteryServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedLotteryServer struct{}
 
 func (UnimplementedLotteryServer) SearchLottery(context.Context, *SearchLotteryReq) (*SearchLotteryResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchLottery not implemented")
+}
+func (UnimplementedLotteryServer) GetLotteryListAfterLogin(context.Context, *GetLotteryListAfterLoginReq) (*GetLotteryListAfterLoginResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLotteryListAfterLogin not implemented")
 }
 func (UnimplementedLotteryServer) mustEmbedUnimplementedLotteryServer() {}
 func (UnimplementedLotteryServer) testEmbeddedByValue()                 {}
@@ -104,6 +120,24 @@ func _Lottery_SearchLottery_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Lottery_GetLotteryListAfterLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLotteryListAfterLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LotteryServer).GetLotteryListAfterLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Lottery_GetLotteryListAfterLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LotteryServer).GetLotteryListAfterLogin(ctx, req.(*GetLotteryListAfterLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Lottery_ServiceDesc is the grpc.ServiceDesc for Lottery service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var Lottery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchLottery",
 			Handler:    _Lottery_SearchLottery_Handler,
+		},
+		{
+			MethodName: "GetLotteryListAfterLogin",
+			Handler:    _Lottery_GetLotteryListAfterLogin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -73,7 +73,8 @@ gen-rpc-upload:
 
 # Generate model code for lottery
 gen-model-lottery:
-	./deploy/scripts/mysql/genModel.sh lottery lottery app/lottery/model deploy/goctl/1.7.3
+	./deploy/scripts/mysql/genModel.sh lottery lottery app/lottery/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh lottery lottery_participation app/lottery/model deploy/goctl/1.7.3
 
 # Generate API code for lottery
 gen-api-lottery:
@@ -83,7 +84,6 @@ gen-api-lottery:
 # Generate RPC code for lottery
 gen-rpc-lottery:
 	goctl rpc protoc app/lottery/cmd/rpc/pb/lottery.proto --go_out=app/lottery/cmd/rpc/ --go-grpc_out=app/lottery/cmd/rpc/ --zrpc_out=app/lottery/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
-
 
 # Default target
 .PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery

@@ -27,3 +27,8 @@ func (s *LotteryServer) SearchLottery(ctx context.Context, in *pb.SearchLotteryR
 	l := logic.NewSearchLotteryLogic(ctx, s.svcCtx)
 	return l.SearchLottery(in)
 }
+
+func (s *LotteryServer) GetLotteryListAfterLogin(ctx context.Context, in *pb.GetLotteryListAfterLoginReq) (*pb.GetLotteryListAfterLoginResp, error) {
+	l := logic.NewGetLotteryListAfterLoginLogic(ctx, s.svcCtx)
+	return l.GetLotteryListAfterLogin(in)
+}

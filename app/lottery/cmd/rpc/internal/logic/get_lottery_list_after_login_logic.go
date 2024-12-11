@@ -12,21 +12,25 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type SearchLotteryLogic struct {
+type GetLotteryListAfterLoginLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewSearchLotteryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SearchLotteryLogic {
-	return &SearchLotteryLogic{
+func NewGetLotteryListAfterLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLotteryListAfterLoginLogic {
+	return &GetLotteryListAfterLoginLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *SearchLotteryLogic) SearchLottery(in *pb.SearchLotteryReq) (*pb.SearchLotteryResp, error) {
+func (l *GetLotteryListAfterLoginLogic) GetLotteryListAfterLogin(in *pb.GetLotteryListAfterLoginReq) (*pb.GetLotteryListAfterLoginResp, error) {
+	participatedLotteryIds, err := l.svcCtx.LotteryParticipationModel.GetParticipationLotteryIdsByUserId(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
 	if in.LastId == 0 {
 		id, err := l.svcCtx.LotteryModel.GetLastId(l.ctx)
 		if err != nil {
@@ -34,9 +38,10 @@ func (l *SearchLotteryLogic) SearchLottery(in *pb.SearchLotteryReq) (*pb.SearchL
 		}
 		in.LastId = id + 1
 	}
-	list, err := l.svcCtx.LotteryModel.LotteryList(l.ctx, in.Limit, in.IsSelected, in.LastId)
+
+	list, err := l.svcCtx.LotteryModel.GetLotteryListAfterLogin(l.ctx, in.Limit, in.IsSelected, in.LastId, participatedLotteryIds)
 	if err != nil {
-		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_GET_LOTTERY_LIST_ERROR), "get lottery list error: %v", err)
+		return nil, err
 	}
 
 	var pbList []*pb.Lottery
@@ -48,7 +53,8 @@ func (l *SearchLotteryLogic) SearchLottery(in *pb.SearchLotteryReq) (*pb.SearchL
 		pbLottery.AnnounceTime = lottery.AnnounceTime.Unix()
 		pbList = append(pbList, pbLottery)
 	}
-	return &pb.SearchLotteryResp{
+
+	return &pb.GetLotteryListAfterLoginResp{
 		List: pbList,
 	}, nil
 }

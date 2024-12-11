@@ -16,7 +16,8 @@ type (
 		lotteryModel
 		customLotteryLogicModel
 		GetLastId(ctx context.Context) (int64, error)
-		LotteryList(ctx context.Context, limit, selected, lastId int64) ([]*Lottery, error)
+		LotteryList(ctx context.Context, limit, isSelected, lastId int64) ([]*Lottery, error)
+		GetLotteryListAfterLogin(ctx context.Context, limit, isSelected, lastId int64, lotteryIds []int64) ([]*Lottery, error)
 	}
 
 	customLotteryModel struct {
@@ -57,14 +58,42 @@ func (c *customLotteryModel) GetLastId(ctx context.Context) (int64, error) {
 	return lottery.Id, nil
 }
 
-func (c *customLotteryModel) LotteryList(ctx context.Context, limit, selected, lastId int64) ([]*Lottery, error) {
+func (c *customLotteryModel) LotteryList(ctx context.Context, limit, isSelected, lastId int64) ([]*Lottery, error) {
 	var list []*Lottery
 	err := c.QueryNoCacheCtx(ctx, &list, func(db *gorm.DB, v interface{}) error {
-		db = db.Where("id > ?", lastId).Where("is_announced = ?", 0)
-		if selected != 0 {
+		db = db.Where("id < ?", lastId).Where("is_announced = ?", 0)
+		if isSelected != 0 {
 			db = db.Where("is_selected = ?", 1)
 		}
 		err := db.Order("id desc").Limit(int(limit)).Find(&list).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
+}
+
+func (c *customLotteryModel) GetLotteryListAfterLogin(ctx context.Context, limit, isSelected, lastId int64, lotteryIds []int64) ([]*Lottery, error) {
+	if len(lotteryIds) == 0 {
+		list, err := c.LotteryList(ctx, limit, isSelected, lastId)
+		if err != nil {
+			return nil, err
+		}
+		return list, nil
+	}
+
+	var list []*Lottery
+	err := c.QueryNoCacheCtx(ctx, &list, func(db *gorm.DB, v interface{}) error {
+		db = db.Where("id < ?", lastId).Where("is_announced = ?", 0).Not(lotteryIds)
+		if isSelected != 0 {
+			db = db.Where("is_selected = ?", 1)
+		}
+		err := db.Order("id desc").Limit(int(limit)).Find(v).Error
 		if err != nil {
 			return err
 		}

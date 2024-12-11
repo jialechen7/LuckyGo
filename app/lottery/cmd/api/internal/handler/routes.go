@@ -24,4 +24,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithPrefix("/lottery/v1"),
 	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 登录后获取抽奖列表
+				Method:  http.MethodPost,
+				Path:    "/lottery/lotteryListAfterLogin",
+				Handler: lottery.LotteryListAfterLoginHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JwtAuth.AccessSecret),
+		rest.WithPrefix("/lottery/v1"),
+	)
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jialechen7/go-lottery/app/lottery/cmd/rpc/pb"
 	"github.com/jialechen7/go-lottery/app/lottery/model"
+	"github.com/jialechen7/go-lottery/common/utility"
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
 
@@ -13,23 +14,24 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type LotteryListLogic struct {
+type LotteryListAfterLoginLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 获取抽奖列表
-func NewLotteryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LotteryListLogic {
-	return &LotteryListLogic{
+// 登录后获取抽奖列表
+func NewLotteryListAfterLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LotteryListAfterLoginLogic {
+	return &LotteryListAfterLoginLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *LotteryListLogic) LotteryList(req *types.LotteryListReq) (resp *types.LotteryListResp, err error) {
-	pbResp, err := l.svcCtx.LotteryRpc.SearchLottery(l.ctx, &pb.SearchLotteryReq{
+func (l *LotteryListAfterLoginLogic) LotteryListAfterLogin(req *types.LotteryListReq) (resp *types.LotteryListResp, err error) {
+	pbResp, err := l.svcCtx.LotteryRpc.GetLotteryListAfterLogin(l.ctx, &pb.GetLotteryListAfterLoginReq{
+		UserId:     utility.GetUserIdFromCtx(l.ctx),
 		LastId:     req.LastId,
 		Limit:      req.PageSize,
 		IsSelected: req.IsSelected,
