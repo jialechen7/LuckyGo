@@ -42,9 +42,22 @@ message SearchLotteryReq {
 }
 
 message SearchLotteryResp {
-  repeated Lottery lottery = 1; //lottery
+  repeated Lottery list = 1; //lottery
+}
+
+message GetLotteryListAfterLoginReq {
+  int64 UserId = 1; // 用户id
+  int64 LastId = 2; // 最后一条记录的id
+  int64 Limit = 3;   // 页码
+  int64 Size = 4;   // 每页条数
+  int64 IsSelected = 5; // 是否精选 1是 0否
+}
+
+message GetLotteryListAfterLoginResp {
+  repeated Lottery list = 1; // 抽奖列表
 }
 
 service lottery {
   rpc SearchLottery(SearchLotteryReq) returns (SearchLotteryResp);
+  rpc GetLotteryListAfterLogin(GetLotteryListAfterLoginReq) returns (GetLotteryListAfterLoginResp);
 }

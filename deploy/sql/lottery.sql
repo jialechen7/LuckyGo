@@ -23,3 +23,16 @@ CREATE TABLE `lottery` (
     `clock_task_id` int NOT NULL DEFAULT 0 COMMENT '打卡任务任务ID',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '抽奖表' ROW_FORMAT = DYNAMIC;
+
+DROP TABLE IF EXISTS `lottery_participation`;
+CREATE TABLE `lottery_participation` (
+    id BIGINT AUTO_INCREMENT COMMENT '主键' PRIMARY KEY,
+    lottery_id INT     NOT NULL COMMENT '参与的抽奖的id',
+    user_id    INT     NOT NULL COMMENT '用户id',
+    is_won     TINYINT NOT NULL COMMENT '是否中奖',
+    prize_id   BIGINT  NOT NULL COMMENT '中奖id',
+    create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT index_lottery_user UNIQUE (lottery_id, user_id)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '参与表' ROW_FORMAT = DYNAMIC;
+

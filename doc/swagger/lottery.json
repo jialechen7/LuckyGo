@@ -42,6 +42,38 @@
           "lottery"
         ]
       }
+    },
+    "/lottery/v1/lottery/lotteryListAfterLogin": {
+      "post": {
+        "summary": "登录后获取抽奖列表",
+        "operationId": "lotteryListAfterLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LotteryListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryListReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
     }
   },
   "definitions": {

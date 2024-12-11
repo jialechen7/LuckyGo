@@ -14,12 +14,15 @@ import (
 )
 
 type (
-	Lottery           = pb.Lottery
-	SearchLotteryReq  = pb.SearchLotteryReq
-	SearchLotteryResp = pb.SearchLotteryResp
+	GetLotteryListAfterLoginReq  = pb.GetLotteryListAfterLoginReq
+	GetLotteryListAfterLoginResp = pb.GetLotteryListAfterLoginResp
+	Lottery                      = pb.Lottery
+	SearchLotteryReq             = pb.SearchLotteryReq
+	SearchLotteryResp            = pb.SearchLotteryResp
 
 	LotteryZrpcClient interface {
 		SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error)
+		GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error)
 	}
 
 	defaultLotteryZrpcClient struct {
@@ -36,4 +39,9 @@ func NewLotteryZrpcClient(cli zrpc.Client) LotteryZrpcClient {
 func (m *defaultLotteryZrpcClient) SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.SearchLottery(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.GetLotteryListAfterLogin(ctx, in, opts...)
 }
