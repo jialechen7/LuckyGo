@@ -4,6 +4,7 @@ package model
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"time"
@@ -38,23 +39,23 @@ type (
 	}
 
 	Lottery struct {
-		Id            int64     `gorm:"column:id;primary_key"`
-		UserId        int64     `gorm:"column:user_id"`        // 发起抽奖用户ID
-		Name          string    `gorm:"column:name"`           // 默认取一等奖名称
-		Thumb         string    `gorm:"column:thumb"`          // 默认取一等经配图
-		PublishTime   time.Time `gorm:"column:publish_time"`   // 发布抽奖时间
-		JoinNumber    int64     `gorm:"column:join_number"`    // 自动开奖人数
-		Introduce     string    `gorm:"column:introduce"`      // 抽奖说明
-		AwardDeadline time.Time `gorm:"column:award_deadline"` // 领奖截止时间
-		IsSelected    int64     `gorm:"column:is_selected"`    // 是否精选: 0否 1是
-		AnnounceType  int64     `gorm:"column:announce_type"`  // 开奖设置：1按时间开奖 2按人数开奖 3即抽即中
-		AnnounceTime  time.Time `gorm:"column:announce_time"`  // 开奖时间
-		CreateTime    time.Time `gorm:"column:create_time"`
-		UpdateTime    time.Time `gorm:"column:update_time"`
-		IsAnnounced   int64     `gorm:"column:is_announced"`  // 是否开奖：0未开奖 1已经开奖
-		SponsorId     int64     `gorm:"column:sponsor_id"`    // 发起抽奖赞助商ID
-		IsClocked     int64     `gorm:"column:is_clocked"`    // 是否开启打卡任务：0未开启 1已开启
-		ClockTaskId   int64     `gorm:"column:clock_task_id"` // 打卡任务任务ID
+		Id            int64        `gorm:"column:id;primary_key"`
+		UserId        int64        `gorm:"column:user_id"`        // 发起抽奖用户ID
+		Name          string       `gorm:"column:name"`           // 默认取一等奖名称
+		Thumb         string       `gorm:"column:thumb"`          // 默认取一等经配图
+		PublishTime   sql.NullTime `gorm:"column:publish_time"`   // 发布抽奖时间
+		JoinNumber    int64        `gorm:"column:join_number"`    // 自动开奖人数
+		Introduce     string       `gorm:"column:introduce"`      // 抽奖说明
+		AwardDeadline time.Time    `gorm:"column:award_deadline"` // 领奖截止时间
+		IsSelected    int64        `gorm:"column:is_selected"`    // 是否精选: 0否 1是
+		AnnounceType  int64        `gorm:"column:announce_type"`  // 开奖设置：1按时间开奖 2按人数开奖 3即抽即中
+		AnnounceTime  time.Time    `gorm:"column:announce_time"`  // 开奖时间
+		CreateTime    time.Time    `gorm:"column:create_time"`
+		UpdateTime    time.Time    `gorm:"column:update_time"`
+		IsAnnounced   int64        `gorm:"column:is_announced"`  // 是否开奖：0未开奖 1已经开奖
+		SponsorId     int64        `gorm:"column:sponsor_id"`    // 发起抽奖赞助商ID
+		IsClocked     int64        `gorm:"column:is_clocked"`    // 是否开启打卡任务：0未开启 1已开启
+		ClockTaskId   int64        `gorm:"column:clock_task_id"` // 打卡任务任务ID
 	}
 )
 

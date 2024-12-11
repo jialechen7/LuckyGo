@@ -13,6 +13,7 @@ type ServiceContext struct {
 	Config                    config.Config
 	LotteryModel              model.LotteryModel
 	LotteryParticipationModel model.LotteryParticipationModel
+	PrizeModel                model.PrizeModel
 	TransactCtx               func(context.Context, func(db *gorm.DB) error, ...*sql.TxOptions) error
 }
 
@@ -25,6 +26,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:                    c,
 		LotteryModel:              model.NewLotteryModel(db, c.Cache),
 		LotteryParticipationModel: model.NewLotteryParticipationModel(db, c.Cache),
+		PrizeModel:                model.NewPrizeModel(db, c.Cache),
 		TransactCtx: func(ctx context.Context, fn func(db *gorm.DB) error, opts ...*sql.TxOptions) error {
 			return db.WithContext(ctx).Transaction(fn, opts...)
 		},

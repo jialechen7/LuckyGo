@@ -28,6 +28,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 发起抽奖
+				Method:  http.MethodPost,
+				Path:    "/lottery/createLottery",
+				Handler: lottery.CreateLotteryHandler(serverCtx),
+			},
+			{
+				// 抽奖详情
+				Method:  http.MethodPost,
+				Path:    "/lottery/lotteryDetail",
+				Handler: lottery.LotteryDetailHandler(serverCtx),
+			},
+			{
 				// 登录后获取抽奖列表
 				Method:  http.MethodPost,
 				Path:    "/lottery/lotteryListAfterLogin",

@@ -32,3 +32,13 @@ func (s *LotteryServer) GetLotteryListAfterLogin(ctx context.Context, in *pb.Get
 	l := logic.NewGetLotteryListAfterLoginLogic(ctx, s.svcCtx)
 	return l.GetLotteryListAfterLogin(in)
 }
+
+func (s *LotteryServer) AddLottery(ctx context.Context, in *pb.AddLotteryReq) (*pb.AddLotteryResp, error) {
+	l := logic.NewAddLotteryLogic(ctx, s.svcCtx)
+	return l.AddLottery(in)
+}
+
+func (s *LotteryServer) LotteryDetail(ctx context.Context, in *pb.LotteryDetailReq) (*pb.LotteryDetailResp, error) {
+	l := logic.NewLotteryDetailLogic(ctx, s.svcCtx)
+	return l.LotteryDetail(in)
+}
