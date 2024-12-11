@@ -14,15 +14,23 @@ import (
 )
 
 type (
+	AddLotteryReq                = pb.AddLotteryReq
+	AddLotteryResp               = pb.AddLotteryResp
+	ClockTask                    = pb.ClockTask
 	GetLotteryListAfterLoginReq  = pb.GetLotteryListAfterLoginReq
 	GetLotteryListAfterLoginResp = pb.GetLotteryListAfterLoginResp
 	Lottery                      = pb.Lottery
+	LotteryDetailReq             = pb.LotteryDetailReq
+	LotteryDetailResp            = pb.LotteryDetailResp
+	Prize                        = pb.Prize
 	SearchLotteryReq             = pb.SearchLotteryReq
 	SearchLotteryResp            = pb.SearchLotteryResp
 
 	LotteryZrpcClient interface {
 		SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error)
 		GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error)
+		AddLottery(ctx context.Context, in *AddLotteryReq, opts ...grpc.CallOption) (*AddLotteryResp, error)
+		LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error)
 	}
 
 	defaultLotteryZrpcClient struct {
@@ -44,4 +52,14 @@ func (m *defaultLotteryZrpcClient) SearchLottery(ctx context.Context, in *Search
 func (m *defaultLotteryZrpcClient) GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.GetLotteryListAfterLogin(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) AddLottery(ctx context.Context, in *AddLotteryReq, opts ...grpc.CallOption) (*AddLotteryResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.AddLottery(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.LotteryDetail(ctx, in, opts...)
 }

@@ -31,5 +31,13 @@ service lottery {
 	@doc "登录后获取抽奖列表"
 	@handler lotteryListAfterLogin
 	post /lottery/lotteryListAfterLogin (LotteryListReq) returns (LotteryListResp)
+
+	@doc "发起抽奖"
+	@handler createLottery
+	post /lottery/createLottery (CreateLotteryReq) returns (CreateLotteryResp)
+
+	@doc "抽奖详情"
+	@handler lotteryDetail
+	post /lottery/lotteryDetail (LotteryDetailReq) returns (LotteryDetailResp)
 }
 

@@ -18,6 +18,9 @@ help:
 	@echo "  make gen-model-upload - Generate model code for upload"
 	@echo "  make gen-api-upload - Generate api code for upload"
 	@echo "  make gen-rpc-upload - Generate rpc code for upload"
+	@echo "  make gen-model-lottery - Generate model code for lottery"
+	@echo "  make gen-api-lottery - Generate api code for lottery"
+	@echo "  make gen-rpc-lottery - Generate rpc code for lottery"
 	@echo "  make create-dirs NAME=<micro_service_name> - Create directory structure for specified microservice name"
 
 # Target: Create directory structure for specified project name
@@ -74,7 +77,8 @@ gen-rpc-upload:
 # Generate model code for lottery
 gen-model-lottery:
 	./deploy/scripts/mysql/genModel.sh lottery lottery app/lottery/model deploy/goctl/1.7.3 && \
-	./deploy/scripts/mysql/genModel.sh lottery lottery_participation app/lottery/model deploy/goctl/1.7.3
+	./deploy/scripts/mysql/genModel.sh lottery lottery_participation app/lottery/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh lottery prize app/lottery/model deploy/goctl/1.7.3
 
 # Generate API code for lottery
 gen-api-lottery:

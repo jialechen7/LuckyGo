@@ -35,13 +35,6 @@ func NewLotteryModel(conn *gorm.DB, c cache.CacheConf) LotteryModel {
 	}
 }
 
-func (m *defaultLotteryModel) customCacheKeys(data *Lottery) []string {
-	if data == nil {
-		return []string{}
-	}
-	return []string{}
-}
-
 func (c *customLotteryModel) GetLastId(ctx context.Context) (int64, error) {
 	lottery := Lottery{}
 	err := c.QueryNoCacheCtx(ctx, &lottery, func(db *gorm.DB, v interface{}) error {
@@ -104,4 +97,11 @@ func (c *customLotteryModel) GetLotteryListAfterLogin(ctx context.Context, limit
 	}
 
 	return list, nil
+}
+
+func (m *defaultLotteryModel) customCacheKeys(data *Lottery) []string {
+	if data == nil {
+		return []string{}
+	}
+	return []string{}
 }

@@ -16,6 +16,70 @@
     "application/json"
   ],
   "paths": {
+    "/lottery/v1/lottery/createLottery": {
+      "post": {
+        "summary": "发起抽奖",
+        "operationId": "createLottery",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CreateLotteryResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateLotteryReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/lottery/v1/lottery/lotteryDetail": {
+      "post": {
+        "summary": "抽奖详情",
+        "operationId": "lotteryDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LotteryDetailResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryDetailReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/lottery/v1/lottery/lotteryList": {
       "post": {
         "summary": "获取抽奖列表",
@@ -77,6 +141,215 @@
     }
   },
   "definitions": {
+    "CreateClockTask": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 任务类型 1: 体验小程序 2： 浏览指定公众号文章 3: 浏览图片（微信图片二维码等） 4： 浏览视频号视频"
+        },
+        "seconds": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 任务秒数"
+        },
+        "appletType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " type=1时该字段才有意义 小程序跳转类型，1小程序链接 2小程序路径"
+        },
+        "pageLink": {
+          "type": "string",
+          "description": " type=1 并且 applet_type=1时 该字段才有意义 配置要跳转小程序的页面链接 （如 #小程序:抽奖/oM....）"
+        },
+        "appId": {
+          "type": "string",
+          "description": " type=1 并且 applet_type=2时 该字段才有意义 配置要跳转的小程序AppID"
+        },
+        "pagePath": {
+          "type": "string",
+          "description": " type=1 并且 applet_type=2时 该字段才有意义 配置要跳转的小程序路径（如：/pages/index）"
+        },
+        "image": {
+          "type": "string",
+          "description": " type=3时 该字段才有意义 添加要查看的图片"
+        },
+        "videoAccountId": {
+          "type": "string",
+          "description": " type=4时 该字段才有意义 视频号ID"
+        },
+        "videoId": {
+          "type": "string",
+          "description": " type=4时 该字段才有意义 视频ID"
+        },
+        "articleLink": {
+          "type": "string",
+          "description": " type=2时 该字段才有意义 公众号文章链接"
+        },
+        "copywriting": {
+          "type": "string",
+          "description": " 引导参与者完成打卡任务的文案"
+        },
+        "chanceType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 概率类型 1: 随机 2: 指定"
+        },
+        "increaseMultiple": {
+          "type": "integer",
+          "format": "int64",
+          "description": " ChanceType=2时 该字段才有意义，概率增加倍数"
+        }
+      },
+      "title": "CreateClockTask",
+      "required": [
+        "type",
+        "seconds",
+        "appletType",
+        "pageLink",
+        "appId",
+        "pagePath",
+        "image",
+        "videoAccountId",
+        "videoId",
+        "articleLink",
+        "increaseMultiple"
+      ]
+    },
+    "CreateLotteryReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 默认一等奖名称"
+        },
+        "thumb": {
+          "type": "string",
+          "description": " 默认一等奖配图"
+        },
+        "announceType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开奖设置：1按时间开奖 2按人数开奖 3即抽即中"
+        },
+        "announceTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开奖时间"
+        },
+        "joinNumber": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 自动开奖人数标准"
+        },
+        "introduce": {
+          "type": "string",
+          "description": " 抽奖说明"
+        },
+        "awardDeadline": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 领奖截止时间"
+        },
+        "sponsorId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 赞助商Id"
+        },
+        "prizes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreatePrize"
+          },
+          "description": " 奖品 支持多个"
+        },
+        "isClocked": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启打卡任务 0未开启；1已开启"
+        },
+        "clockTask": {
+          "$ref": "#/definitions/CreateClockTask",
+          "description": " 打卡任务 支持一个"
+        },
+        "publishType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发布类型 1发布抽奖 2发布测试"
+        }
+      },
+      "title": "CreateLotteryReq",
+      "required": [
+        "name",
+        "thumb",
+        "announceType",
+        "announceTime",
+        "joinNumber",
+        "introduce",
+        "awardDeadline",
+        "sponsorId",
+        "prizes",
+        "isClocked",
+        "clockTask",
+        "publishType"
+      ]
+    },
+    "CreateLotteryResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CreateLotteryResp",
+      "required": [
+        "id"
+      ]
+    },
+    "CreatePrize": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品类型：1奖品 2优惠券 3兑换码 4商城 5微信红包封面 6红包"
+        },
+        "name": {
+          "type": "string",
+          "description": " 奖品名称"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品份数"
+        },
+        "thumb": {
+          "type": "string",
+          "description": " 默认一等奖配图"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品等级 1一等奖 2二等奖 3三等奖，依次类推"
+        },
+        "grantType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品发放方式：1快递邮寄 2让中奖者联系我 3中奖者填写信息 4跳转到其他小程序"
+        }
+      },
+      "title": "CreatePrize",
+      "required": [
+        "type",
+        "name",
+        "count",
+        "thumb",
+        "level",
+        "grantType"
+      ]
+    },
     "Lottery": {
       "type": "object",
       "properties": {
@@ -87,49 +360,49 @@
         "userId": {
           "type": "integer",
           "format": "int64",
-          "description": "发起抽奖用户ID"
+          "description": " 发起抽奖用户ID"
         },
         "name": {
           "type": "string",
-          "description": "默认一等奖名称"
+          "description": " 默认一等奖名称"
         },
         "thumb": {
           "type": "string",
-          "description": "默认一等奖配图"
+          "description": " 默认一等奖配图"
         },
         "publishTime": {
           "type": "integer",
           "format": "int64",
-          "description": "发布抽奖时间"
+          "description": " 发布抽奖时间"
         },
         "joinNumber": {
           "type": "integer",
           "format": "int64",
-          "description": "自动开奖人数标准"
+          "description": " 自动开奖人数标准"
         },
         "introduce": {
           "type": "string",
-          "description": "抽奖说明"
+          "description": " 抽奖说明"
         },
         "awardDeadline": {
           "type": "integer",
           "format": "int64",
-          "description": "领奖截止时间"
+          "description": " 领奖截止时间"
         },
         "isSelected": {
           "type": "integer",
           "format": "int64",
-          "description": "是否精选 1是 0否"
+          "description": " 是否精选 1是 0否"
         },
         "announceType": {
           "type": "integer",
           "format": "int64",
-          "description": "开奖设置：1按时间开奖 2按人数开奖 3即抽即中"
+          "description": " 开奖设置：1按时间开奖 2按人数开奖 3即抽即中"
         },
         "announceTime": {
           "type": "integer",
           "format": "int64",
-          "description": "开奖时间"
+          "description": " 开奖时间"
         },
         "isAnnounced": {
           "type": "integer",
@@ -157,6 +430,120 @@
         "announceTime",
         "isAnnounced",
         "sponsorId"
+      ]
+    },
+    "LotteryDetailReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LotteryDetailReq",
+      "required": [
+        "id"
+      ]
+    },
+    "LotteryDetailResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发起抽奖用户ID"
+        },
+        "name": {
+          "type": "string",
+          "description": " 默认一等奖名称"
+        },
+        "thumb": {
+          "type": "string",
+          "description": " 默认一等奖配图"
+        },
+        "publishTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发布抽奖时间"
+        },
+        "joinNumber": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 自动开奖人数标准"
+        },
+        "introduce": {
+          "type": "string",
+          "description": " 抽奖说明"
+        },
+        "awardDeadline": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 领奖截止时间"
+        },
+        "isSelected": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否精选：0否 1是"
+        },
+        "announceType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开奖设置：1按时间开奖 2按人数开奖 3即抽即中"
+        },
+        "announceTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开奖时间"
+        },
+        "isAnnounced": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否已经开奖：0未开奖 1已开奖"
+        },
+        "sponsorId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 赞助商Id"
+        },
+        "prizes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Prize"
+          },
+          "description": " 奖品信息"
+        },
+        "sponsor": {
+          "$ref": "#/definitions/LotterySponsor",
+          "description": " 抽奖赞助商信息"
+        },
+        "isParticipated": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当前用户是否参与了当前抽奖： 0未参与 1已参与"
+        }
+      },
+      "title": "LotteryDetailResp",
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "thumb",
+        "publishTime",
+        "joinNumber",
+        "introduce",
+        "awardDeadline",
+        "isSelected",
+        "announceType",
+        "announceTime",
+        "isAnnounced",
+        "sponsorId",
+        "prizes",
+        "sponsor",
+        "isParticipated"
       ]
     },
     "LotteryListReq": {
@@ -195,6 +582,117 @@
       "title": "LotteryListResp",
       "required": [
         "list"
+      ]
+    },
+    "LotterySponsor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 1微信号 2公众号 3小程序 4微信群 5视频号"
+        },
+        "appletType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " type=3时该字段才有意义，1小程序链接 2路径跳转 3二维码跳转"
+        },
+        "name": {
+          "type": "string",
+          "description": " 名称"
+        },
+        "desc": {
+          "type": "string",
+          "description": " 描述"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "isShow": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 1显示 2不显示"
+        },
+        "qrCode": {
+          "type": "string",
+          "description": " 二维码图片地址, type=1 2 3\u0026applet_type=3 4的时候启用"
+        },
+        "inputA": {
+          "type": "string",
+          "description": " type=5 applet_type=2 or applet_type=1 输入框A"
+        },
+        "inputB": {
+          "type": "string",
+          "description": " type=5 applet_type=2 输入框B"
+        }
+      },
+      "title": "LotterySponsor",
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "appletType",
+        "name",
+        "desc",
+        "avatar",
+        "isShow"
+      ]
+    },
+    "Prize": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lotteryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品类型：1奖品 2优惠券 3兑换码 4商城 5微信红包封面 6红包"
+        },
+        "name": {
+          "type": "string",
+          "description": " 奖品名称"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品份数"
+        },
+        "thumb": {
+          "type": "string",
+          "description": " 默认一等奖配图"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品等级 1一等奖 2二等奖 3三等奖，依次类推"
+        },
+        "grantType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 奖品发放方式：1快递邮寄 2让中奖者联系我 3中奖者填写信息 4跳转到其他小程序"
+        }
+      },
+      "title": "Prize",
+      "required": [
+        "id",
+        "lotteryId"
       ]
     }
   },

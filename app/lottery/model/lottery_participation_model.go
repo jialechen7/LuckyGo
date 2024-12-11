@@ -26,6 +26,18 @@ type (
 	}
 )
 
+func (c *customLotteryParticipationModel) GetParticipationLotteryIdsByUserId(ctx context.Context, userId int64) ([]int64, error) {
+	var lotteryIds []int64
+	err := c.QueryNoCacheCtx(ctx, &lotteryIds, func(db *gorm.DB, v interface{}) error {
+		return db.Table(c.table).Where("user_id = ?", userId).Pluck("lottery_id", v).Error
+	})
+	if err != nil {
+		return []int64{}, err
+	}
+
+	return lotteryIds, nil
+}
+
 // NewLotteryParticipationModel returns a model for the database table.
 func NewLotteryParticipationModel(conn *gorm.DB, c cache.CacheConf) LotteryParticipationModel {
 	return &customLotteryParticipationModel{
@@ -38,16 +50,4 @@ func (m *defaultLotteryParticipationModel) customCacheKeys(data *LotteryParticip
 		return []string{}
 	}
 	return []string{}
-}
-
-func (c *customLotteryParticipationModel) GetParticipationLotteryIdsByUserId(ctx context.Context, userId int64) ([]int64, error) {
-	var lotteryIds []int64
-	err := c.QueryNoCacheCtx(ctx, &lotteryIds, func(db *gorm.DB, v interface{}) error {
-		return db.Table(c.table).Where("user_id = ?", userId).Pluck("lottery_id", v).Error
-	})
-	if err != nil {
-		return []int64{}, err
-	}
-
-	return lotteryIds, nil
 }
