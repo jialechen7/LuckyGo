@@ -50,7 +50,8 @@ docker-down-app:
 # Generate model code for usercenter
 gen-model-usercenter:
 	./deploy/scripts/mysql/genModel.sh usercenter user app/usercenter/model deploy/goctl/1.7.3 && \
-	./deploy/scripts/mysql/genModel.sh usercenter user_auth app/usercenter/model deploy/goctl/1.7.3
+	./deploy/scripts/mysql/genModel.sh usercenter user_auth app/usercenter/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh usercenter user_sponsor app/usercenter/model deploy/goctl/1.7.3
 
 # Generate API code for usercenter
 gen-api-usercenter:
