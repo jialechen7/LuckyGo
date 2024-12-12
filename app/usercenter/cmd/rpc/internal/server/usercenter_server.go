@@ -43,11 +43,6 @@ func (s *UsercenterServer) GenerateToken(ctx context.Context, in *pb.GenerateTok
 	return l.GenerateToken(in)
 }
 
-func (s *UsercenterServer) GetUserAuthByAuthKey(ctx context.Context, in *pb.GetUserAuthByAuthKeyReq) (*pb.GetUserAuthByAuthKeyResp, error) {
-	l := logic.NewGetUserAuthByAuthKeyLogic(ctx, s.svcCtx)
-	return l.GetUserAuthByAuthKey(in)
-}
-
 func (s *UsercenterServer) GetUserInfo(ctx context.Context, in *pb.GetUserInfoReq) (*pb.GetUserInfoResp, error) {
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
@@ -56,4 +51,34 @@ func (s *UsercenterServer) GetUserInfo(ctx context.Context, in *pb.GetUserInfoRe
 func (s *UsercenterServer) UpdateUserBaseInfo(ctx context.Context, in *pb.UpdateUserBaseInfoReq) (*pb.UpdateUserBaseInfoResp, error) {
 	l := logic.NewUpdateUserBaseInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserBaseInfo(in)
+}
+
+func (s *UsercenterServer) GetUserAuthByAuthKey(ctx context.Context, in *pb.GetUserAuthByAuthKeyReq) (*pb.GetUserAuthByAuthKeyResp, error) {
+	l := logic.NewGetUserAuthByAuthKeyLogic(ctx, s.svcCtx)
+	return l.GetUserAuthByAuthKey(in)
+}
+
+func (s *UsercenterServer) AddUserSponsor(ctx context.Context, in *pb.AddUserSponsorReq) (*pb.AddUserSponsorResp, error) {
+	l := logic.NewAddUserSponsorLogic(ctx, s.svcCtx)
+	return l.AddUserSponsor(in)
+}
+
+func (s *UsercenterServer) UpdateUserSponsor(ctx context.Context, in *pb.UpdateUserSponsorReq) (*pb.UpdateUserSponsorResp, error) {
+	l := logic.NewUpdateUserSponsorLogic(ctx, s.svcCtx)
+	return l.UpdateUserSponsor(in)
+}
+
+func (s *UsercenterServer) DelUserSponsor(ctx context.Context, in *pb.DelUserSponsorReq) (*pb.DelUserSponsorResp, error) {
+	l := logic.NewDelUserSponsorLogic(ctx, s.svcCtx)
+	return l.DelUserSponsor(in)
+}
+
+func (s *UsercenterServer) SearchUserSponsor(ctx context.Context, in *pb.SearchUserSponsorReq) (*pb.SearchUserSponsorResp, error) {
+	l := logic.NewSearchUserSponsorLogic(ctx, s.svcCtx)
+	return l.SearchUserSponsor(in)
+}
+
+func (s *UsercenterServer) SponsorDetail(ctx context.Context, in *pb.SponsorDetailReq) (*pb.SponsorDetailResp, error) {
+	l := logic.NewSponsorDetailLogic(ctx, s.svcCtx)
+	return l.SponsorDetail(in)
 }

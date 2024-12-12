@@ -10,6 +10,7 @@ info (
 
 import (
 	"user/user.api"
+	"user_sponsor/user_sponsor.api"
 )
 
 @server (
@@ -43,5 +44,39 @@ service usercenter {
 	@doc "更新用户信息"
 	@handler update
 	put /user/update (UserUpdateReq) returns (UserUpdateResp)
+}
+
+// ---------------------------- user_sponsor ----------------------------
+@server (
+	prefix: usercenter/v1
+	group:  user_sponsor
+	jwt:    JwtAuth
+)
+service usercenter {
+	@doc "添加赞助商"
+	@handler addSponsor
+	post /userSponsor/addSponsor (CreateSponsorReq) returns (CreateSponsorResp)
+
+	@doc "我的赞助商列表"
+	@handler sponsorList
+	post /userSponsor/sponsorList (SponsorListReq) returns (SponsorListResp)
+
+	@doc "修改赞助商"
+	@handler updateSponsor
+	post /userContact/upDateSponsor (UpdateSponsorReq) returns (UpdateSponsorResp)
+
+	@doc "删除赞助商"
+	@handler sponsorDel
+	post /userContact/sponsorDel (sponsorDelReq) returns (sponsorDelResp)
+}
+
+@server (
+	prefix: usercenter/v1
+	group:  user_sponsor
+)
+service usercenter {
+	@doc "赞助商详情"
+	@handler sponsorDetail
+	post /userSponsor/sponsorDetail (SponosorDetailReq) returns (SponosorDetailResp)
 }
 
