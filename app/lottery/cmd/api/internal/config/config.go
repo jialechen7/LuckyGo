@@ -11,5 +11,6 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
-	LotteryRpcConf zrpc.RpcClientConf
+	LotteryRpcConf    zrpc.RpcClientConf
+	UsercenterRpcConf zrpc.RpcClientConf
 }

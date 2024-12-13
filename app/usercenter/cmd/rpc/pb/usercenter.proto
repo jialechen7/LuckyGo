@@ -240,6 +240,20 @@ message SponsorDetailResp {
   string inputB     = 11; // type=5 applet_type=2输入框B
 }
 
+message UserInfoForComment{
+  int64 id = 1;
+  string nickname = 2;
+  string avatar = 3;
+}
+
+message  GetUserInfoByUserIdsReq{
+  repeated int64 userIds = 1;
+}
+
+message  GetUserInfoByUserIdsResp{
+  repeated UserInfoForComment userInfo = 1;
+}
+
 service usercenter {
   rpc login(LoginReq) returns(LoginResp);
   rpc register(RegisterReq) returns(RegisterResp);
@@ -247,6 +261,7 @@ service usercenter {
   rpc generateToken(GenerateTokenReq) returns(GenerateTokenResp);
   rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
   rpc updateUserBaseInfo(UpdateUserBaseInfoReq) returns(UpdateUserBaseInfoResp);
+  rpc getUserInfoByUserIds(GetUserInfoByUserIdsReq) returns(GetUserInfoByUserIdsResp);
 
   rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
 

@@ -24,6 +24,8 @@ type (
 	GenerateTokenResp        = pb.GenerateTokenResp
 	GetUserAuthByAuthKeyReq  = pb.GetUserAuthByAuthKeyReq
 	GetUserAuthByAuthKeyResp = pb.GetUserAuthByAuthKeyResp
+	GetUserInfoByUserIdsReq  = pb.GetUserInfoByUserIdsReq
+	GetUserInfoByUserIdsResp = pb.GetUserInfoByUserIdsResp
 	GetUserInfoReq           = pb.GetUserInfoReq
 	GetUserInfoResp          = pb.GetUserInfoResp
 	LoginReq                 = pb.LoginReq
@@ -40,6 +42,7 @@ type (
 	UpdateUserSponsorResp    = pb.UpdateUserSponsorResp
 	User                     = pb.User
 	UserAuth                 = pb.UserAuth
+	UserInfoForComment       = pb.UserInfoForComment
 	UserSponsor              = pb.UserSponsor
 	WxMiniAuthReq            = pb.WxMiniAuthReq
 	WxMiniAuthResp           = pb.WxMiniAuthResp
@@ -51,6 +54,7 @@ type (
 		GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
 		UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error)
+		GetUserInfoByUserIds(ctx context.Context, in *GetUserInfoByUserIdsReq, opts ...grpc.CallOption) (*GetUserInfoByUserIdsResp, error)
 		GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
 		AddUserSponsor(ctx context.Context, in *AddUserSponsorReq, opts ...grpc.CallOption) (*AddUserSponsorResp, error)
 		UpdateUserSponsor(ctx context.Context, in *UpdateUserSponsorReq, opts ...grpc.CallOption) (*UpdateUserSponsorResp, error)
@@ -98,6 +102,11 @@ func (m *defaultUsercenter) GetUserInfo(ctx context.Context, in *GetUserInfoReq,
 func (m *defaultUsercenter) UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error) {
 	client := pb.NewUsercenterClient(m.cli.Conn())
 	return client.UpdateUserBaseInfo(ctx, in, opts...)
+}
+
+func (m *defaultUsercenter) GetUserInfoByUserIds(ctx context.Context, in *GetUserInfoByUserIdsReq, opts ...grpc.CallOption) (*GetUserInfoByUserIdsResp, error) {
+	client := pb.NewUsercenterClient(m.cli.Conn())
+	return client.GetUserInfoByUserIds(ctx, in, opts...)
 }
 
 func (m *defaultUsercenter) GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error) {

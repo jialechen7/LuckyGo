@@ -25,6 +25,7 @@ const (
 	Usercenter_GenerateToken_FullMethodName        = "/pb.usercenter/generateToken"
 	Usercenter_GetUserInfo_FullMethodName          = "/pb.usercenter/getUserInfo"
 	Usercenter_UpdateUserBaseInfo_FullMethodName   = "/pb.usercenter/updateUserBaseInfo"
+	Usercenter_GetUserInfoByUserIds_FullMethodName = "/pb.usercenter/getUserInfoByUserIds"
 	Usercenter_GetUserAuthByAuthKey_FullMethodName = "/pb.usercenter/getUserAuthByAuthKey"
 	Usercenter_AddUserSponsor_FullMethodName       = "/pb.usercenter/AddUserSponsor"
 	Usercenter_UpdateUserSponsor_FullMethodName    = "/pb.usercenter/UpdateUserSponsor"
@@ -43,6 +44,7 @@ type UsercenterClient interface {
 	GenerateToken(ctx context.Context, in *GenerateTokenReq, opts ...grpc.CallOption) (*GenerateTokenResp, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
 	UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error)
+	GetUserInfoByUserIds(ctx context.Context, in *GetUserInfoByUserIdsReq, opts ...grpc.CallOption) (*GetUserInfoByUserIdsResp, error)
 	GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
 	AddUserSponsor(ctx context.Context, in *AddUserSponsorReq, opts ...grpc.CallOption) (*AddUserSponsorResp, error)
 	UpdateUserSponsor(ctx context.Context, in *UpdateUserSponsorReq, opts ...grpc.CallOption) (*UpdateUserSponsorResp, error)
@@ -119,6 +121,16 @@ func (c *usercenterClient) UpdateUserBaseInfo(ctx context.Context, in *UpdateUse
 	return out, nil
 }
 
+func (c *usercenterClient) GetUserInfoByUserIds(ctx context.Context, in *GetUserInfoByUserIdsReq, opts ...grpc.CallOption) (*GetUserInfoByUserIdsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserInfoByUserIdsResp)
+	err := c.cc.Invoke(ctx, Usercenter_GetUserInfoByUserIds_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usercenterClient) GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserAuthByAuthKeyResp)
@@ -189,6 +201,7 @@ type UsercenterServer interface {
 	GenerateToken(context.Context, *GenerateTokenReq) (*GenerateTokenResp, error)
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error)
 	UpdateUserBaseInfo(context.Context, *UpdateUserBaseInfoReq) (*UpdateUserBaseInfoResp, error)
+	GetUserInfoByUserIds(context.Context, *GetUserInfoByUserIdsReq) (*GetUserInfoByUserIdsResp, error)
 	GetUserAuthByAuthKey(context.Context, *GetUserAuthByAuthKeyReq) (*GetUserAuthByAuthKeyResp, error)
 	AddUserSponsor(context.Context, *AddUserSponsorReq) (*AddUserSponsorResp, error)
 	UpdateUserSponsor(context.Context, *UpdateUserSponsorReq) (*UpdateUserSponsorResp, error)
@@ -222,6 +235,9 @@ func (UnimplementedUsercenterServer) GetUserInfo(context.Context, *GetUserInfoRe
 }
 func (UnimplementedUsercenterServer) UpdateUserBaseInfo(context.Context, *UpdateUserBaseInfoReq) (*UpdateUserBaseInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserBaseInfo not implemented")
+}
+func (UnimplementedUsercenterServer) GetUserInfoByUserIds(context.Context, *GetUserInfoByUserIdsReq) (*GetUserInfoByUserIdsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfoByUserIds not implemented")
 }
 func (UnimplementedUsercenterServer) GetUserAuthByAuthKey(context.Context, *GetUserAuthByAuthKeyReq) (*GetUserAuthByAuthKeyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserAuthByAuthKey not implemented")
@@ -370,6 +386,24 @@ func _Usercenter_UpdateUserBaseInfo_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Usercenter_GetUserInfoByUserIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoByUserIdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsercenterServer).GetUserInfoByUserIds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Usercenter_GetUserInfoByUserIds_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsercenterServer).GetUserInfoByUserIds(ctx, req.(*GetUserInfoByUserIdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Usercenter_GetUserAuthByAuthKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserAuthByAuthKeyReq)
 	if err := dec(in); err != nil {
@@ -508,6 +542,10 @@ var Usercenter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateUserBaseInfo",
 			Handler:    _Usercenter_UpdateUserBaseInfo_Handler,
+		},
+		{
+			MethodName: "getUserInfoByUserIds",
+			Handler:    _Usercenter_GetUserInfoByUserIds_Handler,
 		},
 		{
 			MethodName: "getUserAuthByAuthKey",

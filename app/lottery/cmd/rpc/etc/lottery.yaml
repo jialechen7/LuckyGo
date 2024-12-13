@@ -20,3 +20,8 @@ Telemetry:
   Endpoint: http://jaeger:14268/api/traces
   Sampler: 1.0
   Batcher: jaeger
+
+UsercenterRpcConf:
+  Endpoints:
+    - 127.0.0.1:7000
+  NonBlock: true

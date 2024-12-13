@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"github.com/jialechen7/go-lottery/app/lottery/model"
 	"github.com/jialechen7/go-lottery/common/xerr"
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
@@ -44,7 +43,7 @@ func (l *LotteryDetailLogic) LotteryDetail(in *pb.LotteryDetailReq) (*pb.Lottery
 
 	prizes, err := l.svcCtx.PrizeModel.FindByLotteryId(l.ctx, in.Id)
 	if err != nil {
-		return nil, errors.Wrapf(model.ErrFindPrizes, "find prize error: %v", err)
+		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_GET_PRIZE_BY_BY_LOTTERY_ID), "find prize error: %v", err)
 	}
 
 	for _, prize := range prizes {
@@ -53,7 +52,11 @@ func (l *LotteryDetailLogic) LotteryDetail(in *pb.LotteryDetailReq) (*pb.Lottery
 		resp.Prizes = append(resp.Prizes, item)
 	}
 
-	// TODO: Set resp.isParticipated
+	isParticipated, err := l.svcCtx.LotteryParticipationModel.CheckIsParticipatedByUserIdAndLotteryId(l.ctx, in.UserId, in.Id)
+	if err != nil {
+		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_CHECK_IS_PARTICIPATED), "check is participated error: %v", err)
+	}
+	resp.IsParticipated = min(isParticipated, 1)
 
 	return resp, nil
 }

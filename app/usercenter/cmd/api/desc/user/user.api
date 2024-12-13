@@ -8,17 +8,20 @@ info (
 )
 
 type User {
-	Id           int64   `json:"id"`
-	Mobile       string  `json:"mobile"`
-	Nickname     string  `json:"nickname"`
-	Sex          int64   `json:"sex"`
-	Avatar       string  `json:"avatar"`
-	Info         string  `json:"info"`
-	IsAdmin      int64   `json:"isAdmin"`
-	Signature    string  `json:"signature"`
-	LocationName string  `json:"locationName"`
-	Longitude    float64 `json:"longitude"`
-	Latitude     float64 `json:"latitude"`
+	Id                 int64   `json:"id"`
+	Mobile             string  `json:"mobile"`
+	Nickname           string  `json:"nickname"`
+	Sex                int64   `json:"sex"`
+	Avatar             string  `json:"avatar"`
+	Info               string  `json:"info"`
+	IsAdmin            int64   `json:"isAdmin"`
+	Signature          string  `json:"signature"`
+	LocationName       string  `json:"locationName"`
+	Longitude          float64 `json:"longitude"`
+	Latitude           float64 `json:"latitude"`
+	ParticipationCount int64   `json:"participation_count"`
+	CreatedCount       int64   `json:"created_count"`
+	WonCount           int64   `json:"won_count"`
 }
 
 type (

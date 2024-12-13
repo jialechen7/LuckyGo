@@ -720,6 +720,18 @@
         "latitude": {
           "type": "number",
           "format": "double"
+        },
+        "participation_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "won_count": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "title": "User",
@@ -734,7 +746,10 @@
         "signature",
         "locationName",
         "longitude",
-        "latitude"
+        "latitude",
+        "participation_count",
+        "created_count",
+        "won_count"
       ]
     },
     "UserInfoReq": {
