@@ -4,6 +4,7 @@ option go_package = "./pb";
 
 package pb;
 
+// --------------------------------抽奖表--------------------------------
 message Lottery {
   int64 id = 1;
   int64 userId = 2;
@@ -90,11 +91,33 @@ message LotteryDetailResp {
   int64 isParticipated = 3;   // 当前用户是否已经参与当前抽奖, 0否; 1是
 }
 
+// 获取当前用户参与抽奖总数、发起抽奖总数、中奖记录总数
+message GetLotteryStatisticReq {
+  int64 UserId = 1; // 用户id
+}
+
+message GetLotteryStatisticResp {
+  int64 ParticipationCount = 1; // 参与抽奖总数
+  int64 CreatedCount = 2; // 发起抽奖总数
+  int64 WonCount = 3; // 中奖记录总数
+}
+
 service lottery {
   rpc SearchLottery(SearchLotteryReq) returns (SearchLotteryResp);
   rpc GetLotteryListAfterLogin(GetLotteryListAfterLoginReq) returns (GetLotteryListAfterLoginResp);
   rpc AddLottery(AddLotteryReq) returns (AddLotteryResp);
   rpc LotteryDetail(LotteryDetailReq) returns (LotteryDetailResp);
+
+  rpc GetUserWonList(GetUserWonListReq) returns (GetUserWonListResp);
+  rpc GetWonListByLotteryId(GetWonListByLotteryIdReq) returns (GetWonListByLotteryIdResp);
+  rpc SearchLotteryParticipation(SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp);
+  rpc GetLotteryStatistic(GetLotteryStatisticReq) returns (GetLotteryStatisticResp);
+
+//  rpc AddLotteryParticipation(AddLotteryParticipationReq) returns (AddLotteryParticipationResp);
+//  rpc GetParticipationUserIdsByLotteryId(GetParticipationUserIdsByLotteryIdReq) returns (GetParticipationUserIdsByLotteryIdResp);
+//  rpc CheckIsParticipated(CheckIsParticipatedReq) returns (CheckIsParticipatedResp);
+//  rpc CheckUserIsWon(CheckUserIsWonReq) returns (CheckUserIsWonResp);
+//  rpc GetWonListCount(GetWonListCountReq) returns (GetWonListCountResp);
 }
 
 //--------------------------------奖品表--------------------------------
@@ -126,4 +149,117 @@ message ClockTask {
   string Copywriting = 11;       // 引导参与者完成打卡任务的文案
   int64 ChanceType = 12;         // 概率类型
   int64 IncreaseMultiple = 13;   // 概率增加倍数
+}
+
+//--------------------------------抽奖参与表--------------------------------
+message AddLotteryParticipationReq{
+  int64 userId = 1;
+  int64 lotteryId = 2;
+}
+
+message AddLotteryParticipationResp{
+  int64 id = 1;
+}
+
+message SearchLotteryParticipationReq{
+  int64 lotteryId = 1;
+  int64 pageIndex = 2;
+  int64 pageSize = 3;
+}
+
+message LotteryParticipation {
+  int64 id = 1;
+  int64 lotteryId = 2;
+  int64 userId = 3;
+  bool isWon = 4;
+  int64 prizeId = 5;
+}
+
+message SearchLotteryParticipationResp{
+  int64 count = 1;
+  repeated LotteryParticipation list = 2;
+}
+
+message GetPrizeListByLotteryIdReq {
+  int64 lotteryId = 1; //id
+}
+
+message GetPrizeListByLotteryIdResp {
+  repeated Prize prizes = 1; // 奖品列表
+}
+
+message GetParticipationUserIdsByLotteryIdReq {
+  int64 lotteryId = 1;
+}
+
+message GetParticipationUserIdsByLotteryIdResp {
+  repeated int64 userIds = 1;
+}
+
+message CheckIsParticipatedReq {
+  int64 LotteryId = 1; // 当前抽奖id
+  int64 UserId = 2; // 当前用户id
+}
+
+message CheckIsParticipatedResp {
+  int64 IsParticipated = 1; // 当前用户是否已经参与当前抽奖
+}
+
+message CheckUserIsWonReq{
+  int64 userId = 1;
+  int64 lotteryId = 2;
+}
+
+message CheckUserIsWonResp{
+  int64 isWon = 1;
+}
+
+// 获取当前用户中奖列表
+message GetUserWonListReq{
+  int64 userId = 1;
+  int64 lastId = 2;
+  int64 size = 3;
+}
+
+message UserWonList{
+  int64 id = 1;
+  int64 lotteryId = 2;
+  int64 userId = 3;
+  bool isWon = 4;
+  int64 createTime = 5;
+  Prize prize = 6;
+}
+
+message GetUserWonListResp{
+  repeated UserWonList list = 1;
+}
+
+// 获取中奖记录总数/获取当前用户累计奖品数量
+message GetWonListCountReq{
+  int64 userId = 1;
+}
+
+message GetWonListCountResp{
+  int64 count = 1;
+}
+
+// 获取当前抽奖中奖者名单
+message GetWonListByLotteryIdReq{
+  int64 lotteryId = 1;
+}
+
+message UserInfo{
+  int64 id = 1;
+  bytes nickname = 2;
+  bytes avatar = 3;
+}
+
+message WonList {
+  Prize prize = 1;
+  int64 WinnerCount = 2;
+  repeated UserInfo users = 3;
+}
+
+message GetWonListByLotteryIdResp{
+  repeated WonList list = 1;
 }

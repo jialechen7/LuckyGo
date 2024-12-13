@@ -3,6 +3,21 @@
 
 package types
 
+type AddLotteryParticipationReq struct {
+	LotteryId int64 `json:"lotteryId"`
+}
+
+type AddLotteryParticipationResp struct {
+}
+
+type CheckIsWinReq struct {
+	LotteryId int64 `json:"lotteryId"`
+}
+
+type CheckIsWinResp struct {
+	IsWon int64 `json:"isWon"`
+}
+
 type CreateClockTask struct {
 	Type             int64  `json:"type, optional"`             // 任务类型 1: 体验小程序 2： 浏览指定公众号文章 3: 浏览图片（微信图片二维码等） 4： 浏览视频号视频
 	Seconds          int64  `json:"seconds, optional"`          // 任务秒数
@@ -45,6 +60,23 @@ type CreatePrize struct {
 	Thumb     string `json:"thumb"`     // 默认一等奖配图
 	Level     int64  `json:"level"`     // 奖品等级 1一等奖 2二等奖 3三等奖，依次类推
 	GrantType int64  `json:"grantType"` // 奖品发放方式：1快递邮寄 2让中奖者联系我 3中奖者填写信息 4跳转到其他小程序
+}
+
+type GetLotteryWinListReq struct {
+	LotteryId int64 `json:"lotteryId"`
+}
+
+type GetLotteryWinListResp struct {
+	List []*WonList `json:"list"`
+}
+
+type GetUserLotteryWinListReq struct {
+	LastId int64 `json:"lastId"`
+	Size   int64 `json:"size"`
+}
+
+type GetUserLotteryWinListResp struct {
+	List []*UserWonList `json:"list"`
 }
 
 type Lottery struct {
@@ -96,6 +128,25 @@ type LotteryListResp struct {
 	List []Lottery `json:"list"`
 }
 
+type LotteryParticipation struct {
+	Id        int64 `json:"id"`         // 主键
+	LotteryId int64 `json:"lottery_id"` // 参与的抽奖的id
+	UserId    int64 `json:"user_id"`    // 用户id
+	IsWon     int64 `json:"is_won"`     // 是否中将
+	PrizeId   int64 `json:"prize_id"`   // 中奖id
+}
+
+type LotteryPrize struct {
+	Id        int64  `json:"id"`
+	LotteryId int64  `json:"lottery_id"` // 抽奖ID
+	Type      int64  `json:"type"`       // 奖品类型：1奖品 2优惠券 3兑换码 4商城 5微信红包封面 6红包
+	Name      string `json:"name"`       // 奖品名称
+	Level     int64  `json:"level"`      // 几等奖 默认1
+	Thumb     string `json:"thumb"`      // 奖品图
+	Count     int64  `json:"count"`      // 奖品份数
+	GrantType int64  `json:"grant_type"` // 奖品发放方式：1快递邮寄 2让中奖者联系我 3中奖者填写信息 4跳转到其他小程序
+}
+
 type LotterySponsor struct {
 	Id         int64  `json:"id"`              // id
 	UserId     int64  `json:"userId"`          // 用户ID
@@ -114,4 +165,40 @@ type Prize struct {
 	Id        int64 `json:"id"`
 	LotteryId int64 `json:"lotteryId"`
 	CreatePrize
+}
+
+type SearchLotteryParticipationReq struct {
+	LotteryId int64 `json:"lotteryId"`
+	PageIndex int64 `json:"pageIndex"`
+	PageSize  int64 `json:"pageSize"`
+}
+
+type SearchLotteryParticipationResp struct {
+	Count int64       `json:"count"`
+	List  []*UserInfo `json:"list"`
+}
+
+type UserInfo struct {
+	Mobile       string `json:"mobile"`
+	Nickname     string `json:"nickname"`
+	Sex          int64  `json:"sex"`
+	Avatar       string `json:"avatar"`
+	Info         string `json:"info"`
+	Signature    string `json:"signature"`
+	LocationName string `json:"locationName"`
+}
+
+type UserWonList struct {
+	Id         int64         `json:"id"`          // 主键
+	LotteryId  int64         `json:"lottery_id"`  // 参与的抽奖的id
+	UserId     int64         `json:"user_id"`     // 用户id
+	IsWon      int64         `json:"is_won"`      // 中奖了吗？
+	CreateTime int64         `json:"create_time"` // 创建时间
+	Prize      *LotteryPrize `json:"prize"`       // 中奖奖品
+}
+
+type WonList struct {
+	Prize       *LotteryPrize `json:"prize"`
+	WinnerCount int64         `json:"winnerCount"`
+	Users       []*UserInfo   `json:"users"`
 }

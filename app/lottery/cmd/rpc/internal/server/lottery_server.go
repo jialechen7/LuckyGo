@@ -42,3 +42,23 @@ func (s *LotteryServer) LotteryDetail(ctx context.Context, in *pb.LotteryDetailR
 	l := logic.NewLotteryDetailLogic(ctx, s.svcCtx)
 	return l.LotteryDetail(in)
 }
+
+func (s *LotteryServer) GetUserWonList(ctx context.Context, in *pb.GetUserWonListReq) (*pb.GetUserWonListResp, error) {
+	l := logic.NewGetUserWonListLogic(ctx, s.svcCtx)
+	return l.GetUserWonList(in)
+}
+
+func (s *LotteryServer) GetWonListByLotteryId(ctx context.Context, in *pb.GetWonListByLotteryIdReq) (*pb.GetWonListByLotteryIdResp, error) {
+	l := logic.NewGetWonListByLotteryIdLogic(ctx, s.svcCtx)
+	return l.GetWonListByLotteryId(in)
+}
+
+func (s *LotteryServer) SearchLotteryParticipation(ctx context.Context, in *pb.SearchLotteryParticipationReq) (*pb.SearchLotteryParticipationResp, error) {
+	l := logic.NewSearchLotteryParticipationLogic(ctx, s.svcCtx)
+	return l.SearchLotteryParticipation(in)
+}
+
+func (s *LotteryServer) GetLotteryStatistic(ctx context.Context, in *pb.GetLotteryStatisticReq) (*pb.GetLotteryStatisticResp, error) {
+	l := logic.NewGetLotteryStatisticLogic(ctx, s.svcCtx)
+	return l.GetLotteryStatistic(in)
+}

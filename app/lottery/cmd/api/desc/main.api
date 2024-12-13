@@ -10,6 +10,7 @@ info (
 
 import (
 	"lottery/lottery.api"
+	"lottery_participation/lottery_participation.api"
 )
 
 @server (
@@ -20,6 +21,10 @@ service lottery {
 	@doc "获取抽奖列表"
 	@handler lotteryList
 	post /lottery/lotteryList (LotteryListReq) returns (LotteryListResp)
+
+	@doc "获取当前抽奖中奖者名单"
+	@handler getLotteryWinList
+	post /lottery/getLotteryWinnersList (GetLotteryWinListReq) returns (GetLotteryWinListResp)
 }
 
 @server (
@@ -39,5 +44,13 @@ service lottery {
 	@doc "抽奖详情"
 	@handler lotteryDetail
 	post /lottery/lotteryDetail (LotteryDetailReq) returns (LotteryDetailResp)
+
+	@doc "获取当前用户中奖列表"
+	@handler getUserLotteryWinList
+	post /lottery/getLotteryWinList (GetUserLotteryWinListReq) returns (GetUserLotteryWinListResp)
+
+	@doc "抽奖人"
+	@handler searchParticipation
+	post /lottery/participations (SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp)
 }
 

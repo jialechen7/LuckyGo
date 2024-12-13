@@ -16,4 +16,5 @@ type Config struct {
 		AppSecret string
 	}
 	UsercenterRpcConf zrpc.RpcClientConf
+	LotteryRpcConf    zrpc.RpcClientConf
 }

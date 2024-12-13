@@ -16,6 +16,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 获取当前抽奖中奖者名单
+				Method:  http.MethodPost,
+				Path:    "/lottery/getLotteryWinnersList",
+				Handler: lottery.GetLotteryWinListHandler(serverCtx),
+			},
+			{
 				// 获取抽奖列表
 				Method:  http.MethodPost,
 				Path:    "/lottery/lotteryList",
@@ -34,6 +40,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: lottery.CreateLotteryHandler(serverCtx),
 			},
 			{
+				// 获取当前用户中奖列表
+				Method:  http.MethodPost,
+				Path:    "/lottery/getLotteryWinList",
+				Handler: lottery.GetUserLotteryWinListHandler(serverCtx),
+			},
+			{
 				// 抽奖详情
 				Method:  http.MethodPost,
 				Path:    "/lottery/lotteryDetail",
@@ -44,6 +56,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/lottery/lotteryListAfterLogin",
 				Handler: lottery.LotteryListAfterLoginHandler(serverCtx),
+			},
+			{
+				// 抽奖人
+				Method:  http.MethodPost,
+				Path:    "/lottery/participations",
+				Handler: lottery.SearchParticipationHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JwtAuth.AccessSecret),

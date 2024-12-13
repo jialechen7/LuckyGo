@@ -18,6 +18,7 @@ type (
 		GetLastId(ctx context.Context) (int64, error)
 		LotteryList(ctx context.Context, limit, isSelected, lastId int64) ([]*Lottery, error)
 		GetLotteryListAfterLogin(ctx context.Context, limit, isSelected, lastId int64, lotteryIds []int64) ([]*Lottery, error)
+		GetCreatedCountByUserId(ctx context.Context, userId int64) (int64, error)
 	}
 
 	customLotteryModel struct {
@@ -27,6 +28,22 @@ type (
 	customLotteryLogicModel interface {
 	}
 )
+
+func (c *customLotteryModel) GetCreatedCountByUserId(ctx context.Context, userId int64) (int64, error) {
+	var count int64
+	err := c.QueryNoCacheCtx(ctx, &count, func(db *gorm.DB, v interface{}) error {
+		err := db.Model(&Lottery{}).Where("user_id = ?", userId).Count(&count).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
 
 // NewLotteryModel returns a model for the database table.
 func NewLotteryModel(conn *gorm.DB, c cache.CacheConf) LotteryModel {

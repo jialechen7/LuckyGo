@@ -11,6 +11,11 @@ UsercenterRpcConf:
   Endpoints:
     - 127.0.0.1:7000
   NonBlock: true
+  
+LotteryRpcConf:
+  Endpoints:
+    - 127.0.0.1:7002
+  NonBlock: true
 
 WxMiniConf:
   AppId: wx257be445ef72e3c6

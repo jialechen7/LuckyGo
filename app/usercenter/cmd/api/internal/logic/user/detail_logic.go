@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"github.com/jialechen7/go-lottery/app/lottery/cmd/rpc/lottery"
 	"github.com/jialechen7/go-lottery/app/usercenter/cmd/rpc/pb"
 	"github.com/jialechen7/go-lottery/app/usercenter/model"
 	"github.com/jialechen7/go-lottery/common/utility"
@@ -41,6 +42,14 @@ func (l *DetailLogic) Detail(req *types.UserInfoReq) (resp *types.UserInfoResp, 
 
 	userInfo := types.User{}
 	_ = copier.Copy(&userInfo, pbUserInfo.User)
+
+	pbStatistic, err := l.svcCtx.LotteryRpc.GetLotteryStatistic(l.ctx, &lottery.GetLotteryStatisticReq{
+		UserId: userId,
+	})
+	if err != nil {
+		return nil, errors.Wrapf(model.ErrGetLotteryStatistic, "GetLotteryStatistic err : %v , userId : %d  , userLotteryInfoResp : %+v", err, userId, pbStatistic)
+	}
+	_ = copier.Copy(&userInfo, pbStatistic)
 
 	return &types.UserInfoResp{
 		UserInfo: userInfo,

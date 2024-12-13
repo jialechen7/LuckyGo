@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jialechen7/go-lottery/app/lottery/cmd/rpc/pb"
 	"github.com/jialechen7/go-lottery/app/lottery/model"
+	"github.com/jialechen7/go-lottery/app/usercenter/cmd/rpc/usercenter"
 	"github.com/jialechen7/go-lottery/common/utility"
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
@@ -46,5 +47,15 @@ func (l *LotteryDetailLogic) LotteryDetail(req *types.LotteryDetailReq) (resp *t
 		_ = copier.Copy(item, prize)
 		resp.Prizes = append(resp.Prizes, item)
 	}
+	pbSponsor, err := l.svcCtx.UsercenterRpc.SponsorDetail(l.ctx, &usercenter.SponsorDetailReq{
+		Id: pbResp.Lottery.SponsorId,
+	})
+	if err != nil {
+		return nil, errors.Wrapf(model.ErrLotteryDetail, "rpc SponsorDetail error: %v", err)
+	}
+	resp.Sponsor = new(types.LotterySponsor)
+	_ = copier.Copy(resp.Sponsor, pbSponsor)
+	resp.IsParticipated = pbResp.IsParticipated
+
 	return resp, nil
 }

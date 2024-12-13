@@ -53,6 +53,11 @@ func (s *UsercenterServer) UpdateUserBaseInfo(ctx context.Context, in *pb.Update
 	return l.UpdateUserBaseInfo(in)
 }
 
+func (s *UsercenterServer) GetUserInfoByUserIds(ctx context.Context, in *pb.GetUserInfoByUserIdsReq) (*pb.GetUserInfoByUserIdsResp, error) {
+	l := logic.NewGetUserInfoByUserIdsLogic(ctx, s.svcCtx)
+	return l.GetUserInfoByUserIds(in)
+}
+
 func (s *UsercenterServer) GetUserAuthByAuthKey(ctx context.Context, in *pb.GetUserAuthByAuthKeyReq) (*pb.GetUserAuthByAuthKeyResp, error) {
 	l := logic.NewGetUserAuthByAuthKeyLogic(ctx, s.svcCtx)
 	return l.GetUserAuthByAuthKey(in)
