@@ -109,6 +109,72 @@
         ]
       }
     },
+    "/lottery/v1/lottery/getUserAllLotteryList": {
+      "post": {
+        "summary": "获取当前用户所有抽奖列表",
+        "operationId": "getUserAllLotteryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserAllLotteryListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取当前用户所有的抽奖参与记录",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetUserAllLotteryListReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/lottery/v1/lottery/getUserCreatedLotteryList": {
+      "post": {
+        "summary": "获取当前用户发起的抽奖列表",
+        "operationId": "getUserCreatedLotteryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserCreatedLotteryListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取当前用户所有创建的抽奖",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetUserCreatedLotteryListReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/lottery/v1/lottery/lotteryDetail": {
       "post": {
         "summary": "抽奖详情",
@@ -187,6 +253,38 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/LotteryListReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/lottery/v1/lottery/participation": {
+      "post": {
+        "summary": "参与抽奖",
+        "operationId": "addLotteryParticipation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddLotteryParticipationResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddLotteryParticipationReq"
             }
           }
         ],
@@ -514,6 +612,72 @@
         "list"
       ]
     },
+    "GetUserAllLotteryListReq": {
+      "type": "object",
+      "properties": {
+        "lastId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetUserAllLotteryListReq",
+      "required": [
+        "lastId",
+        "size"
+      ]
+    },
+    "GetUserAllLotteryListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserLotteryList"
+          }
+        }
+      },
+      "title": "GetUserAllLotteryListResp",
+      "required": [
+        "list"
+      ]
+    },
+    "GetUserCreatedLotteryListReq": {
+      "type": "object",
+      "properties": {
+        "lastId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetUserCreatedLotteryListReq",
+      "required": [
+        "lastId",
+        "size"
+      ]
+    },
+    "GetUserCreatedLotteryListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lottery"
+          }
+        }
+      },
+      "title": "GetUserCreatedLotteryListResp",
+      "required": [
+        "list"
+      ]
+    },
     "GetUserLotteryWinListReq": {
       "type": "object",
       "properties": {
@@ -538,7 +702,7 @@
         "list": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/UserWonList"
+            "$ref": "#/definitions/UserLotteryList"
           }
         }
       },
@@ -1063,7 +1227,7 @@
         "locationName"
       ]
     },
-    "UserWonList": {
+    "UserLotteryList": {
       "type": "object",
       "properties": {
         "id": {
@@ -1096,7 +1260,7 @@
           "description": " 中奖奖品"
         }
       },
-      "title": "UserWonList",
+      "title": "UserLotteryList",
       "required": [
         "id",
         "lottery_id",

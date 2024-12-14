@@ -102,6 +102,16 @@ message GetLotteryStatisticResp {
   int64 WonCount = 3; // 中奖记录总数
 }
 
+message GetUserCreatedListReq {
+  int64 userId = 1;
+  int64 lastId = 2;
+  int64 size = 3;
+}
+
+message GetUserCreatedListResp {
+  repeated Lottery list = 1;
+}
+
 service lottery {
   rpc SearchLottery(SearchLotteryReq) returns (SearchLotteryResp);
   rpc GetLotteryListAfterLogin(GetLotteryListAfterLoginReq) returns (GetLotteryListAfterLoginResp);
@@ -110,10 +120,12 @@ service lottery {
 
   rpc GetUserWonList(GetUserWonListReq) returns (GetUserWonListResp);
   rpc GetWonListByLotteryId(GetWonListByLotteryIdReq) returns (GetWonListByLotteryIdResp);
+  rpc GetUserAllList(GetUserAllListReq) returns (GetUserAllListResp);
+  rpc GetUserCreatedList(GetUserCreatedListReq) returns (GetUserCreatedListResp);
   rpc SearchLotteryParticipation(SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp);
   rpc GetLotteryStatistic(GetLotteryStatisticReq) returns (GetLotteryStatisticResp);
+  rpc AddLotteryParticipation(AddLotteryParticipationReq) returns (AddLotteryParticipationResp);
 
-//  rpc AddLotteryParticipation(AddLotteryParticipationReq) returns (AddLotteryParticipationResp);
 //  rpc GetParticipationUserIdsByLotteryId(GetParticipationUserIdsByLotteryIdReq) returns (GetParticipationUserIdsByLotteryIdResp);
 //  rpc CheckIsParticipated(CheckIsParticipatedReq) returns (CheckIsParticipatedResp);
 //  rpc CheckUserIsWon(CheckUserIsWonReq) returns (CheckUserIsWonResp);
@@ -221,7 +233,7 @@ message GetUserWonListReq{
   int64 size = 3;
 }
 
-message UserWonList{
+message UserLotteryList{
   int64 id = 1;
   int64 lotteryId = 2;
   int64 userId = 3;
@@ -231,7 +243,17 @@ message UserWonList{
 }
 
 message GetUserWonListResp{
-  repeated UserWonList list = 1;
+  repeated UserLotteryList list = 1;
+}
+
+message GetUserAllListReq {
+  int64 userId = 1;
+  int64 lastId = 2;
+  int64 size = 3;
+}
+
+message GetUserAllListResp {
+  repeated UserLotteryList list = 1;
 }
 
 // 获取中奖记录总数/获取当前用户累计奖品数量

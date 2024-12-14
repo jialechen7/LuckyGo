@@ -53,6 +53,16 @@ func (s *LotteryServer) GetWonListByLotteryId(ctx context.Context, in *pb.GetWon
 	return l.GetWonListByLotteryId(in)
 }
 
+func (s *LotteryServer) GetUserAllList(ctx context.Context, in *pb.GetUserAllListReq) (*pb.GetUserAllListResp, error) {
+	l := logic.NewGetUserAllListLogic(ctx, s.svcCtx)
+	return l.GetUserAllList(in)
+}
+
+func (s *LotteryServer) GetUserCreatedList(ctx context.Context, in *pb.GetUserCreatedListReq) (*pb.GetUserCreatedListResp, error) {
+	l := logic.NewGetUserCreatedListLogic(ctx, s.svcCtx)
+	return l.GetUserCreatedList(in)
+}
+
 func (s *LotteryServer) SearchLotteryParticipation(ctx context.Context, in *pb.SearchLotteryParticipationReq) (*pb.SearchLotteryParticipationResp, error) {
 	l := logic.NewSearchLotteryParticipationLogic(ctx, s.svcCtx)
 	return l.SearchLotteryParticipation(in)
@@ -61,4 +71,9 @@ func (s *LotteryServer) SearchLotteryParticipation(ctx context.Context, in *pb.S
 func (s *LotteryServer) GetLotteryStatistic(ctx context.Context, in *pb.GetLotteryStatisticReq) (*pb.GetLotteryStatisticResp, error) {
 	l := logic.NewGetLotteryStatisticLogic(ctx, s.svcCtx)
 	return l.GetLotteryStatistic(in)
+}
+
+func (s *LotteryServer) AddLotteryParticipation(ctx context.Context, in *pb.AddLotteryParticipationReq) (*pb.AddLotteryParticipationResp, error) {
+	l := logic.NewAddLotteryParticipationLogic(ctx, s.svcCtx)
+	return l.AddLotteryParticipation(in)
 }

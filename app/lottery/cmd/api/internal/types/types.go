@@ -70,13 +70,31 @@ type GetLotteryWinListResp struct {
 	List []*WonList `json:"list"`
 }
 
+type GetUserAllLotteryListReq struct {
+	LastId int64 `json:"lastId"`
+	Size   int64 `json:"size"`
+}
+
+type GetUserAllLotteryListResp struct {
+	List []*UserLotteryList `json:"list"`
+}
+
+type GetUserCreatedLotteryListReq struct {
+	LastId int64 `json:"lastId"`
+	Size   int64 `json:"size"`
+}
+
+type GetUserCreatedLotteryListResp struct {
+	List []*Lottery `json:"list"`
+}
+
 type GetUserLotteryWinListReq struct {
 	LastId int64 `json:"lastId"`
 	Size   int64 `json:"size"`
 }
 
 type GetUserLotteryWinListResp struct {
-	List []*UserWonList `json:"list"`
+	List []*UserLotteryList `json:"list"`
 }
 
 type Lottery struct {
@@ -188,7 +206,7 @@ type UserInfo struct {
 	LocationName string `json:"locationName"`
 }
 
-type UserWonList struct {
+type UserLotteryList struct {
 	Id         int64         `json:"id"`          // 主键
 	LotteryId  int64         `json:"lottery_id"`  // 参与的抽奖的id
 	UserId     int64         `json:"user_id"`     // 用户id

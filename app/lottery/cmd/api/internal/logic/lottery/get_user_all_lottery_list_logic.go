@@ -14,40 +14,44 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserLotteryWinListLogic struct {
+type GetUserAllLotteryListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 获取当前用户中奖列表
-func NewGetUserLotteryWinListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLotteryWinListLogic {
-	return &GetUserLotteryWinListLogic{
+// 获取当前用户所有抽奖列表
+func NewGetUserAllLotteryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserAllLotteryListLogic {
+	return &GetUserAllLotteryListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GetUserLotteryWinListLogic) GetUserLotteryWinList(req *types.GetUserLotteryWinListReq) (resp *types.GetUserLotteryWinListResp, err error) {
-	pbResp, err := l.svcCtx.LotteryRpc.GetUserWonList(l.ctx, &pb.GetUserWonListReq{
+func (l *GetUserAllLotteryListLogic) GetUserAllLotteryList(req *types.GetUserAllLotteryListReq) (resp *types.GetUserAllLotteryListResp, err error) {
+	pbResp, err := l.svcCtx.LotteryRpc.GetUserAllList(l.ctx, &pb.GetUserAllListReq{
 		UserId: utility.GetUserIdFromCtx(l.ctx),
 		LastId: req.LastId,
 		Size:   req.Size,
 	})
 	if err != nil {
-		return nil, errors.Wrapf(model.ErrGetLotteryWinList, "rpc GetUserWonList error: %v", err)
+		return nil, errors.Wrapf(model.ErrGetUserAllLottery, "rpc GetUserAllLotteryList error: %v", err)
 	}
 	list := make([]*types.UserLotteryList, 0)
 	for _, pbItem := range pbResp.List {
 		item := &types.UserLotteryList{}
+		if pbItem.IsWon {
+			item.IsWon = 1
+		}
 		item.Prize = new(types.LotteryPrize)
-		item.IsWon = 1
 		_ = copier.Copy(item.Prize, pbItem.Prize)
 		_ = copier.Copy(item, pbItem)
 		list = append(list, item)
 	}
-	return &types.GetUserLotteryWinListResp{
+	return &types.GetUserAllLotteryListResp{
 		List: list,
 	}, nil
+
+	return
 }
