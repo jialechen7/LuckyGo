@@ -54,7 +54,7 @@ type SearchLotteryParticipationResp {
 	List  []*UserInfo `json:"list"`
 }
 
-type UserWonList {
+type UserLotteryList {
 	Id        int64         `json:"id"` // 主键
 	LotteryId int64         `json:"lottery_id"` // 参与的抽奖的id
 	UserId    int64         `json:"user_id"` // 用户id
@@ -70,7 +70,17 @@ type GetUserLotteryWinListReq {
 }
 
 type GetUserLotteryWinListResp {
-	list []*UserWonList `json:"list"`
+	list []*UserLotteryList `json:"list"`
+}
+
+// 获取当前用户所有的抽奖参与记录
+type GetUserAllLotteryListReq {
+	LastId int64 `json:"lastId"`
+	Size   int64 `json:"size"`
+}
+
+type GetUserAllLotteryListResp {
+	list []*UserLotteryList `json:"list"`
 }
 
 // 获取当前用户当前抽奖是否中奖

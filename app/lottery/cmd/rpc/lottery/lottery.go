@@ -31,6 +31,10 @@ type (
 	GetParticipationUserIdsByLotteryIdResp = pb.GetParticipationUserIdsByLotteryIdResp
 	GetPrizeListByLotteryIdReq             = pb.GetPrizeListByLotteryIdReq
 	GetPrizeListByLotteryIdResp            = pb.GetPrizeListByLotteryIdResp
+	GetUserAllListReq                      = pb.GetUserAllListReq
+	GetUserAllListResp                     = pb.GetUserAllListResp
+	GetUserCreatedListReq                  = pb.GetUserCreatedListReq
+	GetUserCreatedListResp                 = pb.GetUserCreatedListResp
 	GetUserWonListReq                      = pb.GetUserWonListReq
 	GetUserWonListResp                     = pb.GetUserWonListResp
 	GetWonListByLotteryIdReq               = pb.GetWonListByLotteryIdReq
@@ -47,7 +51,7 @@ type (
 	SearchLotteryReq                       = pb.SearchLotteryReq
 	SearchLotteryResp                      = pb.SearchLotteryResp
 	UserInfo                               = pb.UserInfo
-	UserWonList                            = pb.UserWonList
+	UserLotteryList                        = pb.UserLotteryList
 	WonList                                = pb.WonList
 
 	LotteryZrpcClient interface {
@@ -57,8 +61,11 @@ type (
 		LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error)
 		GetUserWonList(ctx context.Context, in *GetUserWonListReq, opts ...grpc.CallOption) (*GetUserWonListResp, error)
 		GetWonListByLotteryId(ctx context.Context, in *GetWonListByLotteryIdReq, opts ...grpc.CallOption) (*GetWonListByLotteryIdResp, error)
+		GetUserAllList(ctx context.Context, in *GetUserAllListReq, opts ...grpc.CallOption) (*GetUserAllListResp, error)
+		GetUserCreatedList(ctx context.Context, in *GetUserCreatedListReq, opts ...grpc.CallOption) (*GetUserCreatedListResp, error)
 		SearchLotteryParticipation(ctx context.Context, in *SearchLotteryParticipationReq, opts ...grpc.CallOption) (*SearchLotteryParticipationResp, error)
 		GetLotteryStatistic(ctx context.Context, in *GetLotteryStatisticReq, opts ...grpc.CallOption) (*GetLotteryStatisticResp, error)
+		AddLotteryParticipation(ctx context.Context, in *AddLotteryParticipationReq, opts ...grpc.CallOption) (*AddLotteryParticipationResp, error)
 	}
 
 	defaultLotteryZrpcClient struct {
@@ -102,6 +109,16 @@ func (m *defaultLotteryZrpcClient) GetWonListByLotteryId(ctx context.Context, in
 	return client.GetWonListByLotteryId(ctx, in, opts...)
 }
 
+func (m *defaultLotteryZrpcClient) GetUserAllList(ctx context.Context, in *GetUserAllListReq, opts ...grpc.CallOption) (*GetUserAllListResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.GetUserAllList(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) GetUserCreatedList(ctx context.Context, in *GetUserCreatedListReq, opts ...grpc.CallOption) (*GetUserCreatedListResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.GetUserCreatedList(ctx, in, opts...)
+}
+
 func (m *defaultLotteryZrpcClient) SearchLotteryParticipation(ctx context.Context, in *SearchLotteryParticipationReq, opts ...grpc.CallOption) (*SearchLotteryParticipationResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.SearchLotteryParticipation(ctx, in, opts...)
@@ -110,4 +127,9 @@ func (m *defaultLotteryZrpcClient) SearchLotteryParticipation(ctx context.Contex
 func (m *defaultLotteryZrpcClient) GetLotteryStatistic(ctx context.Context, in *GetLotteryStatisticReq, opts ...grpc.CallOption) (*GetLotteryStatisticResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.GetLotteryStatistic(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) AddLotteryParticipation(ctx context.Context, in *AddLotteryParticipationReq, opts ...grpc.CallOption) (*AddLotteryParticipationResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.AddLotteryParticipation(ctx, in, opts...)
 }

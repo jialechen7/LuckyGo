@@ -23,6 +23,7 @@ type (
 		GetParticipatorsCountByLotteryId(ctx context.Context, lotteryId int64) (int64, error)
 		GetParticipationCountByUserId(ctx context.Context, userId int64) (int64, error)
 		GetWonCountByUserId(ctx context.Context, userId int64) (int64, error)
+		GetAllLotteryListByUserId(ctx context.Context, userId, lastId, limit int64) ([]*LotteryParticipation, error)
 	}
 
 	customLotteryParticipationModel struct {
@@ -32,6 +33,20 @@ type (
 	customLotteryParticipationLogicModel interface {
 	}
 )
+
+func (c *customLotteryParticipationModel) GetAllLotteryListByUserId(ctx context.Context, userId, lastId, limit int64) ([]*LotteryParticipation, error) {
+	list := make([]*LotteryParticipation, 0)
+	err := c.QueryNoCacheCtx(ctx, &list, func(db *gorm.DB, v interface{}) error {
+		if lastId > 0 {
+			return db.Table(c.table).Where("user_id = ? AND id < ?", userId, lastId).Order("id DESC").Limit(int(limit)).Find(v).Error
+		}
+		return db.Table(c.table).Where("user_id = ?", userId).Order("id DESC").Limit(int(limit)).Find(v).Error
+	})
+	if err != nil {
+		return []*LotteryParticipation{}, err
+	}
+	return list, err
+}
 
 func (c *customLotteryParticipationModel) GetWonCountByUserId(ctx context.Context, userId int64) (int64, error) {
 	var count int64

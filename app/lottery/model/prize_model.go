@@ -16,6 +16,7 @@ type (
 		prizeModel
 		customPrizeLogicModel
 		FindByLotteryId(ctx context.Context, lotteryId int64) ([]*Prize, error)
+		FindFirstLevelPrizeByLotteryId(ctx context.Context, lotteryId int64) (*Prize, error)
 	}
 
 	customPrizeModel struct {
@@ -25,6 +26,17 @@ type (
 	customPrizeLogicModel interface {
 	}
 )
+
+func (c *customPrizeModel) FindFirstLevelPrizeByLotteryId(ctx context.Context, lotteryId int64) (*Prize, error) {
+	var prize Prize
+	err := c.QueryNoCacheCtx(ctx, &prize, func(db *gorm.DB, v interface{}) error {
+		return db.Where("lottery_id = ? AND level = 1", lotteryId).First(v).Error
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &prize, nil
+}
 
 func (c *customPrizeModel) FindByLotteryId(ctx context.Context, lotteryId int64) ([]*Prize, error) {
 	var prizes []*Prize

@@ -49,8 +49,20 @@ service lottery {
 	@handler getUserLotteryWinList
 	post /lottery/getLotteryWinList (GetUserLotteryWinListReq) returns (GetUserLotteryWinListResp)
 
+	@doc "获取当前用户所有抽奖列表"
+	@handler getUserAllLotteryList
+	post /lottery/getUserAllLotteryList (GetUserAllLotteryListReq) returns (GetUserAllLotteryListResp)
+
+	@doc "获取当前用户发起的抽奖列表"
+	@handler getUserCreatedLotteryList
+	post /lottery/getUserCreatedLotteryList (GetUserCreatedLotteryListReq) returns (GetUserCreatedLotteryListResp)
+
 	@doc "抽奖人"
 	@handler searchParticipation
 	post /lottery/participations (SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp)
+
+	@doc "参与抽奖"
+	@handler addLotteryParticipation
+	post /lottery/participation (AddLotteryParticipationReq) returns (AddLotteryParticipationResp)
 }
 
