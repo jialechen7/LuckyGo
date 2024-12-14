@@ -37,7 +37,7 @@ func (l *SponsorListLogic) SponsorList(req *types.SponsorListReq) (resp *types.S
 		return nil, err
 	}
 
-	var sponsorList []types.Sponsor
+	sponsorList := make([]types.Sponsor, 0)
 	for _, pbSponsor := range pbResp.UserSponsor {
 		sponsor := types.Sponsor{}
 		_ = copier.Copy(&sponsor, pbSponsor)

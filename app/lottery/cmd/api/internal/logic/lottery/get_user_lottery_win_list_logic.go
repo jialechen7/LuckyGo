@@ -38,7 +38,7 @@ func (l *GetUserLotteryWinListLogic) GetUserLotteryWinList(req *types.GetUserLot
 	if err != nil {
 		return nil, errors.Wrapf(model.ErrGetLotteryWinList, "rpc GetUserWonList error: %v", err)
 	}
-	var list []*types.UserWonList
+	list := make([]*types.UserWonList, 0)
 	for _, pbItem := range pbResp.List {
 		item := &types.UserWonList{}
 		item.Prize = new(types.LotteryPrize)

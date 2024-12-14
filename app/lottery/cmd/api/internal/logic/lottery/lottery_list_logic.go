@@ -38,7 +38,7 @@ func (l *LotteryListLogic) LotteryList(req *types.LotteryListReq) (resp *types.L
 		return nil, errors.Wrapf(model.ErrSearchList, "rpc error: %v", err)
 	}
 
-	var lotteryList []types.Lottery
+	lotteryList := make([]types.Lottery, 0)
 	for _, lottery := range pbResp.List {
 		var item types.Lottery
 		_ = copier.Copy(&item, lottery)
