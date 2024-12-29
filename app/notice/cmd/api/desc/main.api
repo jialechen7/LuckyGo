@@ -1,0 +1,28 @@
+syntax = "v1"
+
+info (
+	title:   "消息通知服务"
+	desc:    "消息通知服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+import (
+	"event/event.api"
+)
+
+@server (
+	prefix: notice/v1
+	group:  event
+)
+service notice {
+	@doc "验证小程序回调消息"
+	@handler verifyEvent
+	get /event (VerifyEventReq) returns (VerifyEventResp)
+
+	@doc "接收小程序回调消息"
+	@handler receiveEvent
+	post /event (ReceiveEventReq) returns (ReceiveEventResp)
+}
+

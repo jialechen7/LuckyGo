@@ -65,6 +65,9 @@ goctl rpc protoc app/usercenter/cmd/rpc/pb/usercenter.proto --go_out=app/usercen
 
 ### 常见问题
 
+#### 配置微信小程序消息回调时一直Token验证失败？
+由于使用的goctl模板（go-lottery对goctl进行定制化）对请求的返回值会进行封装，从而导致返回的内容并不是要求的echostr，因此需要修改goctl模板，使用原生goctl模板即可。
+
 #### MySQL 在 WSL 的 Root 用户下执行 Docker Compose 时出现权限问题？
 这个问题可能是由 [Permissions problem with mounted windows volume #4824](https://github.com/docker/for-win/issues/4824) 引起的，但目前仍未解决。
 
