@@ -8,6 +8,7 @@ DOCKER_COMPOSE_ENV=docker-compose-env.yml
 # Help information
 help:
 	@echo "Usage:"
+	@echo "  make create-dirs NAME=<micro_service_name> - Create directory structure for specified microservice name"
 	@echo "  make docker-up-env    - Start development environment (docker-compose-env.yml)"
 	@echo "  make docker-up-app    - Start application services (docker-compose.yml)"
 	@echo "  make docker-down-env  - Stop development environment"
@@ -21,7 +22,7 @@ help:
 	@echo "  make gen-model-lottery - Generate model code for lottery"
 	@echo "  make gen-api-lottery - Generate api code for lottery"
 	@echo "  make gen-rpc-lottery - Generate rpc code for lottery"
-	@echo "  make create-dirs NAME=<micro_service_name> - Create directory structure for specified microservice name"
+	@echo "  make gen-api-notice - Generate api code for notice"
 
 # Target: Create directory structure for specified project name
 create-dirs:
@@ -89,6 +90,11 @@ gen-api-lottery:
 # Generate RPC code for lottery
 gen-rpc-lottery:
 	goctl rpc protoc app/lottery/cmd/rpc/pb/lottery.proto --go_out=app/lottery/cmd/rpc/ --go-grpc_out=app/lottery/cmd/rpc/ --zrpc_out=app/lottery/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
+
+# Generate model code for notice
+gen-api-notice:
+	goctl api go --api=app/notice/cmd/api/desc/main.api --dir=app/notice/cmd/api/ --style=go_zero --home=deploy/goctl/1.7.3/ && \
+	goctl api plugin --plugin=goctl-swagger="swagger -filename notice.json" --api=app/notice/cmd/api/desc/main.api --dir=doc/swagger
 
 # Default target
 .PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery

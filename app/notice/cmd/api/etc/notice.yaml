@@ -1,0 +1,22 @@
+Name: notice-api
+Host: 0.0.0.0
+Port: 8003
+Mode: dev
+
+WxMiniConf:
+  AppId: wx257be445ef72e3c6
+  AppSecret: d9f25b0a597320872ae9f78ef0cbf003
+
+WxMessageNoticeConf:
+  Token: dasdasdqwrqfwefvds
+
+NoticeRpcConf:
+  Endpoints:
+    - 127.0.0.1:7003
+  NonBlock: true
+
+Telemetry:
+  Name: notice-api
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger

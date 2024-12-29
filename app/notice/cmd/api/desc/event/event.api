@@ -1,0 +1,28 @@
+syntax = "v1"
+
+info (
+	title:  "回调消息"
+	desc:   "回调消息"
+	author: "jialechen"
+	email:  "chenjiale0303@gmail.com"
+)
+
+type (
+	VerifyEventReq {
+		Signature string `form:"signature"`
+		Timestamp string `form:"timestamp"`
+		Nonce     string `form:"nonce"`
+		Echostr   string `form:"echostr"`
+	}
+	VerifyEventResp  {}
+)
+
+type (
+	ReceiveEventReq {
+		Signature string `body:"signature"`
+		Timestamp string `body:"timestamp"`
+		Nonce     string `body:"nonce"`
+	}
+	ReceiveEventResp  {}
+)
+

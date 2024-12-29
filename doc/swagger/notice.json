@@ -1,0 +1,153 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "消息通知服务",
+    "description": "消息通知服务",
+    "version": "v1"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/notice/v1/event": {
+      "get": {
+        "summary": "验证小程序回调消息",
+        "operationId": "verifyEvent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/VerifyEventResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "signature",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "nonce",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "echostr",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "event"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      },
+      "post": {
+        "summary": "接收小程序回调消息",
+        "operationId": "receiveEvent",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ReceiveEventResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReceiveEventReq"
+            }
+          }
+        ],
+        "tags": [
+          "event"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ReceiveEventReq": {
+      "type": "object",
+      "properties": {
+        "Signature": {
+          "type": "string"
+        },
+        "Timestamp": {
+          "type": "string"
+        },
+        "Nonce": {
+          "type": "string"
+        }
+      },
+      "title": "ReceiveEventReq",
+      "required": [
+        "signature",
+        "timestamp",
+        "nonce"
+      ]
+    },
+    "ReceiveEventResp": {
+      "type": "object",
+      "title": "ReceiveEventResp"
+    },
+    "VerifyEventReq": {
+      "type": "object",
+      "properties": {
+        "signature": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "nonce": {
+          "type": "string"
+        },
+        "echostr": {
+          "type": "string"
+        }
+      },
+      "title": "VerifyEventReq",
+      "required": [
+        "signature",
+        "timestamp",
+        "nonce",
+        "echostr"
+      ]
+    },
+    "VerifyEventResp": {
+      "type": "object",
+      "title": "VerifyEventResp"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
