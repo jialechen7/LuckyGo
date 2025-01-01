@@ -1,0 +1,220 @@
+syntax = "proto3";
+
+option go_package ="./pb";
+
+package pb;
+
+//--------------------------------comment--------------------------------
+message Comment {
+  int64 id = 1; //id
+  int64 userId = 2; //用户id
+  int64 lotteryId = 3; //抽奖id
+  string prizeName = 4; //奖品名称
+  string content = 5; //晒单评论内容
+  string pics = 6; //晒单评论图片
+  int64 praiseCount = 7; //点赞数量
+  int64 createTime = 8; //创建时间
+  int64 updateTime = 9; //更新时间
+  int64 isPraise = 10; //当前用户是否点赞
+}
+
+message AddCommentReq {
+  int64 userId = 1; //用户id
+  int64 lotteryId = 2; //抽奖id
+  string prizeName = 3; //奖品名称
+  string content = 4; //晒单评论内容
+  string pics = 5; //晒单评论图片
+  int64 praiseCount = 6; //点赞数量
+}
+
+message AddCommentResp {
+}
+
+message UpdateCommentReq {
+  int64 id = 1; //id
+  int64 userId = 2; //用户id
+  int64 lotteryId = 3; //抽奖id
+  string prizeName = 4; //奖品名称
+  string content = 5; //晒单评论内容
+  string pics = 6; //晒单评论图片
+  int64 praiseCount = 7; //点赞数量
+}
+
+message UpdateCommentResp {
+}
+
+message DelCommentReq {
+  int64 id = 1; //id
+}
+
+message DelCommentResp {
+}
+
+message GetCommentByIdReq {
+  int64 id = 1; //id
+}
+
+message GetCommentByIdResp {
+  Comment comment = 1; //comment
+}
+
+message SearchCommentReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 userId = 4; //用户id
+  int64 lotteryId = 5; //抽奖id
+  string prizeName = 6; //奖品名称
+  string content = 7; //晒单评论内容
+  string pics = 8; //晒单评论图片
+  int64 praiseCount = 9; //点赞数量
+  int64 createTime = 10; //创建时间
+  int64 updateTime = 11; //更新时间
+  int64 lastId = 12; //lastId
+  int64 sort = 13; //排序方式：0-时间倒序，1-点赞数倒序
+}
+
+message SearchCommentResp {
+  repeated Comment comment = 1; //comment
+}
+
+// 判断当前用户当前评论是否点赞
+message IsPraiseReq {
+  int64 userId = 1; //用户id
+  int64 commentId = 2; //评论id
+}
+
+message IsPraiseResp {
+  // 返回点赞id
+  int64 praiseId = 1; //点赞id
+}
+
+// 判断当前用户给的评论id列表是否点赞，返回一个列表
+message IsPraiseListReq {
+  int64 userId = 1; //用户id
+  repeated int64 commentId = 2; //评论id
+}
+
+message IsPraiseListResp {
+  repeated int64 praiseId = 1; //点赞id
+}
+
+// 评论点赞/取消点赞
+message PraiseCommentReq {
+  int64 userId = 1; //用户id
+  int64 commentId = 2; //评论id
+}
+
+message PraiseCommentResp {}
+
+// 获取评论lastId
+message GetCommentLastIdReq {
+}
+
+message GetCommentLastIdResp {
+  int64 lastId = 1; //lastId
+}
+
+// 获取当前用户评论列表，以及评论的点赞数，当前用户是否点赞
+message GetUserCommentReq {
+  int64 userId = 1; //用户id
+}
+
+message GetUserCommentResp {
+  repeated Comment comment = 1; //comment
+}
+
+
+
+//--------------------------------praise--------------------------------
+message Praise {
+  int64 id = 1; //id
+  int64 userId = 2; //评论者id
+  int64 commentId = 3; //评论id
+  int64 createTime = 4; //createTime
+  int64 updateTime = 5; //updateTime
+}
+
+message AddPraiseReq {
+  int64 userId = 1; //评论者id
+  int64 commentId = 2; //评论id
+}
+
+message AddPraiseResp {
+}
+
+message UpdatePraiseReq {
+  int64 id = 1; //id
+  int64 userId = 2; //评论者id
+  int64 commentId = 3; //评论id
+}
+
+message UpdatePraiseResp {
+}
+
+message DelPraiseReq {
+  int64 id = 1; //id
+}
+
+message DelPraiseResp {
+}
+
+message GetPraiseByIdReq {
+  int64 id = 1; //id
+}
+
+message GetPraiseByIdResp {
+  Praise praise = 1; //praise
+}
+
+message SearchPraiseReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 userId = 4; //评论者id
+  int64 commentId = 5; //评论id
+  int64 createTime = 6; //createTime
+  int64 updateTime = 7; //updateTime
+  int64 lastId = 8; //lastId
+}
+
+message SearchPraiseResp {
+  repeated Praise praise = 1; //praise
+}
+
+//--------------------------------others--------------------------------
+// 检查用户今日是否给评论点赞
+message CheckUserPraiseReq {
+  int64 userId = 1; //用户id
+}
+message CheckUserPraiseResp {
+  int64 isPraise = 1; //是否点赞
+}
+// ------------------------------------
+// Rpc Func
+// ------------------------------------
+
+service comment{
+  //-----------------------comment-----------------------
+
+  rpc AddComment(AddCommentReq) returns (AddCommentResp);
+  rpc UpdateComment(UpdateCommentReq) returns (UpdateCommentResp);
+  rpc DelComment(DelCommentReq) returns (DelCommentResp);
+  rpc GetCommentById(GetCommentByIdReq) returns (GetCommentByIdResp);
+  rpc SearchComment(SearchCommentReq) returns (SearchCommentResp);
+  rpc IsPraise(IsPraiseReq) returns (IsPraiseResp);
+  rpc PraiseComment(PraiseCommentReq) returns (PraiseCommentResp);
+  rpc GetCommentLastId(GetCommentLastIdReq) returns (GetCommentLastIdResp);
+  rpc IsPraiseList(IsPraiseListReq) returns (IsPraiseListResp);
+  rpc GetUserComment(GetUserCommentReq) returns (GetUserCommentResp);
+  //-----------------------praise-----------------------
+
+  rpc AddPraise(AddPraiseReq) returns (AddPraiseResp);
+  rpc UpdatePraise(UpdatePraiseReq) returns (UpdatePraiseResp);
+  rpc DelPraise(DelPraiseReq) returns (DelPraiseResp);
+  rpc GetPraiseById(GetPraiseByIdReq) returns (GetPraiseByIdResp);
+  rpc SearchPraise(SearchPraiseReq) returns (SearchPraiseResp);
+  //-----------------------others-----------------------
+
+  rpc CheckUserPraise(CheckUserPraiseReq) returns (CheckUserPraiseResp);
+}

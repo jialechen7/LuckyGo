@@ -1,0 +1,116 @@
+syntax = "v1"
+
+info (
+    title:   "晒单服务"
+    desc:    "晒单服务"
+    author:  "jialechen"
+    email:   "chenjiale0303@gmail.com"
+    version: "v1"
+)
+
+type Comment {
+    Id          int64        `json:"id"`
+    UserId      int64        `json:"userId"`      // 用户id
+    LotteryId   int64        `json:"lotteryId"`   // 抽奖id
+    PrizeName   string       `json:"prizeName"`   // 奖品名称
+    Content     string       `json:"content"`     // 晒单评论内容
+    Pics        string       `json:"pics"`        // 晒单评论图片
+    PraiseCount int64        `json:"praiseCount"` // 点赞数量
+    CreateTime  int64    	 `json:"createTime"`  // 创建时间
+    UpdateTime  int64        `json:"updateTime"`  // 更新时间
+}
+
+type User {
+    Id       int64  `json:"id"`
+    Mobile   string `json:"mobile"`
+    Nickname string `json:"nickname"`
+    Sex      int64  `json:"sex"`
+    Avatar   string `json:"avatar"`
+    Info     string `json:"info"`
+    IsAdmin  int64  `json:"isAdmin"`
+}
+
+type Comments {
+    Id          int64        `json:"id"`
+    UserId      int64        `json:"userId"`      // 用户id
+    LotteryId   int64        `json:"lotteryId"`   // 抽奖id
+    PrizeName   string       `json:"prizeName"`   // 奖品名称
+    Content     string       `json:"content"`     // 晒单评论内容
+    Pics        string       `json:"pics"`        // 晒单评论图片
+    PraiseCount int64        `json:"praiseCount"` // 点赞数量
+    CreateTime  int64    	 `json:"createTime"`  // 创建时间
+    UpdateTime  int64        `json:"updateTime"`  // 更新时间
+    User		User         `json:"user"`        // 用户信息
+    IsPraise    int64        `json:"isPraise"`    // 是否点赞
+}
+
+type (
+    CommentAddReq {
+        LotteryId int64  `json:"lotteryId"`
+        PrizeName string `json:"prizeName"`
+        Content   string `json:"content"`
+        Pics      string `json:"pics"`
+    }
+    CommentAddResp {
+    }
+)
+
+type (
+    CommentDelReq {
+        Id int64 `json:"id"`
+    }
+    CommentDelResp {
+    }
+)
+
+type (
+    CommentUpdateReq {
+        Id        int64  `json:"id"`
+        UserId    int64  `json:"userId"`
+        LotteryId int64  `json:"lotteryId"`
+        PrizeName string `json:"prizeName"`
+        Content   string `json:"content"`
+        Pics      string `json:"pics"`
+    }
+    CommentUpdateResp {
+    }
+)
+
+type (
+    CommentListReq {
+        LastId int64 `json:"lastId"`
+        PageSize int64 `json:"pageSize"`
+        // 排序方式 0: 默认排序，1: 点赞数排序
+        Sort int64 `json:"sort"`
+    }
+    CommentListResp {
+        List []Comments `json:"list"`
+    }
+)
+
+type (
+    CommentPraiseReq {
+        Id int64 `json:"id"`
+    }
+    CommentPraiseResp {
+    }
+)
+
+type (
+    CommentDetailReq {
+        Id int64 `json:"id"`
+    }
+    CommentDetailResp {
+        Comment Comment `json:"comment"`
+    }
+)
+
+// 获取最大的评论的Id
+type (
+    GetCommentLastIdReq {
+    }
+    GetCommentLastIdResp {
+        LastId int64 `json:"lastId"`
+    }
+)
+
