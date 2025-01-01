@@ -23,6 +23,9 @@ help:
 	@echo "  make gen-api-lottery - Generate api code for lottery"
 	@echo "  make gen-rpc-lottery - Generate rpc code for lottery"
 	@echo "  make gen-api-notice - Generate api code for notice"
+	@echo "  make gen-model-comment - Generate model code for comment"
+	@echo "  make gen-api-comment - Generate api code for comment"
+	@echo "  make gen-rpc-comment - Generate rpc code for comment"
 
 # Target: Create directory structure for specified project name
 create-dirs:
@@ -96,5 +99,19 @@ gen-api-notice:
 	goctl api go --api=app/notice/cmd/api/desc/main.api --dir=app/notice/cmd/api/ --style=go_zero --home=deploy/goctl/1.7.3/ && \
 	goctl api plugin --plugin=goctl-swagger="swagger -filename notice.json" --api=app/notice/cmd/api/desc/main.api --dir=doc/swagger
 
+# Generate model code for comment
+gen-model-comment:
+	./deploy/scripts/mysql/genModel.sh comment comment app/comment/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh comment praise app/comment/model deploy/goctl/1.7.3
+
+# Generate API code for comment
+gen-api-comment:
+	goctl api go --api=app/comment/cmd/api/desc/main.api --dir=app/comment/cmd/api/ --style=go_zero --home=deploy/goctl/1.7.3/ && \
+	goctl api plugin --plugin=goctl-swagger="swagger -filename comment.json" --api=app/comment/cmd/api/desc/main.api --dir=doc/swagger
+
+# Generate RPC code for comment
+gen-rpc-comment:
+	goctl rpc protoc app/comment/cmd/rpc/pb/comment.proto --go_out=app/comment/cmd/rpc/ --go-grpc_out=app/comment/cmd/rpc/ --zrpc_out=app/comment/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
+
 # Default target
-.PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery
+.PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery gen-api-notice gen-model-comment gen-api-comment gen-rpc-comment

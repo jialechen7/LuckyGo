@@ -38,6 +38,18 @@ func init() {
 	message[DB_DELETE_USER_SPONSOR_ERROR] = "删除用户赞助商失败"
 	message[DB_GET_USER_SPONSOR_LIST_ERROR] = "获取用户赞助商列表失败"
 	message[DB_GET_USERS_INFO_ERROR] = "获取用户信息失败"
+
+	// 评论模块
+	message[DB_INSERT_COMMENT_ERROR] = "插入评论失败"
+	message[DB_INSERT_PRAISE_ERROR] = "插入点赞失败"
+	message[DB_DELETE_COMMENT_ERROR] = "删除评论失败"
+	message[DB_DELETE_PRAISE_ERROR] = "删除点赞失败"
+	message[DB_UPDATE_COMMENT_ERROR] = "更新评论失败"
+	message[DB_UPDATE_PRAISE_ERROR] = "更新点赞失败"
+	message[DB_FIND_COMMENT_ERROR] = "查找评论失败"
+	message[DB_FIND_PRAISE_ERROR] = "查找点赞失败"
+	message[DB_GET_COMMENT_LAST_ID_ERROR] = "获取评论最后一个id失败"
+	message[DB_GET_COMMENT_LIST_ERROR] = "获取评论列表失败"
 }
 
 func MapErrMsg(errcode uint32) string {
