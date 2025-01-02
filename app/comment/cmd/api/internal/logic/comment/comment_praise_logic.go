@@ -27,12 +27,12 @@ func NewCommentPraiseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Com
 }
 
 func (l *CommentPraiseLogic) CommentPraise(req *types.CommentPraiseReq) (resp *types.CommentPraiseResp, err error) {
-	pbReq := &comment.AddPraiseReq{}
+	pbReq := &comment.PraiseCommentReq{}
 	pbReq.CommentId = req.Id
 	pbReq.UserId = utility.GetUserIdFromCtx(l.ctx)
-	_, err = l.svcCtx.CommentRpc.AddPraise(l.ctx, pbReq)
+	_, err = l.svcCtx.CommentRpc.PraiseComment(l.ctx, pbReq)
 	if err != nil {
-		return nil, errors.Wrapf(model.ErrInsertPraise, "CommentPraise rpc error: %v", err)
+		return nil, errors.Wrapf(model.ErrInsertPraise, "PraiseComment rpc error: %v", err)
 	}
 
 	return

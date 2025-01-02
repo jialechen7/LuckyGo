@@ -18,6 +18,9 @@ type (
 
 		GetCommentLastId(ctx context.Context) (int64, error)
 		GetCommentList(ctx context.Context, limit, lastId, sort int64) ([]*Comment, error)
+		// 数据量小，暂时不分页
+		GetCommentListByUserId(ctx context.Context, userId int64) ([]*Comment, error)
+		AddPraiseCount(ctx context.Context, id, num int64) (int64, error)
 	}
 
 	customCommentModel struct {
@@ -27,6 +30,28 @@ type (
 	customCommentLogicModel interface {
 	}
 )
+
+func (c *customCommentModel) GetCommentListByUserId(ctx context.Context, userId int64) ([]*Comment, error) {
+	commentList := make([]*Comment, 0)
+	err := c.QueryNoCacheCtx(ctx, &commentList, func(db *gorm.DB, v interface{}) error {
+		return db.Where("user_id = ?", userId).Find(v).Error
+	})
+	if err != nil {
+		return nil, err
+	}
+	return commentList, nil
+}
+
+func (c *customCommentModel) AddPraiseCount(ctx context.Context, id, num int64) (int64, error) {
+	err := c.QueryNoCacheCtx(ctx, nil, func(db *gorm.DB, v interface{}) error {
+		return db.Model(&Comment{}).Where("id = ?", id).Update("praise_count", gorm.Expr("praise_count + ?", num)).Error
+	})
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
 
 func (c *customCommentModel) GetCommentList(ctx context.Context, limit, lastId, sort int64) ([]*Comment, error) {
 	commentList := make([]*Comment, 0)

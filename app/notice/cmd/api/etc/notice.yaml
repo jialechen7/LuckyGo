@@ -4,8 +4,8 @@ Port: 8003
 Mode: dev
 
 WxMiniConf:
-  AppId: wx257be445ef72e3c6
-  AppSecret: d9f25b0a597320872ae9f78ef0cbf003
+  AppId: ${WEIXIN_APP_ID}
+  AppSecret: ${WEIXIN_APP_SECRET}
 
 WxMessageNoticeConf:
   Token: dasdasdqwrqfwefvds

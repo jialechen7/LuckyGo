@@ -50,6 +50,9 @@ func init() {
 	message[DB_FIND_PRAISE_ERROR] = "查找点赞失败"
 	message[DB_GET_COMMENT_LAST_ID_ERROR] = "获取评论最后一个id失败"
 	message[DB_GET_COMMENT_LIST_ERROR] = "获取评论列表失败"
+	message[DB_GET_COMMENT_LIST_BY_USER_ID_ERROR] = "获取用户评论列表失败"
+	message[DB_PRAISE_COMMENT_ERROR] = "点赞评论失败"
+	message[DB_GET_PRAISE_LIST_ERROR] = "获取点赞列表失败"
 }
 
 func MapErrMsg(errcode uint32) string {

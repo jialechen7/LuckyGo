@@ -2,6 +2,10 @@ package comment
 
 import (
 	"context"
+	"github.com/jialechen7/go-lottery/app/comment/cmd/rpc/comment"
+	"github.com/jialechen7/go-lottery/app/comment/model"
+	"github.com/jinzhu/copier"
+	"github.com/pkg/errors"
 
 	"github.com/jialechen7/go-lottery/app/comment/cmd/api/internal/svc"
 	"github.com/jialechen7/go-lottery/app/comment/cmd/api/internal/types"
@@ -25,7 +29,12 @@ func NewUpdateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 }
 
 func (l *UpdateCommentLogic) UpdateComment(req *types.CommentUpdateReq) (resp *types.CommentUpdateResp, err error) {
-	// todo: add your logic here and delete this line
+	pbReq := &comment.UpdateCommentReq{}
+	_ = copier.Copy(pbReq, req)
+	_, err = l.svcCtx.CommentRpc.UpdateComment(l.ctx, pbReq)
+	if err != nil {
+		return nil, errors.Wrapf(model.ErrUpdateComment, "UpdateComment rpc error: %v", err)
+	}
 
-	return
+	return &types.CommentUpdateResp{}, nil
 }
