@@ -1,0 +1,55 @@
+syntax = "v1"
+
+info (
+	title:   "晒单服务"
+	desc:    "晒单服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+import (
+	"comment/comment.api"
+)
+
+@server (
+	prefix: comment/v1
+	group:  comment
+	jwt:    JwtAuth
+)
+service comment {
+	@doc "增加评论"
+	@handler addComment
+	post /comment/addComment (CommentAddReq) returns (CommentAddResp)
+
+	@doc "删除评论"
+	@handler deleteComment
+	post /comment/deleteComment (CommentDelReq) returns (CommentDelResp)
+
+	@doc "更新评论"
+	@handler updateComment
+	post /comment/updateComment (CommentUpdateReq) returns (CommentUpdateResp)
+
+	@doc "评论点赞/取消点赞"
+	@handler commentPraise
+	post /comment/commentPraise (CommentPraiseReq) returns (CommentPraiseResp)
+
+	@doc "获取评论列表"
+	@handler getCommentList
+	post /comment/getCommentList (CommentListReq) returns (CommentListResp)
+}
+
+@server (
+	prefix: comment/v1
+	group:  comment
+)
+service comment {
+	@doc "获取评论详情"
+	@handler getCommentDetail
+	post /comment/getCommentDetail (CommentDetailReq) returns (CommentDetailResp)
+
+	@doc "获取评论lastId"
+	@handler getCommentLastId
+	post /comment/getLastId (GetCommentLastIdReq) returns (GetCommentLastIdResp)
+}
+

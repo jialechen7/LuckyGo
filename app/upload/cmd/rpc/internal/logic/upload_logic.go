@@ -36,13 +36,13 @@ func (l *UploadLogic) Upload(in *pb.FileUploadReq) (*pb.FileUploadResp, error) {
 	if err != nil {
 		exists, errBucketExists := l.svcCtx.MinioClient.BucketExists(l.ctx, l.svcCtx.Config.OssConf.Bucket)
 		if errBucketExists == nil && exists {
-			logx.Info("We already own %s\n", l.svcCtx.Config.OssConf.Bucket)
+			logx.Infof("We already own %s\n", l.svcCtx.Config.OssConf.Bucket)
 		} else {
-			logx.Error("Failed to create %s\n", l.svcCtx.Config.OssConf.Bucket)
+			logx.Errorf("Failed to create %s\n", l.svcCtx.Config.OssConf.Bucket)
 			return nil, errors.Wrapf(model.ErrBucketNotFound, "create bucket with oss client err: %+v , err: %v", in, err)
 		}
 	} else {
-		logx.Info("Successfully created %s\n", l.svcCtx.Config.OssConf.Bucket)
+		logx.Infof("Successfully created %s\n", l.svcCtx.Config.OssConf.Bucket)
 	}
 
 	reader := bytes.NewReader(in.FileData)

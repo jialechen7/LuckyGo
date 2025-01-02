@@ -1,0 +1,592 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "晒单服务",
+    "description": "晒单服务",
+    "version": "v1"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/comment/v1/comment/addComment": {
+      "post": {
+        "summary": "增加评论",
+        "operationId": "addComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentAddResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentAddReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/comment/v1/comment/commentPraise": {
+      "post": {
+        "summary": "评论点赞/取消点赞",
+        "operationId": "commentPraise",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentPraiseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentPraiseReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/comment/v1/comment/deleteComment": {
+      "post": {
+        "summary": "删除评论",
+        "operationId": "deleteComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentDelResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentDelReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/comment/v1/comment/getCommentDetail": {
+      "post": {
+        "summary": "获取评论详情",
+        "operationId": "getCommentDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentDetailResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentDetailReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/comment/v1/comment/getCommentList": {
+      "post": {
+        "summary": "获取评论列表",
+        "operationId": "getCommentList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentListReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/comment/v1/comment/getLastId": {
+      "post": {
+        "summary": "获取评论lastId",
+        "operationId": "getCommentLastId",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCommentLastIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetCommentLastIdReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/comment/v1/comment/updateComment": {
+      "post": {
+        "summary": "更新评论",
+        "operationId": "updateComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentUpdateResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "lotteryId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 抽奖id"
+        },
+        "prizeName": {
+          "type": "string",
+          "description": " 奖品名称"
+        },
+        "content": {
+          "type": "string",
+          "description": " 晒单评论内容"
+        },
+        "pics": {
+          "type": "string",
+          "description": " 晒单评论图片"
+        },
+        "praiseCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞数量"
+        },
+        "createTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updateTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Comment",
+      "required": [
+        "id",
+        "userId",
+        "lotteryId",
+        "prizeName",
+        "content",
+        "pics",
+        "praiseCount",
+        "createTime",
+        "updateTime"
+      ]
+    },
+    "CommentAddReq": {
+      "type": "object",
+      "properties": {
+        "lotteryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prizeName": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "pics": {
+          "type": "string"
+        }
+      },
+      "title": "CommentAddReq",
+      "required": [
+        "lotteryId",
+        "prizeName",
+        "content",
+        "pics"
+      ]
+    },
+    "CommentAddResp": {
+      "type": "object",
+      "title": "CommentAddResp"
+    },
+    "CommentDelReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentDelReq",
+      "required": [
+        "id"
+      ]
+    },
+    "CommentDelResp": {
+      "type": "object",
+      "title": "CommentDelResp"
+    },
+    "CommentDetailReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentDetailReq",
+      "required": [
+        "id"
+      ]
+    },
+    "CommentDetailResp": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "$ref": "#/definitions/Comment"
+        }
+      },
+      "title": "CommentDetailResp",
+      "required": [
+        "comment"
+      ]
+    },
+    "CommentListReq": {
+      "type": "object",
+      "properties": {
+        "lastId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentListReq",
+      "required": [
+        "lastId",
+        "pageSize",
+        "sort"
+      ]
+    },
+    "CommentListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comments"
+          }
+        }
+      },
+      "title": "CommentListResp",
+      "required": [
+        "list"
+      ]
+    },
+    "CommentPraiseReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentPraiseReq",
+      "required": [
+        "id"
+      ]
+    },
+    "CommentPraiseResp": {
+      "type": "object",
+      "title": "CommentPraiseResp"
+    },
+    "CommentUpdateReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lotteryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "prizeName": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "pics": {
+          "type": "string"
+        }
+      },
+      "title": "CommentUpdateReq",
+      "required": [
+        "id",
+        "userId",
+        "lotteryId",
+        "prizeName",
+        "content",
+        "pics"
+      ]
+    },
+    "CommentUpdateResp": {
+      "type": "object",
+      "title": "CommentUpdateResp"
+    },
+    "Comments": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "lotteryId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 抽奖id"
+        },
+        "prizeName": {
+          "type": "string",
+          "description": " 奖品名称"
+        },
+        "content": {
+          "type": "string",
+          "description": " 晒单评论内容"
+        },
+        "pics": {
+          "type": "string",
+          "description": " 晒单评论图片"
+        },
+        "praiseCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞数量"
+        },
+        "createTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updateTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "user": {
+          "$ref": "#/definitions/User",
+          "description": " 用户信息"
+        },
+        "isPraise": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否点赞"
+        }
+      },
+      "title": "Comments",
+      "required": [
+        "id",
+        "userId",
+        "lotteryId",
+        "prizeName",
+        "content",
+        "pics",
+        "praiseCount",
+        "createTime",
+        "updateTime",
+        "user",
+        "isPraise"
+      ]
+    },
+    "GetCommentLastIdReq": {
+      "type": "object",
+      "title": "GetCommentLastIdReq"
+    },
+    "GetCommentLastIdResp": {
+      "type": "object",
+      "properties": {
+        "lastId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetCommentLastIdResp",
+      "required": [
+        "lastId"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "User",
+      "required": [
+        "id",
+        "mobile",
+        "nickname",
+        "sex",
+        "avatar",
+        "info",
+        "isAdmin"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

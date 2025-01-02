@@ -3,6 +3,23 @@
 
 package types
 
+type CreateSponsorReq struct {
+	UserId     int64  `json:"userId"`
+	Type       int64  `json:"type"`
+	AppletType int64  `json:"appletType"`
+	IsShow     int64  `json:"isShow"`
+	Name       string `json:"name"`
+	Desc       string `json:"desc"`
+	Avatar     string `json:"avatar"`
+	QrCode     string `json:"qr_code"`
+	InputA     string `json:"inputA"`
+	InputB     string `json:"inputB"`
+}
+
+type CreateSponsorResp struct {
+	Id int64 `json:"id"`
+}
+
 type LoginReq struct {
 	Mobile   string `json:"mobile"`
 	Password string `json:"password"`
@@ -25,18 +42,79 @@ type RegisterResp struct {
 	RefreshAfter int64  `json:"refreshAfter"`
 }
 
+type SponosorDetailReq struct {
+	Id int64 `json:"id"`
+}
+
+type SponosorDetailResp struct {
+	Id         int64  `json:"id"`
+	UserId     int64  `json:"userId"`
+	Type       int64  `json:"type"`
+	AppletType int64  `json:"appletType"`
+	IsShow     int64  `json:"isShow"`
+	Name       string `json:"name"`
+	Desc       string `json:"desc"`
+	Avatar     string `json:"avatar"`
+	QrCode     string `json:"qr_code"`
+	InputA     string `json:"inputA"`
+	InputB     string `json:"inputB"`
+}
+
+type Sponsor struct {
+	Id         int64  `json:"id"`
+	UserId     int64  `json:"userId"`
+	Type       int64  `json:"type"`
+	AppletType int64  `json:"appletType"`
+	IsShow     int64  `json:"isShow"`
+	Name       string `json:"name"`
+	Desc       string `json:"desc"`
+	Avatar     string `json:"avatar"`
+	QrCode     string `json:"qr_code"`
+	InputA     string `json:"inputA"`
+	InputB     string `json:"inputB"`
+}
+
+type SponsorListReq struct {
+	Page     int64 `json:"page,range=[1:]"`
+	PageSize int64 `json:"pageSize,range=[0:]"`
+}
+
+type SponsorListResp struct {
+	List []Sponsor `json:"list"`
+}
+
+type UpdateSponsorReq struct {
+	Id         int64  `json:"id"`
+	UserId     int64  `json:"userId"`
+	Type       int64  `json:"type"`
+	AppletType int64  `json:"appletType"`
+	IsShow     int64  `json:"isShow"`
+	Name       string `json:"name"`
+	Desc       string `json:"desc"`
+	Avatar     string `json:"avatar"`
+	QrCode     string `json:"qr_code"`
+	InputA     string `json:"inputA"`
+	InputB     string `json:"inputB"`
+}
+
+type UpdateSponsorResp struct {
+}
+
 type User struct {
-	Id           int64   `json:"id"`
-	Mobile       string  `json:"mobile"`
-	Nickname     string  `json:"nickname"`
-	Sex          int64   `json:"sex"`
-	Avatar       string  `json:"avatar"`
-	Info         string  `json:"info"`
-	IsAdmin      int64   `json:"isAdmin"`
-	Signature    string  `json:"signature"`
-	LocationName string  `json:"locationName"`
-	Longitude    float64 `json:"longitude"`
-	Latitude     float64 `json:"latitude"`
+	Id                 int64   `json:"id"`
+	Mobile             string  `json:"mobile"`
+	Nickname           string  `json:"nickname"`
+	Sex                int64   `json:"sex"`
+	Avatar             string  `json:"avatar"`
+	Info               string  `json:"info"`
+	IsAdmin            int64   `json:"isAdmin"`
+	Signature          string  `json:"signature"`
+	LocationName       string  `json:"locationName"`
+	Longitude          float64 `json:"longitude"`
+	Latitude           float64 `json:"latitude"`
+	ParticipationCount int64   `json:"participation_count"`
+	CreatedCount       int64   `json:"created_count"`
+	WonCount           int64   `json:"won_count"`
 }
 
 type UserInfoReq struct {
@@ -71,4 +149,11 @@ type WXMiniAuthResp struct {
 	AccessToken  string `json:"accessToken"`
 	AccessExpire int64  `json:"accessExpire"`
 	RefreshAfter int64  `json:"refreshAfter"`
+}
+
+type SponsorDelReq struct {
+	Id int64 `json:"id" validate:"required"`
+}
+
+type SponsorDelResp struct {
 }

@@ -1,0 +1,27 @@
+Name: lottery-rpc
+ListenOn: 0.0.0.0:7002
+Mode: dev
+Cache:
+  - Host: go-lottery-redis:6379
+    Pass: root
+MySQL:
+  Path: go-lottery-mysql
+  Port: 3306
+  Dbname: go-lottery-lottery
+  Username: root
+  Password: root
+  Config: charset=utf8mb4&parseTime=true&loc=Local
+JwtAuth:
+  AccessSecret: 4f3D8E6A29c7D4B1aF83Fb92c9e1E2D7A56fC0G8
+  AccessExpire: 604800
+
+Telemetry:
+  Name: lottery-rpc
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+
+UsercenterRpcConf:
+  Endpoints:
+    - 127.0.0.1:7000
+  NonBlock: true

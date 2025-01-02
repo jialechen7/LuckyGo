@@ -1,0 +1,24 @@
+Name: lottery-api
+Host: 0.0.0.0
+Port: 8002
+Mode: dev
+
+JwtAuth:
+  AccessSecret: 4f3D8E6A29c7D4B1aF83Fb92c9e1E2D7A56fC0G8
+  AccessExpire: 604800
+
+UsercenterRpcConf:
+  Endpoints:
+    - 127.0.0.1:7000
+  NonBlock: true
+
+LotteryRpcConf:
+  Endpoints:
+    - 127.0.0.1:7002
+  NonBlock: true
+
+Telemetry:
+  Name: lottery-api
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger

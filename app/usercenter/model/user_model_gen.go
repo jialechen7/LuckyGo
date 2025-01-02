@@ -43,22 +43,22 @@ type (
 		Id               int64     `gorm:"column:id;primary_key"`
 		CreateTime       time.Time `gorm:"column:create_time"`
 		UpdateTime       time.Time `gorm:"column:update_time"`
-		Mobile           string    `gorm:"column:mobile"`            // 手机号
-		Password         string    `gorm:"column:password"`          // 密码
-		Nickname         string    `gorm:"column:nickname"`          // 昵称
-		Sex              int64     `gorm:"column:sex"`               // 性别 0:男 1:女
-		Avatar           string    `gorm:"column:avatar"`            // 头像
-		Info             string    `gorm:"column:info"`              // 简介
-		IsAdmin          int64     `gorm:"column:is_admin"`          // 是否管理员 0:否 1:是
-		Signature        string    `gorm:"column:signature"`         // 个性签名
-		LocationName     string    `gorm:"column:location_name"`     // 地址名称
-		Longitude        float64   `gorm:"column:longitude"`         // 经度
-		Latitude         float64   `gorm:"column:latitude"`          // 纬度
-		TotalPrize       int64     `gorm:"column:total_prize"`       // 累计奖品
-		Fans             int64     `gorm:"column:fans"`              // 粉丝数量
-		AllLottery       int64     `gorm:"column:all_lottery"`       // 全部抽奖包含我发起的、我中奖的
-		InitiationRecord int64     `gorm:"column:initiation_record"` // 发起抽奖记录
-		WinningRecord    int64     `gorm:"column:winning_record"`    // 中奖记录
+		Mobile           string    `gorm:"column:mobile"`            // æ‰‹æœºå·
+		Password         string    `gorm:"column:password"`          // å¯†ç 
+		Nickname         string    `gorm:"column:nickname"`          // æ˜µç§°
+		Sex              int64     `gorm:"column:sex"`               // æ€§åˆ« 0:ç”· 1:å¥³
+		Avatar           string    `gorm:"column:avatar"`            // å¤´åƒ
+		Info             string    `gorm:"column:info"`              // ç®€ä»‹
+		IsAdmin          int64     `gorm:"column:is_admin"`          // æ˜¯å¦ç®¡ç†å‘˜ 0:å¦ 1:æ˜¯
+		Signature        string    `gorm:"column:signature"`         // ä¸ªæ€§ç­¾å
+		LocationName     string    `gorm:"column:location_name"`     // åœ°å€åç§°
+		Longitude        float64   `gorm:"column:longitude"`         // ç»åº¦
+		Latitude         float64   `gorm:"column:latitude"`          // çº¬åº¦
+		TotalPrize       int64     `gorm:"column:total_prize"`       // ç´¯è®¡å¥–å“
+		Fans             int64     `gorm:"column:fans"`              // ç²‰ä¸æ•°é‡
+		AllLottery       int64     `gorm:"column:all_lottery"`       // å…¨éƒ¨æŠ½å¥–åŒ…å«æˆ‘å‘èµ·çš„ã€æˆ‘ä¸­å¥–çš„
+		InitiationRecord int64     `gorm:"column:initiation_record"` // å‘èµ·æŠ½å¥–è®°å½•
+		WinningRecord    int64     `gorm:"column:winning_record"`    // ä¸­å¥–è®°å½•
 	}
 )
 

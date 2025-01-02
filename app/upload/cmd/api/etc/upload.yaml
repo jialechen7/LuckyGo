@@ -11,3 +11,9 @@ UploadRpcConf:
   Endpoints:
     - 127.0.0.1:7001
   NonBlock: true
+
+Telemetry:
+  Name: upload-rpc
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger

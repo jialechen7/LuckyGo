@@ -1,0 +1,68 @@
+syntax = "v1"
+
+info (
+	title:   "抽奖服务"
+	desc:    "抽奖服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+import (
+	"lottery/lottery.api"
+	"lottery_participation/lottery_participation.api"
+)
+
+@server (
+	prefix: lottery/v1
+	group:  lottery
+)
+service lottery {
+	@doc "获取抽奖列表"
+	@handler lotteryList
+	post /lottery/lotteryList (LotteryListReq) returns (LotteryListResp)
+
+	@doc "获取当前抽奖中奖者名单"
+	@handler getLotteryWinList
+	post /lottery/getLotteryWinnersList (GetLotteryWinListReq) returns (GetLotteryWinListResp)
+}
+
+@server (
+	prefix: lottery/v1
+	group:  lottery
+	jwt:    JwtAuth
+)
+service lottery {
+	@doc "登录后获取抽奖列表"
+	@handler lotteryListAfterLogin
+	post /lottery/lotteryListAfterLogin (LotteryListReq) returns (LotteryListResp)
+
+	@doc "发起抽奖"
+	@handler createLottery
+	post /lottery/createLottery (CreateLotteryReq) returns (CreateLotteryResp)
+
+	@doc "抽奖详情"
+	@handler lotteryDetail
+	post /lottery/lotteryDetail (LotteryDetailReq) returns (LotteryDetailResp)
+
+	@doc "获取当前用户中奖列表"
+	@handler getUserLotteryWinList
+	post /lottery/getLotteryWinList (GetUserLotteryWinListReq) returns (GetUserLotteryWinListResp)
+
+	@doc "获取当前用户所有抽奖列表"
+	@handler getUserAllLotteryList
+	post /lottery/getUserAllLotteryList (GetUserAllLotteryListReq) returns (GetUserAllLotteryListResp)
+
+	@doc "获取当前用户发起的抽奖列表"
+	@handler getUserCreatedLotteryList
+	post /lottery/getUserCreatedLotteryList (GetUserCreatedLotteryListReq) returns (GetUserCreatedLotteryListResp)
+
+	@doc "抽奖人"
+	@handler searchParticipation
+	post /lottery/participations (SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp)
+
+	@doc "参与抽奖"
+	@handler addLotteryParticipation
+	post /lottery/participation (AddLotteryParticipationReq) returns (AddLotteryParticipationResp)
+}
+

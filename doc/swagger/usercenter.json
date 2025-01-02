@@ -160,9 +160,229 @@
           "user"
         ]
       }
+    },
+    "/usercenter/v1/userContact/sponsorDel": {
+      "post": {
+        "summary": "删除赞助商",
+        "operationId": "sponsorDel",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sponsorDelResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sponsorDelReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_sponsor"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/usercenter/v1/userContact/upDateSponsor": {
+      "post": {
+        "summary": "修改赞助商",
+        "operationId": "updateSponsor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateSponsorResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSponsorReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_sponsor"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/usercenter/v1/userSponsor/addSponsor": {
+      "post": {
+        "summary": "添加赞助商",
+        "operationId": "addSponsor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CreateSponsorResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateSponsorReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_sponsor"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/usercenter/v1/userSponsor/sponsorDetail": {
+      "post": {
+        "summary": "赞助商详情",
+        "operationId": "sponsorDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SponosorDetailResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SponosorDetailReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_sponsor"
+        ]
+      }
+    },
+    "/usercenter/v1/userSponsor/sponsorList": {
+      "post": {
+        "summary": "我的赞助商列表",
+        "operationId": "sponsorList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SponsorListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SponsorListReq"
+            }
+          }
+        ],
+        "tags": [
+          "user_sponsor"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
+    "CreateSponsorReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "appletType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isShow": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "qr_code": {
+          "type": "string"
+        },
+        "inputA": {
+          "type": "string"
+        },
+        "inputB": {
+          "type": "string"
+        }
+      },
+      "title": "CreateSponsorReq",
+      "required": [
+        "userId",
+        "type",
+        "appletType",
+        "isShow",
+        "name",
+        "desc",
+        "avatar",
+        "qr_code",
+        "inputA",
+        "inputB"
+      ]
+    },
+    "CreateSponsorResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CreateSponsorResp",
+      "required": [
+        "id"
+      ]
+    },
     "LoginReq": {
       "type": "object",
       "properties": {
@@ -239,6 +459,227 @@
         "refreshAfter"
       ]
     },
+    "SponosorDetailReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "SponosorDetailReq",
+      "required": [
+        "id"
+      ]
+    },
+    "SponosorDetailResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "appletType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isShow": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "qr_code": {
+          "type": "string"
+        },
+        "inputA": {
+          "type": "string"
+        },
+        "inputB": {
+          "type": "string"
+        }
+      },
+      "title": "SponosorDetailResp",
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "appletType",
+        "isShow",
+        "name",
+        "desc",
+        "avatar",
+        "qr_code",
+        "inputA",
+        "inputB"
+      ]
+    },
+    "Sponsor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "appletType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isShow": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "qr_code": {
+          "type": "string"
+        },
+        "inputA": {
+          "type": "string"
+        },
+        "inputB": {
+          "type": "string"
+        }
+      },
+      "title": "Sponsor",
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "appletType",
+        "isShow",
+        "name",
+        "desc",
+        "avatar",
+        "qr_code",
+        "inputA",
+        "inputB"
+      ]
+    },
+    "SponsorListReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "SponsorListReq",
+      "required": [
+        "page",
+        "pageSize"
+      ]
+    },
+    "SponsorListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        }
+      },
+      "title": "SponsorListResp",
+      "required": [
+        "list"
+      ]
+    },
+    "UpdateSponsorReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "appletType": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isShow": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "qr_code": {
+          "type": "string"
+        },
+        "inputA": {
+          "type": "string"
+        },
+        "inputB": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateSponsorReq",
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "appletType",
+        "isShow",
+        "name",
+        "desc",
+        "avatar",
+        "qr_code",
+        "inputA",
+        "inputB"
+      ]
+    },
+    "UpdateSponsorResp": {
+      "type": "object",
+      "title": "UpdateSponsorResp"
+    },
     "User": {
       "type": "object",
       "properties": {
@@ -279,6 +720,18 @@
         "latitude": {
           "type": "number",
           "format": "double"
+        },
+        "participation_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "won_count": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "title": "User",
@@ -293,7 +746,10 @@
         "signature",
         "locationName",
         "longitude",
-        "latitude"
+        "latitude",
+        "participation_count",
+        "created_count",
+        "won_count"
       ]
     },
     "UserInfoReq": {
@@ -404,6 +860,23 @@
         "accessExpire",
         "refreshAfter"
       ]
+    },
+    "sponsorDelReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "sponsorDelReq",
+      "required": [
+        "id"
+      ]
+    },
+    "sponsorDelResp": {
+      "type": "object",
+      "title": "sponsorDelResp"
     }
   },
   "securityDefinitions": {

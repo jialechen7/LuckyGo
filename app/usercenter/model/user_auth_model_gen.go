@@ -46,8 +46,8 @@ type (
 		CreateTime time.Time `gorm:"column:create_time"`
 		UpdateTime time.Time `gorm:"column:update_time"`
 		UserId     int64     `gorm:"column:user_id"`
-		AuthKey    string    `gorm:"column:auth_key"`  // 平台唯一id
-		AuthType   string    `gorm:"column:auth_type"` // 平台类型
+		AuthKey    string    `gorm:"column:auth_key"`  // å¹³å°å”¯ä¸€id
+		AuthType   string    `gorm:"column:auth_type"` // å¹³å°ç±»åž‹
 	}
 )
 

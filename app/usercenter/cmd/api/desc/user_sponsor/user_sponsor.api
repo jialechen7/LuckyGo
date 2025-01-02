@@ -1,0 +1,94 @@
+syntax = "v1"
+
+info (
+	title:  "抽奖赞助商"
+	desc:   "抽奖赞助商"
+	author: "jialechen"
+	email:  "chenjiale0303@gmail.com"
+)
+
+type Sponsor {
+	Id         int64  `json:"id"`
+	UserId     int64  `json:"userId"`
+	Type       int64  `json:"type"`
+	AppletType int64  `json:"appletType"`
+	IsShow     int64  `json:"isShow"`
+	Name       string `json:"name"`
+	Desc       string `json:"desc"`
+	Avatar     string `json:"avatar"`
+	QrCode     string `json:"qr_code"`
+	InputA     string `json:"inputA"`
+	InputB     string `json:"inputB"`
+}
+
+type (
+	CreateSponsorReq {
+		UserId     int64  `json:"userId"`
+		Type       int64  `json:"type"`
+		AppletType int64  `json:"appletType"`
+		IsShow     int64  `json:"isShow"`
+		Name       string `json:"name"`
+		Desc       string `json:"desc"`
+		Avatar     string `json:"avatar"`
+		QrCode     string `json:"qr_code"`
+		InputA     string `json:"inputA"`
+		InputB     string `json:"inputB"`
+	}
+	CreateSponsorResp {
+		Id int64 `json:"id"`
+	}
+)
+
+type (
+	UpdateSponsorReq {
+		Id         int64  `json:"id"`
+		UserId     int64  `json:"userId"`
+		Type       int64  `json:"type"`
+		AppletType int64  `json:"appletType"`
+		IsShow     int64  `json:"isShow"`
+		Name       string `json:"name"`
+		Desc       string `json:"desc"`
+		Avatar     string `json:"avatar"`
+		QrCode     string `json:"qr_code"`
+		InputA     string `json:"inputA"`
+		InputB     string `json:"inputB"`
+	}
+	UpdateSponsorResp {}
+)
+
+type (
+	sponsorDelReq {
+		Id int64 `json:"id" validate:"required"`
+	}
+	sponsorDelResp  {}
+)
+
+type (
+	SponosorDetailReq {
+		Id int64 `json:"id"`
+	}
+	SponosorDetailResp {
+		Id         int64  `json:"id"`
+		UserId     int64  `json:"userId"`
+		Type       int64  `json:"type"`
+		AppletType int64  `json:"appletType"`
+		IsShow     int64  `json:"isShow"`
+		Name       string `json:"name"`
+		Desc       string `json:"desc"`
+		Avatar     string `json:"avatar"`
+		QrCode     string `json:"qr_code"`
+		InputA     string `json:"inputA"`
+		InputB     string `json:"inputB"`
+	}
+)
+
+type (
+	SponsorListReq {
+		Page     int64 `json:"page,range=[1:]"`
+		PageSize int64 `json:"pageSize,range=[0:]"`
+	}
+	SponsorListResp {
+		List []Sponsor `json:"list"`
+	}
+)
+

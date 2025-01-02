@@ -4,6 +4,8 @@ option go_package = "./pb";
 
 package pb;
 
+// --------------------------------- usercenter ---------------------------------
+
 // 用户信息
 message User {
   int64 id = 1;                 // 用户ID
@@ -25,16 +27,6 @@ message User {
   int64 all_lottery = 17;       // 总抽奖次数（包括发起的和中奖的）
   int64 initiation_record = 18; // 发起抽奖的记录次数
   int64 winning_record = 19;    // 中奖记录次数
-}
-
-// 用户认证信息
-message UserAuth {
-  int64 id = 1;
-  int64 createTime = 2; //创建时间（时间戳）
-  int64 updateTime = 3; //更新时间（时间戳）
-  int64 userId = 4;     //用户id
-  string authKey = 5;   //平台唯一id
-  string authType = 6;  //平台类型
 }
 
 // 添加用户请求
@@ -99,15 +91,6 @@ message WxMiniAuthResp {
   int64  refreshAfter = 3;
 }
 
-message GetUserAuthByAuthKeyReq {
-  string authKey = 1;
-  string authType = 2;
-}
-
-message GetUserAuthByAuthKeyResp {
-  UserAuth userAuth = 1;
-}
-
 message GetUserInfoReq {
   int64 id = 1;
 }
@@ -138,12 +121,153 @@ message UpdateUserBaseInfoReq {
 message UpdateUserBaseInfoResp {
 }
 
+// --------------------------------- user_auth ---------------------------------
+// 用户认证信息
+message UserAuth {
+  int64 id = 1;
+  int64 createTime = 2; //创建时间（时间戳）
+  int64 updateTime = 3; //更新时间（时间戳）
+  int64 userId = 4;     //用户id
+  string authKey = 5;   //平台唯一id
+  string authType = 6;  //平台类型
+}
+
+message GetUserAuthByAuthKeyReq {
+  string authKey = 1;
+  string authType = 2;
+}
+
+message GetUserAuthByAuthKeyResp {
+  UserAuth userAuth = 1;
+}
+
+// --------------------------------- user_sponsor ---------------------------------
+
+message UserSponsor {
+  int64 id          = 1;  // id
+  int64 userId      = 2;  // userId
+  int64 type        = 3;  // 1微信号 2公众号 3小程序 4微信群 5视频号
+  int64 appletType  = 4;  // type=3时该字段才有意义，1小程序链接 2路径跳转 3二维码跳转
+  string name       = 5;  // 名称
+  string desc       = 6;  // 描述
+  string avatar     = 7;  // avatar
+  int64 isShow      = 8;  // 1显示 2不显示
+  string qrCode     = 9;  // 二维码图片地址, type=1 2 3&applet_type=3 4的时候启用
+  string inputA     = 10; // type=5 applet_type=2 or applet_type=1 输入框A
+  string inputB     = 11; // type=5 applet_type=2输入框B
+  int64 createTime  = 12; // createTime
+  int64 updateTime  = 13; // updateTime
+}
+
+message AddUserSponsorReq {
+  int64 userId      = 1;  // userId
+  int64 type        = 2;  // 1微信号 2公众号 3小程序 4微信群 5视频号
+  int64 appletType  = 3;  // type=3时该字段才有意义，1小程序链接 2路径跳转 3二维码跳转
+  string name       = 4;  // 名称
+  string desc       = 5;  // 描述
+  string avatar     = 6;  // avatar
+  int64 isShow      = 7;  // 1显示 2不显示
+  string qrCode     = 8;  // 二维码图片地址, type=1 2 3&applet_type=3 4的时候启用
+  string inputA     = 9;  // type=5 applet_type=2 or applet_type=1 输入框A
+  string inputB     = 10; // type=5 applet_type=2输入框B
+}
+
+message AddUserSponsorResp {
+  int64 Id          = 1;  // id
+}
+
+message UpdateUserSponsorReq {
+  int64 id          = 1;  // id
+  int64 userId      = 2;  // userId
+  int64 type        = 3;  // 1微信号 2公众号 3小程序 4微信群 5视频号
+  int64 appletType  = 4;  // type=3时该字段才有意义，1小程序链接 2路径跳转 3二维码跳转
+  string name       = 5;  // 名称
+  string desc       = 6;  // 描述
+  string avatar     = 7;  // avatar
+  int64 isShow      = 8;  // 1显示 2不显示
+  string qrCode     = 9;  // 二维码图片地址, type=1 2 3&applet_type=3 4的时候启用
+  string inputA     = 10; // type=5 applet_type=2 or applet_type=1 输入框A
+  string inputB     = 11; // type=5 applet_type=2输入框B
+}
+
+message UpdateUserSponsorResp {
+}
+
+message DelUserSponsorReq {
+  int64 id          = 1;  // id
+}
+
+message DelUserSponsorResp {
+}
+
+message SearchUserSponsorReq {
+  int64 page        = 1;  // page
+  int64 limit       = 2;  // limit
+  int64 id          = 3;  // id
+  int64 userId      = 4;  // userId
+  int64 type        = 5;  // 1微信号 2公众号 3小程序 4微信群 5视频号
+  int64 appletType  = 6;  // type=3时该字段才有意义，1小程序链接 2路径跳转 3二维码跳转
+  string name       = 7;  // 名称
+  string desc       = 8;  // 描述
+  string avatar     = 9;  // avatar
+  int64 isShow      = 10; // 1显示 2不显示
+  string qrCode     = 11; // 二维码图片地址, type=1 2 3&applet_type=3 4的时候启用
+  string inputA     = 12; // type=5 applet_type=2 or applet_type=1 输入框A
+  string inputB     = 13; // type=5 applet_type=2输入框B
+  int64 createTime  = 14; // createTime
+  int64 updateTime  = 15; // updateTime
+}
+
+message SearchUserSponsorResp {
+  repeated UserSponsor userSponsor = 1; // userSponsor
+}
+
+message SponsorDetailReq {
+  int64 id = 1;
+}
+
+message SponsorDetailResp {
+  int64 id          = 1;  // id
+  int64 userId      = 2;  // userId
+  int64 type        = 3;  // 1微信号 2公众号 3小程序 4微信群 5视频号
+  int64 appletType  = 4;  // type=3时该字段才有意义，1小程序链接 2路径跳转 3二维码跳转
+  string name       = 5;  // 名称
+  string desc       = 6;  // 描述
+  string avatar     = 7;  // avatar
+  int64 isShow      = 8;  // 1显示 2不显示
+  string qrCode     = 9;  // 二维码图片地址, type=1 2 3&applet_type=3 4的时候启用
+  string inputA     = 10; // type=5 applet_type=2 or applet_type=1 输入框A
+  string inputB     = 11; // type=5 applet_type=2输入框B
+}
+
+message UserInfoForComment{
+  int64 id = 1;
+  string nickname = 2;
+  string avatar = 3;
+}
+
+message  GetUserInfoByUserIdsReq{
+  repeated int64 userIds = 1;
+}
+
+message  GetUserInfoByUserIdsResp{
+  repeated UserInfoForComment userInfo = 1;
+}
+
 service usercenter {
   rpc login(LoginReq) returns(LoginResp);
   rpc register(RegisterReq) returns(RegisterResp);
   rpc wxMiniAuth(WxMiniAuthReq) returns(WxMiniAuthResp);
   rpc generateToken(GenerateTokenReq) returns(GenerateTokenResp);
-  rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
   rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
   rpc updateUserBaseInfo(UpdateUserBaseInfoReq) returns(UpdateUserBaseInfoResp);
+  rpc getUserInfoByUserIds(GetUserInfoByUserIdsReq) returns(GetUserInfoByUserIdsResp);
+
+  rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
+
+  rpc AddUserSponsor(AddUserSponsorReq) returns (AddUserSponsorResp);
+  rpc UpdateUserSponsor(UpdateUserSponsorReq) returns (UpdateUserSponsorResp);
+  rpc DelUserSponsor(DelUserSponsorReq) returns (DelUserSponsorResp);
+  rpc SearchUserSponsor(SearchUserSponsorReq) returns (SearchUserSponsorResp);
+  rpc SponsorDetail(SponsorDetailReq) returns(SponsorDetailResp);
 }
