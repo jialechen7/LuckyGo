@@ -2,6 +2,10 @@ package logic
 
 import (
 	"context"
+	"github.com/jialechen7/go-lottery/app/comment/model"
+	"github.com/jialechen7/go-lottery/common/xerr"
+	"github.com/jinzhu/copier"
+	"github.com/pkg/errors"
 
 	"github.com/jialechen7/go-lottery/app/comment/cmd/rpc/internal/svc"
 	"github.com/jialechen7/go-lottery/app/comment/cmd/rpc/pb"
@@ -24,7 +28,12 @@ func NewUpdatePraiseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 func (l *UpdatePraiseLogic) UpdatePraise(in *pb.UpdatePraiseReq) (*pb.UpdatePraiseResp, error) {
-	// todo: add your logic here and delete this line
+	dbPraise := &model.Praise{}
+	_ = copier.Copy(dbPraise, in)
+	err := l.svcCtx.PraiseModel.Update(l.ctx, nil, dbPraise)
+	if err != nil {
+		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_UPDATE_PRAISE_ERROR), "UpdatePraise rpc error: %v", err)
+	}
 
 	return &pb.UpdatePraiseResp{}, nil
 }

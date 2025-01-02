@@ -64,6 +64,8 @@ goctl rpc protoc app/usercenter/cmd/rpc/pb/usercenter.proto --go_out=app/usercen
 - **链路追踪 Jaeger**：负责追踪和分析日志数据。
 
 ### 常见问题
+#### go-zero读取环境变量？
+需要通过`conf.MustLoad(*configFile, &c, conf.UseEnv())`来读取环境变量，否则不会默认读取环境变量。
 
 #### 配置微信小程序消息回调时一直Token验证失败？
 由于使用的goctl模板（go-lottery对goctl进行定制化）对请求的返回值会进行封装，从而导致返回的内容并不是要求的echostr，因此需要修改goctl模板，使用原生goctl模板即可。
