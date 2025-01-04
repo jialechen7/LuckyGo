@@ -18,6 +18,8 @@ type (
 	AddLotteryParticipationResp            = pb.AddLotteryParticipationResp
 	AddLotteryReq                          = pb.AddLotteryReq
 	AddLotteryResp                         = pb.AddLotteryResp
+	AnnounceLotteryReq                     = pb.AnnounceLotteryReq
+	AnnounceLotteryResp                    = pb.AnnounceLotteryResp
 	CheckIsParticipatedReq                 = pb.CheckIsParticipatedReq
 	CheckIsParticipatedResp                = pb.CheckIsParticipatedResp
 	CheckUserIsWonReq                      = pb.CheckUserIsWonReq
@@ -59,6 +61,7 @@ type (
 		GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error)
 		AddLottery(ctx context.Context, in *AddLotteryReq, opts ...grpc.CallOption) (*AddLotteryResp, error)
 		LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error)
+		AnnounceLottery(ctx context.Context, in *AnnounceLotteryReq, opts ...grpc.CallOption) (*AnnounceLotteryResp, error)
 		GetUserWonList(ctx context.Context, in *GetUserWonListReq, opts ...grpc.CallOption) (*GetUserWonListResp, error)
 		GetWonListByLotteryId(ctx context.Context, in *GetWonListByLotteryIdReq, opts ...grpc.CallOption) (*GetWonListByLotteryIdResp, error)
 		GetUserAllList(ctx context.Context, in *GetUserAllListReq, opts ...grpc.CallOption) (*GetUserAllListResp, error)
@@ -97,6 +100,11 @@ func (m *defaultLotteryZrpcClient) AddLottery(ctx context.Context, in *AddLotter
 func (m *defaultLotteryZrpcClient) LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.LotteryDetail(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) AnnounceLottery(ctx context.Context, in *AnnounceLotteryReq, opts ...grpc.CallOption) (*AnnounceLotteryResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.AnnounceLottery(ctx, in, opts...)
 }
 
 func (m *defaultLotteryZrpcClient) GetUserWonList(ctx context.Context, in *GetUserWonListReq, opts ...grpc.CallOption) (*GetUserWonListResp, error) {

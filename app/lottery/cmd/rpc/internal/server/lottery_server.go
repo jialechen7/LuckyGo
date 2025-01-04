@@ -43,6 +43,11 @@ func (s *LotteryServer) LotteryDetail(ctx context.Context, in *pb.LotteryDetailR
 	return l.LotteryDetail(in)
 }
 
+func (s *LotteryServer) AnnounceLottery(ctx context.Context, in *pb.AnnounceLotteryReq) (*pb.AnnounceLotteryResp, error) {
+	l := logic.NewAnnounceLotteryLogic(ctx, s.svcCtx)
+	return l.AnnounceLottery(in)
+}
+
 func (s *LotteryServer) GetUserWonList(ctx context.Context, in *pb.GetUserWonListReq) (*pb.GetUserWonListResp, error) {
 	l := logic.NewGetUserWonListLogic(ctx, s.svcCtx)
 	return l.GetUserWonList(in)

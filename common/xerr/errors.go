@@ -31,6 +31,13 @@ func init() {
 	message[DB_GET_PRIZE_BY_BY_LOTTERY_ID] = "获取抽奖奖品失败"
 	message[DB_CHECK_IS_PARTICIPATED] = "检查用户是否参与抽奖失败"
 	message[DB_PARTICIPATE_LOTTERY] = "参与抽奖失败"
+	message[DB_GET_PENDING_LOTTERY_LIST_FAIL] = "获取待开奖抽奖列表失败"
+	message[DB_GET_PARTICIPATORS_COUNT_FAIL] = "获取参与抽奖人数失败"
+	message[DB_GET_PARTICIPATORS_ERROR] = "获取参与抽奖人员失败"
+	message[DB_ANNOUNCE_LOTTERY_FAIL] = "开奖失败"
+	message[ANNOUNCE_LOTTERY_FAIL] = "开奖失败"
+	message[DB_UPDATE_STATUS_ERROR] = "更新抽奖状态失败"
+	message[DB_UPDATE_WINNER_ERROR] = "更新中奖者失败"
 
 	// 用户模块
 	message[DB_INSERT_USER_SPONSOR_ERROR] = "插入用户赞助商失败"
