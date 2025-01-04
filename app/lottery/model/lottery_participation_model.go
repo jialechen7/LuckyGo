@@ -20,10 +20,12 @@ type (
 		GetLotteryWinListByLotteryId(ctx context.Context, lotteryId int64) ([]*LotteryParticipation, error)
 		GetUserLotteryWinList(ctx context.Context, userId, lastId, limit int64) ([]*LotteryParticipation, error)
 		GetLotteryParticipationListByLotteryId(ctx context.Context, lotteryId, page, limit int64) ([]*LotteryParticipation, error)
+		GetLotteryParticipatorsByLotteryId(ctx context.Context, lotteryId int64) ([]int64, error)
 		GetParticipatorsCountByLotteryId(ctx context.Context, lotteryId int64) (int64, error)
 		GetParticipationCountByUserId(ctx context.Context, userId int64) (int64, error)
 		GetWonCountByUserId(ctx context.Context, userId int64) (int64, error)
 		GetAllLotteryListByUserId(ctx context.Context, userId, lastId, limit int64) ([]*LotteryParticipation, error)
+		UpdateWinner(ctx context.Context, lotteryId, userId, prizeId int64) error
 	}
 
 	customLotteryParticipationModel struct {
@@ -33,6 +35,30 @@ type (
 	customLotteryParticipationLogicModel interface {
 	}
 )
+
+func (c *customLotteryParticipationModel) UpdateWinner(ctx context.Context, lotteryId, userId, prizeId int64) error {
+	data, err := c.FindOneByLotteryIdUserId(ctx, lotteryId, userId)
+	if err != nil {
+		return err
+	}
+	if data == nil {
+		return gorm.ErrRecordNotFound
+	}
+	data.PrizeId = prizeId
+	data.IsWon = 1
+	return c.Update(ctx, nil, data)
+}
+
+func (c *customLotteryParticipationModel) GetLotteryParticipatorsByLotteryId(ctx context.Context, lotteryId int64) ([]int64, error) {
+	userIds := make([]int64, 0)
+	err := c.QueryNoCacheCtx(ctx, &userIds, func(db *gorm.DB, v interface{}) error {
+		return db.Table(c.table).Where("lottery_id = ?", lotteryId).Pluck("user_id", v).Error
+	})
+	if err != nil {
+		return nil, err
+	}
+	return userIds, nil
+}
 
 func (c *customLotteryParticipationModel) GetAllLotteryListByUserId(ctx context.Context, userId, lastId, limit int64) ([]*LotteryParticipation, error) {
 	list := make([]*LotteryParticipation, 0)
@@ -63,7 +89,7 @@ func (c *customLotteryParticipationModel) GetWonCountByUserId(ctx context.Contex
 func (c *customLotteryParticipationModel) GetParticipationCountByUserId(ctx context.Context, userId int64) (int64, error) {
 	var count int64
 	err := c.QueryNoCacheCtx(ctx, &count, func(db *gorm.DB, v interface{}) error {
-		return db.Model(&LotteryParticipation{}).Where("user_id = ?", userId).Count(&count).Error
+		return db.Table(c.table).Where("user_id = ?", userId).Count(&count).Error
 	})
 	if err != nil {
 		return 0, err

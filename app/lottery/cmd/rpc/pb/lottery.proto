@@ -112,11 +112,19 @@ message GetUserCreatedListResp {
   repeated Lottery list = 1;
 }
 
+message AnnounceLotteryReq {
+  int64 AnnounceType = 1;
+}
+
+message AnnounceLotteryResp {
+}
+
 service lottery {
   rpc SearchLottery(SearchLotteryReq) returns (SearchLotteryResp);
   rpc GetLotteryListAfterLogin(GetLotteryListAfterLoginReq) returns (GetLotteryListAfterLoginResp);
   rpc AddLottery(AddLotteryReq) returns (AddLotteryResp);
   rpc LotteryDetail(LotteryDetailReq) returns (LotteryDetailResp);
+  rpc AnnounceLottery(AnnounceLotteryReq) returns (AnnounceLotteryResp);
 
   rpc GetUserWonList(GetUserWonListReq) returns (GetUserWonListResp);
   rpc GetWonListByLotteryId(GetWonListByLotteryIdReq) returns (GetWonListByLotteryIdResp);

@@ -33,7 +33,7 @@ func (l *PraiseCommentLogic) PraiseComment(in *pb.PraiseCommentReq) (*pb.PraiseC
 		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_PRAISE_COMMENT_ERROR), "PraiseComment error: %v", err)
 	}
 	// 若点赞，取消点赞
-	if dbPraise != nil {
+	if dbPraise.Id != 0 {
 		err := l.svcCtx.TransactCtx(l.ctx, func(db *gorm.DB) error {
 			err := l.svcCtx.PraiseModel.Delete(l.ctx, db, dbPraise.Id)
 			if err != nil {
