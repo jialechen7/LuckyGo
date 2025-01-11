@@ -1,0 +1,41 @@
+syntax = "v1"
+
+info (
+	title:   "签到服务"
+	desc:    "签到服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+import (
+	"checkin/checkin.api"
+)
+
+@server (
+	prefix: checkin/v1
+	group:  checkin
+	jwt:    JwtAuth
+)
+service checkin {
+	@doc "获得签到状态以及积分"
+	@handler getCheckin
+	post /checkin/getCheckin (GetCheckinReq) returns (GetCheckinResp)
+
+	@doc "获得用户任务完成状态"
+	@handler getTasks
+	post /checkin/getTasks (GetTasksReq) returns (GetTasksResp)
+
+	@doc "签到操作"
+	@handler Checkin
+	post /checkin (CheckinReq) returns (CheckinResp)
+
+	@doc "领取任务奖励"
+	@handler ClaimReward
+	post /checkin/claimReward (ClaimRewardReq) returns (ClaimRewardResp)
+
+	@doc "改变订阅签到状态"
+	@handler UpdateSub
+	post /checkin/updateSub (UpdateSubReq) returns (UpdateSubResp)
+}
+

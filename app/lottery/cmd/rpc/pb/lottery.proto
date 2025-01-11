@@ -133,6 +133,8 @@ service lottery {
   rpc SearchLotteryParticipation(SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp);
   rpc GetLotteryStatistic(GetLotteryStatisticReq) returns (GetLotteryStatisticResp);
   rpc AddLotteryParticipation(AddLotteryParticipationReq) returns (AddLotteryParticipationResp);
+  rpc CheckLotteryParticipated(CheckLotteryParticipatedReq) returns (CheckLotteryParticipatedResp);
+  rpc CheckLotteryCreated(CheckLotteryCreatedReq) returns (CheckLotteryCreatedResp);
 
 //  rpc GetParticipationUserIdsByLotteryId(GetParticipationUserIdsByLotteryIdReq) returns (GetParticipationUserIdsByLotteryIdResp);
 //  rpc CheckIsParticipated(CheckIsParticipatedReq) returns (CheckIsParticipatedResp);
@@ -292,4 +294,20 @@ message WonList {
 
 message GetWonListByLotteryIdResp{
   repeated WonList list = 1;
+}
+
+message CheckLotteryParticipatedReq {
+  int64 userId = 1;
+}
+
+message CheckLotteryParticipatedResp {
+  int64 Participated = 1;
+}
+
+message CheckLotteryCreatedReq {
+  int64 userId = 1;
+}
+
+message CheckLotteryCreatedResp {
+  int64 Created = 1;
 }

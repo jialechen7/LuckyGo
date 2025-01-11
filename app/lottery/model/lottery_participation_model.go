@@ -26,6 +26,7 @@ type (
 		GetWonCountByUserId(ctx context.Context, userId int64) (int64, error)
 		GetAllLotteryListByUserId(ctx context.Context, userId, lastId, limit int64) ([]*LotteryParticipation, error)
 		UpdateWinner(ctx context.Context, lotteryId, userId, prizeId int64) error
+		GetLotteryParticipatedCount(ctx context.Context, userId int64) (int64, error)
 	}
 
 	customLotteryParticipationModel struct {
@@ -35,6 +36,17 @@ type (
 	customLotteryParticipationLogicModel interface {
 	}
 )
+
+func (c *customLotteryParticipationModel) GetLotteryParticipatedCount(ctx context.Context, userId int64) (int64, error) {
+	var count int64
+	err := c.QueryNoCacheCtx(ctx, &count, func(db *gorm.DB, v interface{}) error {
+		return db.Table(c.table).Where("user_id = ?", userId).Count(&count).Error
+	})
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
 
 func (c *customLotteryParticipationModel) UpdateWinner(ctx context.Context, lotteryId, userId, prizeId int64) error {
 	data, err := c.FindOneByLotteryIdUserId(ctx, lotteryId, userId)

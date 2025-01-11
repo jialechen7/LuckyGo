@@ -26,6 +26,9 @@ help:
 	@echo "  make gen-model-comment - Generate model code for comment"
 	@echo "  make gen-api-comment - Generate api code for comment"
 	@echo "  make gen-rpc-comment - Generate rpc code for comment"
+	@echo "  make gen-model-checkin - Generate model code for checkin"
+	@echo "  make gen-api-checkin - Generate api code for checkin"
+	@echo "  make gen-rpc-checkin - Generate rpc code for checkin"
 
 # Target: Create directory structure for specified project name
 create-dirs:
@@ -113,5 +116,21 @@ gen-api-comment:
 gen-rpc-comment:
 	goctl rpc protoc app/comment/cmd/rpc/pb/comment.proto --go_out=app/comment/cmd/rpc/ --go-grpc_out=app/comment/cmd/rpc/ --zrpc_out=app/comment/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
 
+gen-model-checkin:
+	./deploy/scripts/mysql/genModel.sh checkin checkin_record app/checkin/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh checkin integral app/checkin/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh checkin integral_record app/checkin/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh checkin tasks app/checkin/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh checkin task_progress app/checkin/model deploy/goctl/1.7.3 && \
+	./deploy/scripts/mysql/genModel.sh checkin task_record app/checkin/model deploy/goctl/1.7.3
+
+
+gen-api-checkin:
+	goctl api go --api=app/checkin/cmd/api/desc/main.api --dir=app/checkin/cmd/api/ --style=go_zero --home=deploy/goctl/1.7.3/ && \
+	goctl api plugin --plugin=goctl-swagger="swagger -filename checkin.json" --api=app/checkin/cmd/api/desc/main.api --dir=doc/swagger
+
+gen-rpc-checkin:
+	goctl rpc protoc app/checkin/cmd/rpc/pb/checkin.proto --go_out=app/checkin/cmd/rpc/ --go-grpc_out=app/checkin/cmd/rpc/ --zrpc_out=app/checkin/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
+
 # Default target
-.PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery gen-api-notice gen-model-comment gen-api-comment gen-rpc-comment
+.PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery gen-api-notice gen-model-comment gen-api-comment gen-rpc-comment gen-model-checkin gen-api-checkin gen-rpc-checkin
