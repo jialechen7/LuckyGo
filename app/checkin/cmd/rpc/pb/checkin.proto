@@ -1,0 +1,361 @@
+syntax = "proto3";
+
+option go_package ="./pb";
+
+package pb;
+
+//--------------------------------checkinRecord--------------------------------
+message CheckinRecord {
+  int64 id = 1; //id
+  int64 userId = 2; //用户id
+  int64 continuousCheckinDays = 3; //用户连续签到天数
+  int64 state = 4; //当天是否签到，1为已签，0为未签
+  int64 lastCheckinDate = 5; //上一次签到的日期
+}
+
+message AddCheckinRecordReq {
+  int64 userId = 1; //用户id
+  int64 continuousCheckinDays = 2; //用户连续签到天数
+  int64 state = 3; //当天是否签到，1为已签，0为未签
+  int64 lastCheckinDate = 4; //上一次签到的日期
+}
+
+message AddCheckinRecordResp {
+}
+
+message UpdateCheckinRecordReq {
+  int64 id = 1; //id
+  int64 userId = 2; //用户id
+  int64 continuousCheckinDays = 3; //用户连续签到天数
+  int64 state = 4; //当天是否签到，1为已签，0为未签
+  int64 lastCheckinDate = 5; //上一次签到的日期
+  int64 integral = 6;     //心愿值
+}
+
+message UpdateCheckinRecordResp {
+  int64 continuousCheckinDays = 1; //用户连续签到天数
+  int64 state = 2; //当天是否签到，1为已签，0为未签
+  int64 integral = 3;     //心愿值
+}
+
+
+message GetCheckinRecordByUserIdReq {
+  int64 userId = 1; //user_id
+}
+
+message GetCheckinRecordByUserIdResp {
+  int64 continuousCheckinDays = 1; // 用户连续签到天数
+  int64 state = 2; // 当天是否签到，1为已签，0为未签
+  int64 integral = 3; // 心愿值
+  int64 subStatus = 4; // 订阅状态
+}
+
+
+//--------------------------------integral--------------------------------
+
+message Integral {
+  int64 id = 1; //id
+  int64 userId = 2; //userId
+  int64 integral = 3; //积分
+}
+
+message AddIntegralReq {
+  int64 userId = 1; //userId
+  int64 integral = 2; //积分
+}
+
+message AddIntegralResp {
+}
+
+message UpdateIntegralReq {
+  int64 id = 1; //id
+  int64 userId = 2; //userId
+  int64 integral = 3; //积分
+}
+
+message UpdateIntegralResp {
+}
+
+
+message GetIntegralByUserIdReq {
+  int64 user_id = 1; //user_id
+}
+
+message GetIntegralByUserIdResp {
+  int64 integral = 1; //Integral
+}
+
+//--------------------------------integralRecord--------------------------------
+message IntegralRecord {
+  int64 id = 1; //id
+  int64 userId = 2; //userId
+  int64 integral = 3; //增加或减少的积分
+  string content = 4; //增加或减少积分的原因
+}
+
+message AddIntegralRecordReq {
+  int64 userId = 1; //userId
+  int64 integral = 2; //增加或减少的积分
+  string content = 3; //增加或减少积分的原因
+}
+
+message AddIntegralRecordResp {
+}
+
+message UpdateIntegralRecordReq {
+  int64 id = 1; //id
+  int64 userId = 2; //userId
+  int64 integral = 3; //增加或减少的积分
+  string content = 4; //增加或减少积分的原因
+}
+
+message UpdateIntegralRecordResp {
+}
+
+message DelIntegralRecordReq {
+  int64 id = 1; //id
+}
+
+message DelIntegralRecordResp {
+}
+
+message GetIntegralRecordByIdReq {
+  int64 id = 1; //id
+}
+
+message GetIntegralRecordByIdResp {
+  IntegralRecord integralRecord = 1; //integralRecord
+}
+
+message GetIntegralRecordByUserIdReq {
+  int64 userId = 1; //id
+}
+
+message GetIntegralRecordByUserIdResp {
+  IntegralRecord integralRecord = 1; //integralRecord
+}
+
+message SearchIntegralRecordReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 userId = 4; //userId
+  int64 integral = 5; //增加或减少的积分
+  string content = 6; //增加或减少积分的原因
+}
+
+message SearchIntegralRecordResp {
+  repeated IntegralRecord integralRecord = 1; //integralRecord
+}
+
+//--------------------------------taskProgress--------------------------------
+message TaskProgress {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 isParticipatedLottery = 3;
+  int64 isInitiatedLottery = 4;
+  int64 is_sub_checkin = 5;
+}
+
+message GetTaskProgressReq {
+  int64 userId = 1;
+}
+
+message GetTaskProgressResp {
+  int64 dayCount = 1;
+  int64 weekCount = 2;
+}
+
+message UpdateSubReq {
+  int64 userId = 1;
+  int64 state = 2;
+}
+
+message UpdateSubResp {
+}
+//--------------------------------taskRecord--------------------------------
+message TaskRecord {
+  int64 id = 1; //id
+  int64 type = 2;
+  int64 userId = 3; //userId
+  int64 taskId = 4; //taskId
+  int64 isFinished = 5; //0为未完成，1为已完成
+}
+
+
+message AddTaskRecordReq {
+  int64 userId = 1; //userId
+  int64 taskId = 2; //taskId
+  int64 isFinished = 3; //0为未完成，1为已完成
+  int64 type = 4;
+}
+
+message AddTaskRecordResp {
+}
+
+message UpdateTaskRecordReq {
+  int64 id = 1; //id
+  int64 userId = 2; //userId
+  int64 taskId = 3; //taskId
+  int64 isFinished = 4; //0为未完成，1为已完成
+}
+
+message UpdateTaskRecordResp {
+}
+
+message DelTaskRecordReq {
+  int64 id = 1; //id
+}
+
+message DelTaskRecordResp {
+}
+
+message GetTaskRecordByIdReq {
+  int64 id = 1; //id
+}
+
+message GetTaskRecordByIdResp {
+  TaskRecord taskRecord = 1; //taskRecord
+}
+
+message GetTaskRecordByUserIdReq {
+  int64 user_id = 1;
+}
+
+message GetTaskRecordByUserIdResp {
+  repeated Tasks taskList = 1; // 任务列表
+}
+
+message SearchTaskRecordReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 userId = 4; //userId
+  int64 taskId = 5; //taskId
+  int64 isFinished = 6; //0为未完成，1为已完成
+}
+
+message SearchTaskRecordResp {
+  repeated TaskRecord taskRecord = 1; //taskRecord
+}
+
+//--------------------------------tasks--------------------------------
+message Tasks {
+  int64 id = 1; //id
+  int64 type = 2; //1为新手，2为每日，3为每周
+  string content = 3; //任务内容
+  int64 integral = 4; //完成后增加的心愿值
+  int64 isFinished = 5; //0为未完成，1为已完成，2为已领取
+  string path = 6;
+  int64 count = 7;
+  int64 needCount = 8;
+}
+message AddTasksReq {
+  int64 type = 1; //1为新手，2为每日，3为每周
+  string content = 2; //任务内容
+  int64 integral = 3; //完成后增加的心愿值
+}
+
+message AddTasksResp {
+}
+
+message UpdateTasksReq {
+  int64 id = 1; //id
+  int64 type = 2; //1为新手，2为每日，3为每周
+  string content = 3; //任务内容
+  int64 integral = 4; //完成后增加的心愿值
+}
+
+message UpdateTasksResp {
+}
+
+message DelTasksReq {
+  int64 id = 1; //id
+}
+
+message DelTasksResp {
+}
+
+message GetTasksByIdReq {
+  int64 id = 1; //id
+}
+
+message GetTasksByIdResp {
+  Tasks tasks = 1; //tasks
+}
+
+
+message SearchTasksReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  int64 type = 4; //1为新手，2为每日，3为每周
+  string content = 5; //任务内容
+  int64 integral = 6; //完成后增加的心愿值
+}
+
+message SearchTasksResp {
+  repeated Tasks tasks = 1; //tasks
+}
+
+//--------------------------------others--------------------------------
+message NoticeWishCheckinData{
+  int64 userId=1; //用户
+  int64 reward=2; //心愿值奖励
+  int64 accumulate=3; //累计次数
+}
+
+message NoticeWishCheckinReq{
+
+}
+
+message NoticeWishCheckinResp{
+  repeated NoticeWishCheckinData wishCheckinDatas=1;
+}
+
+// ------------------------------------
+// Rpc Func
+// ------------------------------------
+
+
+service checkin{
+
+  //-----------------------checkinRecord--------------------
+
+  rpc AddCheckinRecord(AddCheckinRecordReq) returns (AddCheckinRecordResp);
+  rpc UpdateCheckinRecord(UpdateCheckinRecordReq) returns (UpdateCheckinRecordResp);
+  rpc GetCheckinRecordByUserId(GetCheckinRecordByUserIdReq) returns (GetCheckinRecordByUserIdResp);
+  //-----------------------integralRecord-------------------
+
+  rpc AddIntegral(AddIntegralReq) returns (AddIntegralResp);
+  rpc AddIntegralRecord(AddIntegralRecordReq) returns (AddIntegralRecordResp);
+  rpc DelIntegralRecord(DelIntegralRecordReq) returns (DelIntegralRecordResp);
+//  rpc UpdateIntegralRecord(UpdateIntegralRecordReq) returns (UpdateIntegralRecordResp);
+//  rpc GetIntegralRecordById(GetIntegralRecordByIdReq) returns (GetIntegralRecordByIdResp);
+//  rpc GetIntegralRecordByUserId(GetIntegralRecordByUserIdReq) returns (GetIntegralRecordByUserIdResp);
+//  rpc SearchIntegralRecord(SearchIntegralRecordReq) returns (SearchIntegralRecordResp);
+  //-----------------------taskRecord-----------------------
+
+  rpc AddTaskRecord(AddTaskRecordReq) returns (AddTaskRecordResp);
+  rpc UpdateTaskRecord(UpdateTaskRecordReq) returns (UpdateTaskRecordResp);
+  rpc DelTaskRecord(DelTaskRecordReq) returns (DelTaskRecordResp);
+  rpc GetTaskRecordByUserId(GetTaskRecordByUserIdReq) returns (GetTaskRecordByUserIdResp);
+//  rpc GetTaskRecordById(GetTaskRecordByIdReq) returns (GetTaskRecordByIdResp);
+//  rpc SearchTaskRecord(SearchTaskRecordReq) returns (SearchTaskRecordResp);
+  //-----------------------tasks-----------------------------
+
+  rpc AddTasks(AddTasksReq) returns (AddTasksResp);
+  rpc DelTasks(DelTasksReq) returns (DelTasksResp);
+//  rpc UpdateTasks(UpdateTasksReq) returns (UpdateTasksResp);
+//  rpc GetTasksById(GetTasksByIdReq) returns (GetTasksByIdResp);
+//  rpc SearchTasks(SearchTasksReq) returns (SearchTasksResp);
+  //-----------------------taskProgress----------------------
+
+  rpc GetTaskProgress(GetTaskProgressReq) returns (GetTaskProgressResp);
+  rpc UpdateSub(UpdateSubReq) returns (UpdateSubResp);
+  //-----------------------others----------------------
+
+//  rpc NoticeWishCheckin(NoticeWishCheckinReq) returns (NoticeWishCheckinResp);
+//  rpc GetIntegralByUserId(GetIntegralByUserIdReq) returns (GetIntegralByUserIdResp);
+}
+

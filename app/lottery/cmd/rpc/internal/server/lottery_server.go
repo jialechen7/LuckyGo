@@ -82,3 +82,13 @@ func (s *LotteryServer) AddLotteryParticipation(ctx context.Context, in *pb.AddL
 	l := logic.NewAddLotteryParticipationLogic(ctx, s.svcCtx)
 	return l.AddLotteryParticipation(in)
 }
+
+func (s *LotteryServer) CheckLotteryParticipated(ctx context.Context, in *pb.CheckLotteryParticipatedReq) (*pb.CheckLotteryParticipatedResp, error) {
+	l := logic.NewCheckLotteryParticipatedLogic(ctx, s.svcCtx)
+	return l.CheckLotteryParticipated(in)
+}
+
+func (s *LotteryServer) CheckLotteryCreated(ctx context.Context, in *pb.CheckLotteryCreatedReq) (*pb.CheckLotteryCreatedResp, error) {
+	l := logic.NewCheckLotteryCreatedLogic(ctx, s.svcCtx)
+	return l.CheckLotteryCreated(in)
+}
