@@ -92,3 +92,8 @@ func (s *CheckinServer) UpdateSub(ctx context.Context, in *pb.UpdateSubReq) (*pb
 	l := logic.NewUpdateSubLogic(ctx, s.svcCtx)
 	return l.UpdateSub(in)
 }
+
+func (s *CheckinServer) NoticeWishCheckin(ctx context.Context, in *pb.NoticeWishCheckinReq) (*pb.NoticeWishCheckinResp, error) {
+	l := logic.NewNoticeWishCheckinLogic(ctx, s.svcCtx)
+	return l.NoticeWishCheckin(in)
+}

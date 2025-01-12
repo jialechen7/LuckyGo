@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"github.com/jialechen7/go-lottery/common/constants"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"gorm.io/gorm"
 )
@@ -17,6 +18,7 @@ type (
 		customTaskProgressLogicModel
 
 		FindOneByUserId(ctx context.Context, userId int64) (*TaskProgress, error)
+		FindAllSubscribeUserIds(ctx context.Context) ([]int64, error)
 	}
 
 	customTaskProgressModel struct {
@@ -26,6 +28,17 @@ type (
 	customTaskProgressLogicModel interface {
 	}
 )
+
+func (c *customTaskProgressModel) FindAllSubscribeUserIds(ctx context.Context) ([]int64, error) {
+	userIds := make([]int64, 0)
+	err := c.QueryNoCacheCtx(ctx, &userIds, func(db *gorm.DB, v interface{}) error {
+		return db.Table(c.table).Where("is_sub_checkin = ?", constants.UserHasSubscribed).Pluck("user_id", v).Error
+	})
+	if err != nil {
+		return nil, err
+	}
+	return userIds, nil
+}
 
 func (c *customTaskProgressModel) FindOneByUserId(ctx context.Context, userId int64) (*TaskProgress, error) {
 	taskProgress := &TaskProgress{}

@@ -15,4 +15,5 @@ const (
 	UserSubscribeTaskId                = 3
 	UserNotSubscribe                   = 0
 	UserHasSubscribed                  = 1
+	UserTodayHasCheckin                = 1
 )

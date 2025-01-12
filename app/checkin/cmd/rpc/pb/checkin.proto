@@ -300,13 +300,12 @@ message SearchTasksResp {
 
 //--------------------------------others--------------------------------
 message NoticeWishCheckinData{
-  int64 userId=1; //用户
-  int64 reward=2; //心愿值奖励
+  int64 userId=1;     //用户
+  int64 reward=2;     //心愿值奖励
   int64 accumulate=3; //累计次数
 }
 
 message NoticeWishCheckinReq{
-
 }
 
 message NoticeWishCheckinResp{
@@ -355,7 +354,7 @@ service checkin{
   rpc UpdateSub(UpdateSubReq) returns (UpdateSubResp);
   //-----------------------others----------------------
 
-//  rpc NoticeWishCheckin(NoticeWishCheckinReq) returns (NoticeWishCheckinResp);
+  rpc NoticeWishCheckin(NoticeWishCheckinReq) returns (NoticeWishCheckinResp);
 //  rpc GetIntegralByUserId(GetIntegralByUserIdReq) returns (GetIntegralByUserIdResp);
 }
 

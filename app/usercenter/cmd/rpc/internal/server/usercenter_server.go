@@ -63,6 +63,11 @@ func (s *UsercenterServer) GetUserAuthByAuthKey(ctx context.Context, in *pb.GetU
 	return l.GetUserAuthByAuthKey(in)
 }
 
+func (s *UsercenterServer) GetUserAuthByUserId(ctx context.Context, in *pb.GetUserAuthByUserId) (*pb.GetUserAuthByUserIdResp, error) {
+	l := logic.NewGetUserAuthByUserIdLogic(ctx, s.svcCtx)
+	return l.GetUserAuthByUserId(in)
+}
+
 func (s *UsercenterServer) AddUserSponsor(ctx context.Context, in *pb.AddUserSponsorReq) (*pb.AddUserSponsorResp, error) {
 	l := logic.NewAddUserSponsorLogic(ctx, s.svcCtx)
 	return l.AddUserSponsor(in)

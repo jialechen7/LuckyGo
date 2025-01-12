@@ -45,6 +45,7 @@ func init() {
 	message[DB_DELETE_USER_SPONSOR_ERROR] = "删除用户赞助商失败"
 	message[DB_GET_USER_SPONSOR_LIST_ERROR] = "获取用户赞助商列表失败"
 	message[DB_GET_USERS_INFO_ERROR] = "获取用户信息失败"
+	message[DB_USER_AUTH_FIND_ONE_BY_USER_ID_ERROR] = "查找用户授权失败"
 
 	// 评论模块
 	message[DB_INSERT_COMMENT_ERROR] = "插入评论失败"
@@ -93,6 +94,7 @@ func init() {
 	message[DB_TASK_RECORD_DELETE_ERROR] = "删除任务记录失败"
 	message[DB_TASKS_DELETE_ERROR] = "删除任务失败"
 	message[DB_TASKS_INSERT_ERROR] = "插入任务失败"
+	message[DB_TASK_PROGRESS_FIND_ALL_SUBSCRIBE_USER_IDS_ERROR] = "获取所有订阅用户id失败"
 }
 
 func MapErrMsg(errcode uint32) string {

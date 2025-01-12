@@ -1,6 +1,7 @@
 package model
 
 import (
+	"context"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"gorm.io/gorm"
 )
@@ -14,6 +15,8 @@ type (
 	UserAuthModel interface {
 		userAuthModel
 		customUserAuthLogicModel
+
+		FindOneByUserId(ctx context.Context, userId int64) (*UserAuth, error)
 	}
 
 	customUserAuthModel struct {
@@ -23,6 +26,17 @@ type (
 	customUserAuthLogicModel interface {
 	}
 )
+
+func (c *customUserAuthModel) FindOneByUserId(ctx context.Context, userId int64) (*UserAuth, error) {
+	userAuth := &UserAuth{}
+	err := c.QueryNoCacheCtx(ctx, userAuth, func(conn *gorm.DB, v interface{}) error {
+		return conn.Where("user_id = ?", userId).First(v).Error
+	})
+	if err != nil {
+		return nil, err
+	}
+	return userAuth, nil
+}
 
 // NewUserAuthModel returns a model for the database table.
 func NewUserAuthModel(conn *gorm.DB, c cache.CacheConf) UserAuthModel {

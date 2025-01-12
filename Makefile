@@ -23,6 +23,7 @@ help:
 	@echo "  make gen-api-lottery - Generate api code for lottery"
 	@echo "  make gen-rpc-lottery - Generate rpc code for lottery"
 	@echo "  make gen-api-notice - Generate api code for notice"
+	@echo "  make gen-rpc-notice - Generate rpc code for notice"
 	@echo "  make gen-model-comment - Generate model code for comment"
 	@echo "  make gen-api-comment - Generate api code for comment"
 	@echo "  make gen-rpc-comment - Generate rpc code for comment"
@@ -102,6 +103,10 @@ gen-api-notice:
 	goctl api go --api=app/notice/cmd/api/desc/main.api --dir=app/notice/cmd/api/ --style=go_zero --home=deploy/goctl/1.7.3/ && \
 	goctl api plugin --plugin=goctl-swagger="swagger -filename notice.json" --api=app/notice/cmd/api/desc/main.api --dir=doc/swagger
 
+# Generate RPC code for notice
+gen-rpc-notice:
+	goctl rpc protoc app/notice/cmd/rpc/pb/notice.proto --go_out=app/notice/cmd/rpc/ --go-grpc_out=app/notice/cmd/rpc/ --zrpc_out=app/notice/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
+
 # Generate model code for comment
 gen-model-comment:
 	./deploy/scripts/mysql/genModel.sh comment comment app/comment/model deploy/goctl/1.7.3 && \
@@ -133,4 +138,4 @@ gen-rpc-checkin:
 	goctl rpc protoc app/checkin/cmd/rpc/pb/checkin.proto --go_out=app/checkin/cmd/rpc/ --go-grpc_out=app/checkin/cmd/rpc/ --zrpc_out=app/checkin/cmd/rpc/ --style=go_zero --home=deploy/goctl/1.7.3/
 
 # Default target
-.PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery gen-api-notice gen-model-comment gen-api-comment gen-rpc-comment gen-model-checkin gen-api-checkin gen-rpc-checkin
+.PHONY: help create-dirs docker-up-env docker-up-app docker-down-env docker-down-app gen-model-usercenter gen-api-usercenter gen-rpc-usercenter gen-model-upload gen-api-upload gen-rpc-upload gen-model-lottery gen-api-lottery gen-rpc-lottery gen-api-notice gen-rpc-notice gen-model-comment gen-api-comment gen-rpc-comment gen-model-checkin gen-api-checkin gen-rpc-checkin
