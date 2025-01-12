@@ -25,3 +25,19 @@ LotteryRpcConf:
   Endpoints:
     - 127.0.0.1:7002
   NonBlock: true
+NoticeRpcConf:
+  Endpoints:
+    - 127.0.0.1:7003
+  NonBlock: true
+CheckinRpcConf:
+  Endpoints:
+    - 127.0.0.1:7005
+  NonBlock: true
+
+WxMiniConf:
+  AppId: ${WEIXIN_APP_ID}
+  AppSecret: ${WEIXIN_APP_SECRET}
+
+WxMsgConf:
+  EventToken: dasdasdqwrqfwefvds
+  EncodingAESKey: UZ3q4QOGO30c25XPnScowrcNQSsxYDsxFWhG0a6m90u

@@ -24,6 +24,8 @@ type (
 	GenerateTokenResp        = pb.GenerateTokenResp
 	GetUserAuthByAuthKeyReq  = pb.GetUserAuthByAuthKeyReq
 	GetUserAuthByAuthKeyResp = pb.GetUserAuthByAuthKeyResp
+	GetUserAuthByUserId      = pb.GetUserAuthByUserId
+	GetUserAuthByUserIdResp  = pb.GetUserAuthByUserIdResp
 	GetUserInfoByUserIdsReq  = pb.GetUserInfoByUserIdsReq
 	GetUserInfoByUserIdsResp = pb.GetUserInfoByUserIdsResp
 	GetUserInfoReq           = pb.GetUserInfoReq
@@ -56,6 +58,7 @@ type (
 		UpdateUserBaseInfo(ctx context.Context, in *UpdateUserBaseInfoReq, opts ...grpc.CallOption) (*UpdateUserBaseInfoResp, error)
 		GetUserInfoByUserIds(ctx context.Context, in *GetUserInfoByUserIdsReq, opts ...grpc.CallOption) (*GetUserInfoByUserIdsResp, error)
 		GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error)
+		GetUserAuthByUserId(ctx context.Context, in *GetUserAuthByUserId, opts ...grpc.CallOption) (*GetUserAuthByUserIdResp, error)
 		AddUserSponsor(ctx context.Context, in *AddUserSponsorReq, opts ...grpc.CallOption) (*AddUserSponsorResp, error)
 		UpdateUserSponsor(ctx context.Context, in *UpdateUserSponsorReq, opts ...grpc.CallOption) (*UpdateUserSponsorResp, error)
 		DelUserSponsor(ctx context.Context, in *DelUserSponsorReq, opts ...grpc.CallOption) (*DelUserSponsorResp, error)
@@ -112,6 +115,11 @@ func (m *defaultUsercenter) GetUserInfoByUserIds(ctx context.Context, in *GetUse
 func (m *defaultUsercenter) GetUserAuthByAuthKey(ctx context.Context, in *GetUserAuthByAuthKeyReq, opts ...grpc.CallOption) (*GetUserAuthByAuthKeyResp, error) {
 	client := pb.NewUsercenterClient(m.cli.Conn())
 	return client.GetUserAuthByAuthKey(ctx, in, opts...)
+}
+
+func (m *defaultUsercenter) GetUserAuthByUserId(ctx context.Context, in *GetUserAuthByUserId, opts ...grpc.CallOption) (*GetUserAuthByUserIdResp, error) {
+	client := pb.NewUsercenterClient(m.cli.Conn())
+	return client.GetUserAuthByUserId(ctx, in, opts...)
 }
 
 func (m *defaultUsercenter) AddUserSponsor(ctx context.Context, in *AddUserSponsorReq, opts ...grpc.CallOption) (*AddUserSponsorResp, error) {

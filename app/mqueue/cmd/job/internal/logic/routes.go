@@ -23,7 +23,11 @@ func (l *CronJob) Register() *asynq.ServeMux {
 
 	mux := asynq.NewServeMux()
 
+	// task
+	mux.Handle(jobtype.MsgWxMiniProgramNotifyUser, NewWxMiniProgramNotifyUserHandler(l.svcCtx))
+
 	//schedule job
 	mux.Handle(jobtype.ScheduleLotteryDraw, NewLotteryDrawHandler(l.svcCtx))
+	mux.Handle(jobtype.ScheduleWishCheckin, NewWishCheckinHandler(l.svcCtx))
 	return mux
 }

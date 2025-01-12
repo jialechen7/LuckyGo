@@ -89,6 +89,7 @@ type (
 		DelTasks(ctx context.Context, in *DelTasksReq, opts ...grpc.CallOption) (*DelTasksResp, error)
 		GetTaskProgress(ctx context.Context, in *GetTaskProgressReq, opts ...grpc.CallOption) (*GetTaskProgressResp, error)
 		UpdateSub(ctx context.Context, in *UpdateSubReq, opts ...grpc.CallOption) (*UpdateSubResp, error)
+		NoticeWishCheckin(ctx context.Context, in *NoticeWishCheckinReq, opts ...grpc.CallOption) (*NoticeWishCheckinResp, error)
 	}
 
 	defaultCheckin struct {
@@ -170,4 +171,9 @@ func (m *defaultCheckin) GetTaskProgress(ctx context.Context, in *GetTaskProgres
 func (m *defaultCheckin) UpdateSub(ctx context.Context, in *UpdateSubReq, opts ...grpc.CallOption) (*UpdateSubResp, error) {
 	client := pb.NewCheckinClient(m.cli.Conn())
 	return client.UpdateSub(ctx, in, opts...)
+}
+
+func (m *defaultCheckin) NoticeWishCheckin(ctx context.Context, in *NoticeWishCheckinReq, opts ...grpc.CallOption) (*NoticeWishCheckinResp, error) {
+	client := pb.NewCheckinClient(m.cli.Conn())
+	return client.NoticeWishCheckin(ctx, in, opts...)
 }
