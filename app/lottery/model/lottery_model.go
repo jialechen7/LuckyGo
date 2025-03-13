@@ -19,6 +19,7 @@ type (
 		customLotteryLogicModel
 		GetLastId(ctx context.Context) (int64, error)
 		LotteryList(ctx context.Context, limit, isSelected, lastId int64) ([]*Lottery, error)
+		LotteryListSlowQuery(ctx context.Context, limit, offset, isSelected int64) ([]*Lottery, error)
 		GetLotteryListAfterLogin(ctx context.Context, limit, isSelected, lastId int64, lotteryIds []int64) ([]*Lottery, error)
 		GetCreatedCountByUserId(ctx context.Context, userId int64) (int64, error)
 		GetUserCreatedList(ctx context.Context, userId, lastId, limit int64) ([]*Lottery, error)
@@ -34,6 +35,26 @@ type (
 	customLotteryLogicModel interface {
 	}
 )
+
+func (c *customLotteryModel) LotteryListSlowQuery(ctx context.Context, limit, offset, isSelected int64) ([]*Lottery, error) {
+	var list []*Lottery
+	err := c.QueryNoCacheCtx(ctx, &list, func(db *gorm.DB, v interface{}) error {
+		db = db.Where("is_announced = ?", 0)
+		if isSelected != 0 {
+			db = db.Where("is_selected = ?", 1)
+		}
+		err := db.Offset(int(offset)).Limit(int(limit)).Find(&list).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
+}
 
 func (c *customLotteryModel) GetPendingLotteryListWhichTypeIsTimeStrategyAndAnnouncedTimeBeforeNow(ctx context.Context, now time.Time) ([]*Lottery, error) {
 	list := make([]*Lottery, 0)

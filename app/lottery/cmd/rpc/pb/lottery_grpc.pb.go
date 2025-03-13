@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	Lottery_SearchLottery_FullMethodName              = "/pb.lottery/SearchLottery"
+	Lottery_GetLotteryListSlowQuery_FullMethodName    = "/pb.lottery/GetLotteryListSlowQuery"
 	Lottery_GetLotteryListAfterLogin_FullMethodName   = "/pb.lottery/GetLotteryListAfterLogin"
 	Lottery_AddLottery_FullMethodName                 = "/pb.lottery/AddLottery"
 	Lottery_LotteryDetail_FullMethodName              = "/pb.lottery/LotteryDetail"
@@ -40,6 +41,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LotteryClient interface {
 	SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error)
+	GetLotteryListSlowQuery(ctx context.Context, in *GetLotteryListSlowQueryReq, opts ...grpc.CallOption) (*GetLotteryListSlowQueryResp, error)
 	GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error)
 	AddLottery(ctx context.Context, in *AddLotteryReq, opts ...grpc.CallOption) (*AddLotteryResp, error)
 	LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error)
@@ -67,6 +69,16 @@ func (c *lotteryClient) SearchLottery(ctx context.Context, in *SearchLotteryReq,
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SearchLotteryResp)
 	err := c.cc.Invoke(ctx, Lottery_SearchLottery_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *lotteryClient) GetLotteryListSlowQuery(ctx context.Context, in *GetLotteryListSlowQueryReq, opts ...grpc.CallOption) (*GetLotteryListSlowQueryResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetLotteryListSlowQueryResp)
+	err := c.cc.Invoke(ctx, Lottery_GetLotteryListSlowQuery_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -208,6 +220,7 @@ func (c *lotteryClient) CheckLotteryCreated(ctx context.Context, in *CheckLotter
 // for forward compatibility.
 type LotteryServer interface {
 	SearchLottery(context.Context, *SearchLotteryReq) (*SearchLotteryResp, error)
+	GetLotteryListSlowQuery(context.Context, *GetLotteryListSlowQueryReq) (*GetLotteryListSlowQueryResp, error)
 	GetLotteryListAfterLogin(context.Context, *GetLotteryListAfterLoginReq) (*GetLotteryListAfterLoginResp, error)
 	AddLottery(context.Context, *AddLotteryReq) (*AddLotteryResp, error)
 	LotteryDetail(context.Context, *LotteryDetailReq) (*LotteryDetailResp, error)
@@ -233,6 +246,9 @@ type UnimplementedLotteryServer struct{}
 
 func (UnimplementedLotteryServer) SearchLottery(context.Context, *SearchLotteryReq) (*SearchLotteryResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchLottery not implemented")
+}
+func (UnimplementedLotteryServer) GetLotteryListSlowQuery(context.Context, *GetLotteryListSlowQueryReq) (*GetLotteryListSlowQueryResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLotteryListSlowQuery not implemented")
 }
 func (UnimplementedLotteryServer) GetLotteryListAfterLogin(context.Context, *GetLotteryListAfterLoginReq) (*GetLotteryListAfterLoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLotteryListAfterLogin not implemented")
@@ -308,6 +324,24 @@ func _Lottery_SearchLottery_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LotteryServer).SearchLottery(ctx, req.(*SearchLotteryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Lottery_GetLotteryListSlowQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLotteryListSlowQueryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LotteryServer).GetLotteryListSlowQuery(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Lottery_GetLotteryListSlowQuery_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LotteryServer).GetLotteryListSlowQuery(ctx, req.(*GetLotteryListSlowQueryReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -556,6 +590,10 @@ var Lottery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchLottery",
 			Handler:    _Lottery_SearchLottery_Handler,
+		},
+		{
+			MethodName: "GetLotteryListSlowQuery",
+			Handler:    _Lottery_GetLotteryListSlowQuery_Handler,
 		},
 		{
 			MethodName: "GetLotteryListAfterLogin",

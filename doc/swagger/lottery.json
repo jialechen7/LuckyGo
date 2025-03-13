@@ -266,6 +266,33 @@
         ]
       }
     },
+    "/lottery/v1/lottery/lotteryListSlow": {
+      "post": {
+        "summary": "获取抽奖列表（慢查询）",
+        "operationId": "lotteryListSlow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LotteryListSlowQueryResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryListSlowQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ]
+      }
+    },
     "/lottery/v1/lottery/participation": {
       "post": {
         "summary": "参与抽奖",
@@ -941,6 +968,44 @@
         }
       },
       "title": "LotteryListResp",
+      "required": [
+        "list"
+      ]
+    },
+    "LotteryListSlowQueryReq": {
+      "type": "object",
+      "properties": {
+        "pageIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isSelected": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LotteryListSlowQueryReq",
+      "required": [
+        "pageIndex",
+        "pageSize",
+        "isSelected"
+      ]
+    },
+    "LotteryListSlowQueryResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lottery"
+          }
+        }
+      },
+      "title": "LotteryListSlowQueryResp",
       "required": [
         "list"
       ]

@@ -28,6 +28,11 @@ func (s *LotteryServer) SearchLottery(ctx context.Context, in *pb.SearchLotteryR
 	return l.SearchLottery(in)
 }
 
+func (s *LotteryServer) GetLotteryListSlowQuery(ctx context.Context, in *pb.GetLotteryListSlowQueryReq) (*pb.GetLotteryListSlowQueryResp, error) {
+	l := logic.NewGetLotteryListSlowQueryLogic(ctx, s.svcCtx)
+	return l.GetLotteryListSlowQuery(in)
+}
+
 func (s *LotteryServer) GetLotteryListAfterLogin(ctx context.Context, in *pb.GetLotteryListAfterLoginReq) (*pb.GetLotteryListAfterLoginResp, error) {
 	l := logic.NewGetLotteryListAfterLoginLogic(ctx, s.svcCtx)
 	return l.GetLotteryListAfterLogin(in)

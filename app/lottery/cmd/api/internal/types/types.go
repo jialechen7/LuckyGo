@@ -146,6 +146,16 @@ type LotteryListResp struct {
 	List []Lottery `json:"list"`
 }
 
+type LotteryListSlowQueryReq struct {
+	PageIndex  int64 `json:"pageIndex"`
+	PageSize   int64 `json:"pageSize"`
+	IsSelected int64 `json:"isSelected"`
+}
+
+type LotteryListSlowQueryResp struct {
+	List []Lottery `json:"list"`
+}
+
 type LotteryParticipation struct {
 	Id        int64 `json:"id"`         // 主键
 	LotteryId int64 `json:"lottery_id"` // 参与的抽奖的id

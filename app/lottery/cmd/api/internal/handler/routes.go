@@ -27,6 +27,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/lottery/lotteryList",
 				Handler: lottery.LotteryListHandler(serverCtx),
 			},
+			{
+				// 获取抽奖列表（慢查询）
+				Method:  http.MethodPost,
+				Path:    "/lottery/lotteryListSlow",
+				Handler: lottery.LotteryListSlowHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/lottery/v1"),
 	)

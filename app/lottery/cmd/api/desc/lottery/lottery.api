@@ -81,6 +81,17 @@ type (
 )
 
 type (
+	LotteryListSlowQueryReq {
+		PageIndex  int64 `json:"pageIndex"`
+		PageSize   int64 `json:"pageSize"`
+		IsSelected int64 `json:"isSelected"`
+	}
+	LotteryListSlowQueryResp {
+		List []Lottery `json:"list"`
+	}
+)
+
+type (
 	LotteryDetailReq {
 		Id int64 `json:"id"`
 	}

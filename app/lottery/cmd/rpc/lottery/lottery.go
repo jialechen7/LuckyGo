@@ -31,6 +31,8 @@ type (
 	ClockTask                              = pb.ClockTask
 	GetLotteryListAfterLoginReq            = pb.GetLotteryListAfterLoginReq
 	GetLotteryListAfterLoginResp           = pb.GetLotteryListAfterLoginResp
+	GetLotteryListSlowQueryReq             = pb.GetLotteryListSlowQueryReq
+	GetLotteryListSlowQueryResp            = pb.GetLotteryListSlowQueryResp
 	GetLotteryStatisticReq                 = pb.GetLotteryStatisticReq
 	GetLotteryStatisticResp                = pb.GetLotteryStatisticResp
 	GetParticipationUserIdsByLotteryIdReq  = pb.GetParticipationUserIdsByLotteryIdReq
@@ -62,6 +64,7 @@ type (
 
 	LotteryZrpcClient interface {
 		SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error)
+		GetLotteryListSlowQuery(ctx context.Context, in *GetLotteryListSlowQueryReq, opts ...grpc.CallOption) (*GetLotteryListSlowQueryResp, error)
 		GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error)
 		AddLottery(ctx context.Context, in *AddLotteryReq, opts ...grpc.CallOption) (*AddLotteryResp, error)
 		LotteryDetail(ctx context.Context, in *LotteryDetailReq, opts ...grpc.CallOption) (*LotteryDetailResp, error)
@@ -91,6 +94,11 @@ func NewLotteryZrpcClient(cli zrpc.Client) LotteryZrpcClient {
 func (m *defaultLotteryZrpcClient) SearchLottery(ctx context.Context, in *SearchLotteryReq, opts ...grpc.CallOption) (*SearchLotteryResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.SearchLottery(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) GetLotteryListSlowQuery(ctx context.Context, in *GetLotteryListSlowQueryReq, opts ...grpc.CallOption) (*GetLotteryListSlowQueryResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.GetLotteryListSlowQuery(ctx, in, opts...)
 }
 
 func (m *defaultLotteryZrpcClient) GetLotteryListAfterLogin(ctx context.Context, in *GetLotteryListAfterLoginReq, opts ...grpc.CallOption) (*GetLotteryListAfterLoginResp, error) {
