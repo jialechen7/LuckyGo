@@ -141,6 +141,14 @@ message GetUserAuthByAuthKeyResp {
   UserAuth userAuth = 1;
 }
 
+message GetUserAuthByUserId {
+  int64 userId = 1;
+}
+
+message GetUserAuthByUserIdResp {
+  UserAuth userAuth = 1;
+}
+
 // --------------------------------- user_sponsor ---------------------------------
 
 message UserSponsor {
@@ -264,6 +272,7 @@ service usercenter {
   rpc getUserInfoByUserIds(GetUserInfoByUserIdsReq) returns(GetUserInfoByUserIdsResp);
 
   rpc getUserAuthByAuthKey(GetUserAuthByAuthKeyReq) returns(GetUserAuthByAuthKeyResp);
+  rpc getUserAuthByUserId(GetUserAuthByUserId) returns(GetUserAuthByUserIdResp);
 
   rpc AddUserSponsor(AddUserSponsorReq) returns (AddUserSponsorResp);
   rpc UpdateUserSponsor(UpdateUserSponsorReq) returns (UpdateUserSponsorResp);

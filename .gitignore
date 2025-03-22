@@ -2,3 +2,6 @@ data/
 .idea/
 .vscode/
 .env
+wechat/
+tokens.csv
+log/

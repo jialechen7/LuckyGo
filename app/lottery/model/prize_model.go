@@ -17,6 +17,7 @@ type (
 		customPrizeLogicModel
 		FindByLotteryId(ctx context.Context, lotteryId int64) ([]*Prize, error)
 		FindFirstLevelPrizeByLotteryId(ctx context.Context, lotteryId int64) (*Prize, error)
+		DecrStock(ctx context.Context, prizeId int64) error
 	}
 
 	customPrizeModel struct {
@@ -26,6 +27,14 @@ type (
 	customPrizeLogicModel interface {
 	}
 )
+
+func (c *customPrizeModel) DecrStock(ctx context.Context, prizeId int64) error {
+	err := c.ExecCtx(ctx, func(db *gorm.DB) error {
+		return db.Model(&Prize{}).Where("id = ? and stock > 0", prizeId).Update("stock", gorm.Expr("stock - 1")).Error
+	})
+
+	return err
+}
 
 func (c *customPrizeModel) FindFirstLevelPrizeByLotteryId(ctx context.Context, lotteryId int64) (*Prize, error) {
 	var prize Prize

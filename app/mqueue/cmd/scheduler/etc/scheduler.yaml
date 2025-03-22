@@ -1,0 +1,23 @@
+Name: mqueue-scheduler
+Host: 0.0.0.0
+Port: 3003
+Mode: dev
+
+#链路追踪
+Telemetry:
+  Name: mqueue-scheduler
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+
+Log:
+  ServiceName: mqueue-job
+  Mode: console
+  # 打印堆栈信息 方便查询错误
+  Encoding: plain
+  Level: error
+
+Redis:
+  Host: go-lottery-redis:6379
+  Type: node
+  Pass: root

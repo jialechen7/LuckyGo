@@ -1,0 +1,90 @@
+syntax = "v1"
+
+info (
+	title:   "签到服务"
+	desc:    "签到服务"
+	author:  "jialechen"
+	email:   "chenjiale0303@gmail.com"
+	version: "v1"
+)
+
+type CheckinRecord {
+	Id                    int64 `json:"id"`
+	UserId                int64 `json:"userId"` //用户ID
+	ContinuousCheckinDays int64 `json:"continuousCheckinDays"` //用户连续签到的天数
+	LastCheckinDate       int64 `json:"lastCheckinDate"` //用户最后一次签到
+	State                 int64 `json:"state"` //当天用户是否签到，0为未签，1为已签
+}
+
+type Intergral {
+	Id       int64 `json:"id"`
+	UserId   int64 `json:"userId"` //用户ID
+	Integral int64 `json:"integral"` //心愿值
+}
+
+type IntegralRecord {
+	Id       int64  `json:"id"`
+	UserId   int64  `json:"userId"` //用户ID
+	Integral int64  `json:"integral"` //增加或减少积分的数量
+	Content  string `json:"content"` //增加或减少积分的原因
+}
+
+type Tasks {
+	Id         int64  `json:"id"`
+	Type       int64  `json:"type"`
+	Content    string `json:"content"`
+	Integral   int64  `json:"integral"`
+	isFinished int64  `json:"isFinished"`
+	Path       string `json:"path"`
+	Count      int64  `json:"count"`
+	NeedCount  int64  `json:"needCount"`
+}
+
+type TaskProgress {
+	Id                    int64 `json:"id"`
+	UserId                int64 `json:"userId"`
+	IsParticipatedLottery int64 `json:"isParticipatedLottery"`
+	IsInitiatedLottery    int64 `json:"isInitiatedLottery"`
+	IsSubCheckin          int64 `json:"isSubCheckin"`
+}
+
+type (
+	GetCheckinReq  {}
+	GetCheckinResp {
+		ContinuousCheckinDays int64 `json:"continuousCheckinDays"` //用户连续签到的天数
+		State                 int64 `json:"state"` //当天用户是否签到，0为未签，1为已签
+		Integral              int64 `json:"integral"` //心愿值
+		SubStatus             int64 `json:"subStatus"` //订阅状态
+	}
+)
+
+type (
+	CheckinReq  {}
+	CheckinResp {
+		ContinuousCheckinDays int64 `json:"continuousCheckinDays"` //用户连续签到的天数
+		State                 int64 `json:"state"` //当天用户是否签到，0为未签，1为已签
+		Integral              int64 `json:"integral"` //心愿值
+	}
+)
+
+type (
+	GetTasksReq  {}
+	GetTasksResp {
+		TasksList []*Tasks `json:"tasksList"`
+	}
+)
+
+type (
+	ClaimRewardReq {
+		TaskId int64 `json:"taskId" validate:"oneof=1 2 3 4 5 6 7 8 9"`
+	}
+	ClaimRewardResp  {}
+)
+
+type (
+	UpdateSubReq {
+		State int64 `json:"state" validate:"oneof=0 1"` //订阅状态
+	}
+	UpdateSubResp  {}
+)
+

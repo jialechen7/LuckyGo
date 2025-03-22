@@ -7,7 +7,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     ports:
-      - 8888:8080
+      - 8889:8080
     volumes:
       - ./deploy/nginx/:/etc/nginx/conf.d
       - ./data/nginx/log:/var/log/nginx

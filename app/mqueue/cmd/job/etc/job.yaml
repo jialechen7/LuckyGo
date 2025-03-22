@@ -1,0 +1,43 @@
+Name: mqueue-job
+Host: 0.0.0.0
+Port: 3002
+Mode: dev
+
+Telemetry:
+  Name: mqueue-job
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+
+Log:
+  ServiceName: mqueue-job
+  Mode: console
+  # 打印堆栈信息 方便查询错误
+  Encoding: plain
+  Level: error
+
+Redis:
+  Host: go-lottery-redis:6379
+  Type: node
+  Pass: root
+
+LotteryRpcConf:
+  Endpoints:
+    - 127.0.0.1:7002
+  NonBlock: true
+NoticeRpcConf:
+  Endpoints:
+    - 127.0.0.1:7003
+  NonBlock: true
+CheckinRpcConf:
+  Endpoints:
+    - 127.0.0.1:7005
+  NonBlock: true
+
+WxMiniConf:
+  AppId: ${WEIXIN_APP_ID}
+  AppSecret: ${WEIXIN_APP_SECRET}
+
+WxMsgConf:
+  EventToken: dasdasdqwrqfwefvds
+  EncodingAESKey: UZ3q4QOGO30c25XPnScowrcNQSsxYDsxFWhG0a6m90u

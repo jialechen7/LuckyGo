@@ -175,6 +175,38 @@
         ]
       }
     },
+    "/lottery/v1/lottery/instantParticipation": {
+      "post": {
+        "summary": "参与即抽即中抽奖",
+        "operationId": "addInstantLotteryParticipation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddInstantLotteryParticipationResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddInstantLotteryParticipationReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/lottery/v1/lottery/lotteryDetail": {
       "post": {
         "summary": "抽奖详情",
@@ -266,6 +298,33 @@
         ]
       }
     },
+    "/lottery/v1/lottery/lotteryListSlow": {
+      "post": {
+        "summary": "获取抽奖列表（慢查询）",
+        "operationId": "lotteryListSlow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LotteryListSlowQueryResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LotteryListSlowQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "lottery"
+        ]
+      }
+    },
     "/lottery/v1/lottery/participation": {
       "post": {
         "summary": "参与抽奖",
@@ -332,6 +391,32 @@
     }
   },
   "definitions": {
+    "AddInstantLotteryParticipationReq": {
+      "type": "object",
+      "properties": {
+        "lotteryId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddInstantLotteryParticipationReq",
+      "required": [
+        "lotteryId"
+      ]
+    },
+    "AddInstantLotteryParticipationResp": {
+      "type": "object",
+      "properties": {
+        "prizeId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddInstantLotteryParticipationResp",
+      "required": [
+        "prizeId"
+      ]
+    },
     "AddLotteryParticipationReq": {
       "type": "object",
       "properties": {
@@ -941,6 +1026,44 @@
         }
       },
       "title": "LotteryListResp",
+      "required": [
+        "list"
+      ]
+    },
+    "LotteryListSlowQueryReq": {
+      "type": "object",
+      "properties": {
+        "pageIndex": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isSelected": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LotteryListSlowQueryReq",
+      "required": [
+        "pageIndex",
+        "pageSize",
+        "isSelected"
+      ]
+    },
+    "LotteryListSlowQueryResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lottery"
+          }
+        }
+      },
+      "title": "LotteryListSlowQueryResp",
       "required": [
         "list"
       ]

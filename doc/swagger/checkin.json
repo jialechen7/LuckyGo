@@ -1,0 +1,481 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "签到服务",
+    "description": "签到服务",
+    "version": "v1"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/checkin/v1/checkin": {
+      "post": {
+        "summary": "签到操作",
+        "operationId": "Checkin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CheckinResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckinReq"
+            }
+          }
+        ],
+        "tags": [
+          "checkin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/checkin/v1/checkin/claimReward": {
+      "post": {
+        "summary": "领取任务奖励",
+        "operationId": "ClaimReward",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ClaimRewardResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClaimRewardReq"
+            }
+          }
+        ],
+        "tags": [
+          "checkin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/checkin/v1/checkin/getCheckin": {
+      "post": {
+        "summary": "获得签到状态以及积分",
+        "operationId": "getCheckin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCheckinResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetCheckinReq"
+            }
+          }
+        ],
+        "tags": [
+          "checkin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/checkin/v1/checkin/getTasks": {
+      "post": {
+        "summary": "获得用户任务完成状态",
+        "operationId": "getTasks",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTasksResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetTasksReq"
+            }
+          }
+        ],
+        "tags": [
+          "checkin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/checkin/v1/checkin/updateSub": {
+      "post": {
+        "summary": "改变订阅签到状态",
+        "operationId": "UpdateSub",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateSubResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSubReq"
+            }
+          }
+        ],
+        "tags": [
+          "checkin"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CheckinRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户ID"
+        },
+        "continuousCheckinDays": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户连续签到的天数"
+        },
+        "lastCheckinDate": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户最后一次签到"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int64",
+          "description": "当天用户是否签到，0为未签，1为已签"
+        }
+      },
+      "title": "CheckinRecord",
+      "required": [
+        "id",
+        "userId",
+        "continuousCheckinDays",
+        "lastCheckinDate",
+        "state"
+      ]
+    },
+    "CheckinReq": {
+      "type": "object",
+      "title": "CheckinReq"
+    },
+    "CheckinResp": {
+      "type": "object",
+      "properties": {
+        "continuousCheckinDays": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户连续签到的天数"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int64",
+          "description": "当天用户是否签到，0为未签，1为已签"
+        },
+        "integral": {
+          "type": "integer",
+          "format": "int64",
+          "description": "心愿值"
+        }
+      },
+      "title": "CheckinResp",
+      "required": [
+        "continuousCheckinDays",
+        "state",
+        "integral"
+      ]
+    },
+    "ClaimRewardReq": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ClaimRewardReq",
+      "required": [
+        "taskId"
+      ]
+    },
+    "ClaimRewardResp": {
+      "type": "object",
+      "title": "ClaimRewardResp"
+    },
+    "GetCheckinReq": {
+      "type": "object",
+      "title": "GetCheckinReq"
+    },
+    "GetCheckinResp": {
+      "type": "object",
+      "properties": {
+        "continuousCheckinDays": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户连续签到的天数"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int64",
+          "description": "当天用户是否签到，0为未签，1为已签"
+        },
+        "integral": {
+          "type": "integer",
+          "format": "int64",
+          "description": "心愿值"
+        },
+        "subStatus": {
+          "type": "integer",
+          "format": "int64",
+          "description": "订阅状态"
+        }
+      },
+      "title": "GetCheckinResp",
+      "required": [
+        "continuousCheckinDays",
+        "state",
+        "integral",
+        "subStatus"
+      ]
+    },
+    "GetTasksReq": {
+      "type": "object",
+      "title": "GetTasksReq"
+    },
+    "GetTasksResp": {
+      "type": "object",
+      "properties": {
+        "tasksList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tasks"
+          }
+        }
+      },
+      "title": "GetTasksResp",
+      "required": [
+        "tasksList"
+      ]
+    },
+    "IntegralRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户ID"
+        },
+        "integral": {
+          "type": "integer",
+          "format": "int64",
+          "description": "增加或减少积分的数量"
+        },
+        "content": {
+          "type": "string",
+          "description": "增加或减少积分的原因"
+        }
+      },
+      "title": "IntegralRecord",
+      "required": [
+        "id",
+        "userId",
+        "integral",
+        "content"
+      ]
+    },
+    "Intergral": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户ID"
+        },
+        "integral": {
+          "type": "integer",
+          "format": "int64",
+          "description": "心愿值"
+        }
+      },
+      "title": "Intergral",
+      "required": [
+        "id",
+        "userId",
+        "integral"
+      ]
+    },
+    "TaskProgress": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isParticipatedLottery": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isInitiatedLottery": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isSubCheckin": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "TaskProgress",
+      "required": [
+        "id",
+        "userId",
+        "isParticipatedLottery",
+        "isInitiatedLottery",
+        "isSubCheckin"
+      ]
+    },
+    "Tasks": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "content": {
+          "type": "string"
+        },
+        "integral": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isFinished": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "path": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "needCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "Tasks",
+      "required": [
+        "id",
+        "type",
+        "content",
+        "integral",
+        "isFinished",
+        "path",
+        "count",
+        "needCount"
+      ]
+    },
+    "UpdateSubReq": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "integer",
+          "format": "int64",
+          "description": "订阅状态"
+        }
+      },
+      "title": "UpdateSubReq",
+      "required": [
+        "state"
+      ]
+    },
+    "UpdateSubResp": {
+      "type": "object",
+      "title": "UpdateSubResp"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

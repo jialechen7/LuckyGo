@@ -3,6 +3,14 @@
 
 package types
 
+type AddInstantLotteryParticipationReq struct {
+	LotteryId int64 `json:"lotteryId"`
+}
+
+type AddInstantLotteryParticipationResp struct {
+	PrizeId int64 `json:"prizeId"`
+}
+
 type AddLotteryParticipationReq struct {
 	LotteryId int64 `json:"lotteryId"`
 }
@@ -143,6 +151,16 @@ type LotteryListReq struct {
 }
 
 type LotteryListResp struct {
+	List []Lottery `json:"list"`
+}
+
+type LotteryListSlowQueryReq struct {
+	PageIndex  int64 `json:"pageIndex"`
+	PageSize   int64 `json:"pageSize"`
+	IsSelected int64 `json:"isSelected"`
+}
+
+type LotteryListSlowQueryResp struct {
 	List []Lottery `json:"list"`
 }
 
