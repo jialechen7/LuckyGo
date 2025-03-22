@@ -45,6 +45,7 @@ CREATE TABLE `prize`  (
     `level` int(0) NOT NULL DEFAULT 1 COMMENT '几等奖 默认1',
     `thumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '奖品图',
     `count` int(0) NOT NULL DEFAULT 0 COMMENT '奖品份数',
+    `stock` int(0) NOT NULL DEFAULT 0 COMMENT '奖品库存',
     `grant_type` tinyint(1) NOT NULL COMMENT '奖品发放方式：1快递邮寄 2让中奖者联系我 3中奖者填写信息 4跳转到其他小程序',
     `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),

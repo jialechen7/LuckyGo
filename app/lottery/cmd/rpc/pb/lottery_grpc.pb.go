@@ -19,21 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Lottery_SearchLottery_FullMethodName              = "/pb.lottery/SearchLottery"
-	Lottery_GetLotteryListSlowQuery_FullMethodName    = "/pb.lottery/GetLotteryListSlowQuery"
-	Lottery_GetLotteryListAfterLogin_FullMethodName   = "/pb.lottery/GetLotteryListAfterLogin"
-	Lottery_AddLottery_FullMethodName                 = "/pb.lottery/AddLottery"
-	Lottery_LotteryDetail_FullMethodName              = "/pb.lottery/LotteryDetail"
-	Lottery_AnnounceLottery_FullMethodName            = "/pb.lottery/AnnounceLottery"
-	Lottery_GetUserWonList_FullMethodName             = "/pb.lottery/GetUserWonList"
-	Lottery_GetWonListByLotteryId_FullMethodName      = "/pb.lottery/GetWonListByLotteryId"
-	Lottery_GetUserAllList_FullMethodName             = "/pb.lottery/GetUserAllList"
-	Lottery_GetUserCreatedList_FullMethodName         = "/pb.lottery/GetUserCreatedList"
-	Lottery_SearchLotteryParticipation_FullMethodName = "/pb.lottery/SearchLotteryParticipation"
-	Lottery_GetLotteryStatistic_FullMethodName        = "/pb.lottery/GetLotteryStatistic"
-	Lottery_AddLotteryParticipation_FullMethodName    = "/pb.lottery/AddLotteryParticipation"
-	Lottery_CheckLotteryParticipated_FullMethodName   = "/pb.lottery/CheckLotteryParticipated"
-	Lottery_CheckLotteryCreated_FullMethodName        = "/pb.lottery/CheckLotteryCreated"
+	Lottery_SearchLottery_FullMethodName                  = "/pb.lottery/SearchLottery"
+	Lottery_GetLotteryListSlowQuery_FullMethodName        = "/pb.lottery/GetLotteryListSlowQuery"
+	Lottery_GetLotteryListAfterLogin_FullMethodName       = "/pb.lottery/GetLotteryListAfterLogin"
+	Lottery_AddLottery_FullMethodName                     = "/pb.lottery/AddLottery"
+	Lottery_LotteryDetail_FullMethodName                  = "/pb.lottery/LotteryDetail"
+	Lottery_AnnounceLottery_FullMethodName                = "/pb.lottery/AnnounceLottery"
+	Lottery_GetUserWonList_FullMethodName                 = "/pb.lottery/GetUserWonList"
+	Lottery_GetWonListByLotteryId_FullMethodName          = "/pb.lottery/GetWonListByLotteryId"
+	Lottery_GetUserAllList_FullMethodName                 = "/pb.lottery/GetUserAllList"
+	Lottery_GetUserCreatedList_FullMethodName             = "/pb.lottery/GetUserCreatedList"
+	Lottery_SearchLotteryParticipation_FullMethodName     = "/pb.lottery/SearchLotteryParticipation"
+	Lottery_GetLotteryStatistic_FullMethodName            = "/pb.lottery/GetLotteryStatistic"
+	Lottery_AddLotteryParticipation_FullMethodName        = "/pb.lottery/AddLotteryParticipation"
+	Lottery_AddInstantLotteryParticipation_FullMethodName = "/pb.lottery/AddInstantLotteryParticipation"
+	Lottery_CheckLotteryParticipated_FullMethodName       = "/pb.lottery/CheckLotteryParticipated"
+	Lottery_CheckLotteryCreated_FullMethodName            = "/pb.lottery/CheckLotteryCreated"
 )
 
 // LotteryClient is the client API for Lottery service.
@@ -53,6 +54,7 @@ type LotteryClient interface {
 	SearchLotteryParticipation(ctx context.Context, in *SearchLotteryParticipationReq, opts ...grpc.CallOption) (*SearchLotteryParticipationResp, error)
 	GetLotteryStatistic(ctx context.Context, in *GetLotteryStatisticReq, opts ...grpc.CallOption) (*GetLotteryStatisticResp, error)
 	AddLotteryParticipation(ctx context.Context, in *AddLotteryParticipationReq, opts ...grpc.CallOption) (*AddLotteryParticipationResp, error)
+	AddInstantLotteryParticipation(ctx context.Context, in *AddInstantLotteryParticipationReq, opts ...grpc.CallOption) (*AddInstantLotteryParticipationResp, error)
 	CheckLotteryParticipated(ctx context.Context, in *CheckLotteryParticipatedReq, opts ...grpc.CallOption) (*CheckLotteryParticipatedResp, error)
 	CheckLotteryCreated(ctx context.Context, in *CheckLotteryCreatedReq, opts ...grpc.CallOption) (*CheckLotteryCreatedResp, error)
 }
@@ -195,6 +197,16 @@ func (c *lotteryClient) AddLotteryParticipation(ctx context.Context, in *AddLott
 	return out, nil
 }
 
+func (c *lotteryClient) AddInstantLotteryParticipation(ctx context.Context, in *AddInstantLotteryParticipationReq, opts ...grpc.CallOption) (*AddInstantLotteryParticipationResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddInstantLotteryParticipationResp)
+	err := c.cc.Invoke(ctx, Lottery_AddInstantLotteryParticipation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *lotteryClient) CheckLotteryParticipated(ctx context.Context, in *CheckLotteryParticipatedReq, opts ...grpc.CallOption) (*CheckLotteryParticipatedResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CheckLotteryParticipatedResp)
@@ -232,6 +244,7 @@ type LotteryServer interface {
 	SearchLotteryParticipation(context.Context, *SearchLotteryParticipationReq) (*SearchLotteryParticipationResp, error)
 	GetLotteryStatistic(context.Context, *GetLotteryStatisticReq) (*GetLotteryStatisticResp, error)
 	AddLotteryParticipation(context.Context, *AddLotteryParticipationReq) (*AddLotteryParticipationResp, error)
+	AddInstantLotteryParticipation(context.Context, *AddInstantLotteryParticipationReq) (*AddInstantLotteryParticipationResp, error)
 	CheckLotteryParticipated(context.Context, *CheckLotteryParticipatedReq) (*CheckLotteryParticipatedResp, error)
 	CheckLotteryCreated(context.Context, *CheckLotteryCreatedReq) (*CheckLotteryCreatedResp, error)
 	mustEmbedUnimplementedLotteryServer()
@@ -282,6 +295,9 @@ func (UnimplementedLotteryServer) GetLotteryStatistic(context.Context, *GetLotte
 }
 func (UnimplementedLotteryServer) AddLotteryParticipation(context.Context, *AddLotteryParticipationReq) (*AddLotteryParticipationResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddLotteryParticipation not implemented")
+}
+func (UnimplementedLotteryServer) AddInstantLotteryParticipation(context.Context, *AddInstantLotteryParticipationReq) (*AddInstantLotteryParticipationResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddInstantLotteryParticipation not implemented")
 }
 func (UnimplementedLotteryServer) CheckLotteryParticipated(context.Context, *CheckLotteryParticipatedReq) (*CheckLotteryParticipatedResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckLotteryParticipated not implemented")
@@ -544,6 +560,24 @@ func _Lottery_AddLotteryParticipation_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Lottery_AddInstantLotteryParticipation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddInstantLotteryParticipationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LotteryServer).AddInstantLotteryParticipation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Lottery_AddInstantLotteryParticipation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LotteryServer).AddInstantLotteryParticipation(ctx, req.(*AddInstantLotteryParticipationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Lottery_CheckLotteryParticipated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckLotteryParticipatedReq)
 	if err := dec(in); err != nil {
@@ -638,6 +672,10 @@ var Lottery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddLotteryParticipation",
 			Handler:    _Lottery_AddLotteryParticipation_Handler,
+		},
+		{
+			MethodName: "AddInstantLotteryParticipation",
+			Handler:    _Lottery_AddInstantLotteryParticipation_Handler,
 		},
 		{
 			MethodName: "CheckLotteryParticipated",

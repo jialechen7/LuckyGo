@@ -144,6 +144,7 @@ service lottery {
   rpc SearchLotteryParticipation(SearchLotteryParticipationReq) returns (SearchLotteryParticipationResp);
   rpc GetLotteryStatistic(GetLotteryStatisticReq) returns (GetLotteryStatisticResp);
   rpc AddLotteryParticipation(AddLotteryParticipationReq) returns (AddLotteryParticipationResp);
+  rpc AddInstantLotteryParticipation(AddInstantLotteryParticipationReq) returns (AddInstantLotteryParticipationResp);
   rpc CheckLotteryParticipated(CheckLotteryParticipatedReq) returns (CheckLotteryParticipatedResp);
   rpc CheckLotteryCreated(CheckLotteryCreatedReq) returns (CheckLotteryCreatedResp);
 
@@ -191,6 +192,15 @@ message AddLotteryParticipationReq{
 }
 
 message AddLotteryParticipationResp{
+  int64 id = 1;
+}
+
+message AddInstantLotteryParticipationReq {
+  int64 userId = 1;
+  int64 lotteryId = 2;
+}
+
+message AddInstantLotteryParticipationResp {
   int64 id = 1;
 }
 

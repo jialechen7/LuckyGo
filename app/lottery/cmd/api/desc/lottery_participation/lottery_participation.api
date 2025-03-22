@@ -33,6 +33,14 @@ type AddLotteryParticipationReq {
 
 type AddLotteryParticipationResp {}
 
+type AddInstantLotteryParticipationReq {
+	LotteryId int64 `json:"lotteryId"`
+}
+
+type AddInstantLotteryParticipationResp {
+	PrizeId int64 `json:"prizeId"`
+}
+
 type SearchLotteryParticipationReq {
 	LotteryId int64 `json:"lotteryId"`
 	PageIndex int64 `json:"pageIndex"`

@@ -14,6 +14,8 @@ import (
 )
 
 type (
+	AddInstantLotteryParticipationReq      = pb.AddInstantLotteryParticipationReq
+	AddInstantLotteryParticipationResp     = pb.AddInstantLotteryParticipationResp
 	AddLotteryParticipationReq             = pb.AddLotteryParticipationReq
 	AddLotteryParticipationResp            = pb.AddLotteryParticipationResp
 	AddLotteryReq                          = pb.AddLotteryReq
@@ -76,6 +78,7 @@ type (
 		SearchLotteryParticipation(ctx context.Context, in *SearchLotteryParticipationReq, opts ...grpc.CallOption) (*SearchLotteryParticipationResp, error)
 		GetLotteryStatistic(ctx context.Context, in *GetLotteryStatisticReq, opts ...grpc.CallOption) (*GetLotteryStatisticResp, error)
 		AddLotteryParticipation(ctx context.Context, in *AddLotteryParticipationReq, opts ...grpc.CallOption) (*AddLotteryParticipationResp, error)
+		AddInstantLotteryParticipation(ctx context.Context, in *AddInstantLotteryParticipationReq, opts ...grpc.CallOption) (*AddInstantLotteryParticipationResp, error)
 		CheckLotteryParticipated(ctx context.Context, in *CheckLotteryParticipatedReq, opts ...grpc.CallOption) (*CheckLotteryParticipatedResp, error)
 		CheckLotteryCreated(ctx context.Context, in *CheckLotteryCreatedReq, opts ...grpc.CallOption) (*CheckLotteryCreatedResp, error)
 	}
@@ -154,6 +157,11 @@ func (m *defaultLotteryZrpcClient) GetLotteryStatistic(ctx context.Context, in *
 func (m *defaultLotteryZrpcClient) AddLotteryParticipation(ctx context.Context, in *AddLotteryParticipationReq, opts ...grpc.CallOption) (*AddLotteryParticipationResp, error) {
 	client := pb.NewLotteryClient(m.cli.Conn())
 	return client.AddLotteryParticipation(ctx, in, opts...)
+}
+
+func (m *defaultLotteryZrpcClient) AddInstantLotteryParticipation(ctx context.Context, in *AddInstantLotteryParticipationReq, opts ...grpc.CallOption) (*AddInstantLotteryParticipationResp, error) {
+	client := pb.NewLotteryClient(m.cli.Conn())
+	return client.AddInstantLotteryParticipation(ctx, in, opts...)
 }
 
 func (m *defaultLotteryZrpcClient) CheckLotteryParticipated(ctx context.Context, in *CheckLotteryParticipatedReq, opts ...grpc.CallOption) (*CheckLotteryParticipatedResp, error) {
