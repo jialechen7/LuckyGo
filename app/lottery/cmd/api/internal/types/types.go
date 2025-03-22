@@ -3,6 +3,14 @@
 
 package types
 
+type AddInstantLotteryParticipationReq struct {
+	LotteryId int64 `json:"lotteryId"`
+}
+
+type AddInstantLotteryParticipationResp struct {
+	PrizeId int64 `json:"prizeId"`
+}
+
 type AddLotteryParticipationReq struct {
 	LotteryId int64 `json:"lotteryId"`
 }

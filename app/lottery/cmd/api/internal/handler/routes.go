@@ -64,6 +64,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: lottery.GetUserCreatedLotteryListHandler(serverCtx),
 			},
 			{
+				// 参与即抽即中抽奖
+				Method:  http.MethodPost,
+				Path:    "/lottery/instantParticipation",
+				Handler: lottery.AddInstantLotteryParticipationHandler(serverCtx),
+			},
+			{
 				// 抽奖详情
 				Method:  http.MethodPost,
 				Path:    "/lottery/lotteryDetail",

@@ -45,6 +45,7 @@ type (
 		Level      int64     `gorm:"column:level"`      // 几等奖 默认1
 		Thumb      string    `gorm:"column:thumb"`      // 奖品图
 		Count      int64     `gorm:"column:count"`      // 奖品份数
+		Stock      int64     `gorm:"column:stock"`      // 奖品库存
 		GrantType  int64     `gorm:"column:grant_type"` // 奖品发放方式：1快递邮寄 2让中奖者联系我 3中奖者填写信息 4跳转到其他小程序
 		CreateTime time.Time `gorm:"column:create_time"`
 		UpdateTime time.Time `gorm:"column:update_time"`

@@ -62,6 +62,7 @@ func (l *AddLotteryLogic) AddLottery(in *pb.AddLotteryReq) (*pb.AddLotteryResp, 
 			prize := new(model.Prize)
 			_ = copier.Copy(prize, pbPrize)
 			prize.LotteryId = lotteryId
+			prize.Stock = prize.Count
 			err := l.svcCtx.PrizeModel.Insert(l.ctx, db, prize)
 			if err != nil {
 				return errors.Wrapf(model.ErrCreatePrize, "AddLotteryLogic Insert Prize error: %v", err)

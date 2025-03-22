@@ -40,22 +40,22 @@ type (
 
 	Lottery struct {
 		Id            int64        `gorm:"column:id;primary_key"`
-		UserId        int64        `gorm:"column:user_id"`        // 发起抽奖用户ID
-		Name          string       `gorm:"column:name"`           // 默认取一等奖名称
-		Thumb         string       `gorm:"column:thumb"`          // 默认取一等经配图
-		PublishTime   sql.NullTime `gorm:"column:publish_time"`   // 发布抽奖时间
-		JoinNumber    int64        `gorm:"column:join_number"`    // 自动开奖人数
-		Introduce     string       `gorm:"column:introduce"`      // 抽奖说明
-		AwardDeadline time.Time    `gorm:"column:award_deadline"` // 领奖截止时间
-		IsSelected    int64        `gorm:"column:is_selected"`    // 是否精选: 0否 1是
-		AnnounceType  int64        `gorm:"column:announce_type"`  // 开奖设置：1按时间开奖 2按人数开奖 3即抽即中
-		AnnounceTime  time.Time    `gorm:"column:announce_time"`  // 开奖时间
+		UserId        int64        `gorm:"column:user_id"`        // å‘èµ·æŠ½å¥–ç”¨æˆ·ID
+		Name          string       `gorm:"column:name"`           // é»˜è®¤å–ä¸€ç­‰å¥–åç§°
+		Thumb         string       `gorm:"column:thumb"`          // é»˜è®¤å–ä¸€ç­‰ç»é…å›¾
+		PublishTime   sql.NullTime `gorm:"column:publish_time"`   // å‘å¸ƒæŠ½å¥–æ—¶é—´
+		JoinNumber    int64        `gorm:"column:join_number"`    // è‡ªåŠ¨å¼€å¥–äººæ•°
+		Introduce     string       `gorm:"column:introduce"`      // æŠ½å¥–è¯´æ˜Ž
+		AwardDeadline time.Time    `gorm:"column:award_deadline"` // é¢†å¥–æˆªæ­¢æ—¶é—´
+		IsSelected    int64        `gorm:"column:is_selected"`    // æ˜¯å¦ç²¾é€‰: 0å¦ 1æ˜¯
+		AnnounceType  int64        `gorm:"column:announce_type"`  // å¼€å¥–è®¾ç½®ï¼š1æŒ‰æ—¶é—´å¼€å¥– 2æŒ‰äººæ•°å¼€å¥– 3å³æŠ½å³ä¸­
+		AnnounceTime  time.Time    `gorm:"column:announce_time"`  // å¼€å¥–æ—¶é—´
 		CreateTime    time.Time    `gorm:"column:create_time"`
 		UpdateTime    time.Time    `gorm:"column:update_time"`
-		IsAnnounced   int64        `gorm:"column:is_announced"`  // 是否开奖：0未开奖 1已经开奖
-		SponsorId     int64        `gorm:"column:sponsor_id"`    // 发起抽奖赞助商ID
-		IsClocked     int64        `gorm:"column:is_clocked"`    // 是否开启打卡任务：0未开启 1已开启
-		ClockTaskId   int64        `gorm:"column:clock_task_id"` // 打卡任务任务ID
+		IsAnnounced   int64        `gorm:"column:is_announced"`  // æ˜¯å¦å¼€å¥–ï¼š0æœªå¼€å¥– 1å·²ç»å¼€å¥–
+		SponsorId     int64        `gorm:"column:sponsor_id"`    // å‘èµ·æŠ½å¥–èµžåŠ©å•†ID
+		IsClocked     int64        `gorm:"column:is_clocked"`    // æ˜¯å¦å¼€å¯æ‰“å¡ä»»åŠ¡ï¼š0æœªå¼€å¯ 1å·²å¼€å¯
+		ClockTaskId   int64        `gorm:"column:clock_task_id"` // æ‰“å¡ä»»åŠ¡ä»»åŠ¡ID
 	}
 )
 

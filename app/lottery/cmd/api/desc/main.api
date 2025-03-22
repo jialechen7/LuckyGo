@@ -68,5 +68,9 @@ service lottery {
 	@doc "参与抽奖"
 	@handler addLotteryParticipation
 	post /lottery/participation (AddLotteryParticipationReq) returns (AddLotteryParticipationResp)
+
+	@doc "参与即抽即中抽奖"
+	@handler addInstantLotteryParticipation
+	post /lottery/instantParticipation (AddInstantLotteryParticipationReq) returns (AddInstantLotteryParticipationResp)
 }
 

@@ -88,6 +88,11 @@ func (s *LotteryServer) AddLotteryParticipation(ctx context.Context, in *pb.AddL
 	return l.AddLotteryParticipation(in)
 }
 
+func (s *LotteryServer) AddInstantLotteryParticipation(ctx context.Context, in *pb.AddInstantLotteryParticipationReq) (*pb.AddInstantLotteryParticipationResp, error) {
+	l := logic.NewAddInstantLotteryParticipationLogic(ctx, s.svcCtx)
+	return l.AddInstantLotteryParticipation(in)
+}
+
 func (s *LotteryServer) CheckLotteryParticipated(ctx context.Context, in *pb.CheckLotteryParticipatedReq) (*pb.CheckLotteryParticipatedResp, error) {
 	l := logic.NewCheckLotteryParticipatedLogic(ctx, s.svcCtx)
 	return l.CheckLotteryParticipated(in)
