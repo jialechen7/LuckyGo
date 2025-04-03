@@ -3,5 +3,5 @@ data/
 .vscode/
 .env
 wechat/
-tokens.csv
+*.csv
 log/

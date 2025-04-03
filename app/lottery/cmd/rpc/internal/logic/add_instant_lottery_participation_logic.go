@@ -7,7 +7,6 @@ import (
 	"github.com/jialechen7/go-lottery/common/utility"
 	"github.com/jialechen7/go-lottery/common/xerr"
 	"github.com/pkg/errors"
-	"gorm.io/gorm"
 	"strconv"
 
 	"github.com/jialechen7/go-lottery/app/lottery/cmd/rpc/internal/svc"
@@ -31,13 +30,6 @@ func NewAddInstantLotteryParticipationLogic(ctx context.Context, svcCtx *svc.Ser
 }
 
 func (l *AddInstantLotteryParticipationLogic) AddInstantLotteryParticipation(in *pb.AddInstantLotteryParticipationReq) (*pb.AddInstantLotteryParticipationResp, error) {
-	mutexKey := constants.InstantLotteryRedisKey + strconv.Itoa(int(in.LotteryId))
-	mutex := l.svcCtx.RedsyncClient.NewMutex(mutexKey)
-	if err := mutex.Lock(); err != nil {
-		return nil, errors.Wrapf(err, "failed to lock mutex %s", mutexKey)
-	}
-	defer mutex.Unlock()
-
 	// 1. 检查参与的抽奖是否为即抽即中类型
 	dbLottery, err := l.svcCtx.LotteryModel.FindOne(l.ctx, in.LotteryId)
 	if err != nil {
@@ -46,6 +38,14 @@ func (l *AddInstantLotteryParticipationLogic) AddInstantLotteryParticipation(in 
 	if dbLottery.AnnounceType != constants.AnnounceTypeInstant {
 		return nil, errors.Wrapf(xerr.NewErrCode(xerr.ANNOUNCE_LOTTERY_FAIL), "lottery %d is not instant lottery", in.LotteryId)
 	}
+
+	// 分布式锁Key = InstantLottery:{UserId}:{LotteryId}
+	mutexKey := constants.InstantLotteryRedisKey + ":" + strconv.Itoa(int(in.UserId)) + ":" + strconv.Itoa(int(in.LotteryId))
+	mutex := l.svcCtx.RedsyncClient.NewMutex(mutexKey)
+	if err := mutex.Lock(); err != nil {
+		return nil, errors.Wrapf(err, "failed to lock mutex %s", mutexKey)
+	}
+	defer mutex.Unlock()
 
 	// 2. 检查用户是否已经参与
 	dbParticipation, err := l.svcCtx.LotteryParticipationModel.FindOneByLotteryIdUserId(l.ctx, in.LotteryId, in.UserId)
@@ -86,28 +86,25 @@ func (l *AddInstantLotteryParticipationLogic) AddInstantLotteryParticipation(in 
 		return &pb.AddInstantLotteryParticipationResp{}, nil
 	}
 
-	err = l.svcCtx.TransactCtx(l.ctx, func(db *gorm.DB) error {
-		err = l.svcCtx.PrizeModel.DecrStock(l.ctx, wonPrize.Id)
-		if err != nil {
-			return errors.Wrapf(xerr.NewErrCode(xerr.DB_DECR_PRIZE_STOCK_ERR), "failed to decr prize count by prizeId %d", wonPrize.Id)
-		}
+	canWon := constants.PrizeHasWon
+	prizeId := wonPrize.Id
+	err = l.svcCtx.PrizeModel.DecrStock(l.ctx, wonPrize.Id)
+	if err != nil {
+		canWon = constants.PrizeNotWon
+		prizeId = 0
+	}
 
-		err = l.svcCtx.LotteryParticipationModel.Insert(l.ctx, db, &model.LotteryParticipation{
-			LotteryId: in.LotteryId,
-			UserId:    in.UserId,
-			IsWon:     constants.PrizeHasWon,
-			PrizeId:   wonPrize.Id,
-		})
-		if err != nil {
-			return errors.Wrapf(xerr.NewErrCode(xerr.DB_PARTICIPATE_LOTTERY), "failed to participate lottery %d", in.LotteryId)
-		}
-		return nil
+	err = l.svcCtx.LotteryParticipationModel.Insert(l.ctx, nil, &model.LotteryParticipation{
+		LotteryId: in.LotteryId,
+		UserId:    in.UserId,
+		IsWon:     int64(canWon),
+		PrizeId:   prizeId,
 	})
 	if err != nil {
-		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_TRANSACTION_ERROR), "failed to participate lottery %d", in.LotteryId)
+		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_PARTICIPATE_LOTTERY), "failed to participate lottery %d", in.LotteryId)
 	}
 
 	return &pb.AddInstantLotteryParticipationResp{
-		Id: wonPrize.Id,
+		Id: prizeId,
 	}, nil
 }
