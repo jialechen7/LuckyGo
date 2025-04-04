@@ -6,6 +6,7 @@ import (
 )
 
 var ErrNotFound = gorm.ErrRecordNotFound
+var ErrRowsAffectedZero = xerr.NewErrMsg("操作数据行数为0")
 var ErrSearchList = xerr.NewErrMsg("查询列表失败")
 var ErrCreateLottery = xerr.NewErrMsg("创建抽奖失败")
 var ErrCreatePrize = xerr.NewErrMsg("创建奖品失败")

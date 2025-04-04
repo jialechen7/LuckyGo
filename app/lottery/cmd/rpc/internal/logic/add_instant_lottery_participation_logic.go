@@ -7,6 +7,7 @@ import (
 	"github.com/jialechen7/go-lottery/common/utility"
 	"github.com/jialechen7/go-lottery/common/xerr"
 	"github.com/pkg/errors"
+	"gorm.io/gorm"
 	"strconv"
 
 	"github.com/jialechen7/go-lottery/app/lottery/cmd/rpc/internal/svc"
@@ -88,20 +89,27 @@ func (l *AddInstantLotteryParticipationLogic) AddInstantLotteryParticipation(in 
 
 	canWon := constants.PrizeHasWon
 	prizeId := wonPrize.Id
-	err = l.svcCtx.PrizeModel.DecrStock(l.ctx, wonPrize.Id)
-	if err != nil {
-		canWon = constants.PrizeNotWon
-		prizeId = 0
-	}
+	err = l.svcCtx.TransactCtx(l.ctx, func(db *gorm.DB) error {
+		err = l.svcCtx.PrizeModel.DecrStock(l.ctx, wonPrize.Id)
+		if err != nil {
+			canWon = constants.PrizeNotWon
+			prizeId = 0
+		}
 
-	err = l.svcCtx.LotteryParticipationModel.Insert(l.ctx, nil, &model.LotteryParticipation{
-		LotteryId: in.LotteryId,
-		UserId:    in.UserId,
-		IsWon:     int64(canWon),
-		PrizeId:   prizeId,
+		err = l.svcCtx.LotteryParticipationModel.Insert(l.ctx, db, &model.LotteryParticipation{
+			LotteryId: in.LotteryId,
+			UserId:    in.UserId,
+			IsWon:     int64(canWon),
+			PrizeId:   prizeId,
+		})
+		if err != nil {
+			return errors.Wrapf(xerr.NewErrCode(xerr.DB_PARTICIPATE_LOTTERY), "failed to participate lottery %d", in.LotteryId)
+		}
+
+		return nil
 	})
 	if err != nil {
-		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_PARTICIPATE_LOTTERY), "failed to participate lottery %d", in.LotteryId)
+		return nil, errors.Wrapf(xerr.NewErrCode(xerr.DB_TRANSACTION_ERROR), "failed to participate lottery %d", in.LotteryId)
 	}
 
 	return &pb.AddInstantLotteryParticipationResp{
