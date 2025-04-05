@@ -25,3 +25,11 @@ UsercenterRpcConf:
   Endpoints:
     - 127.0.0.1:7000
   NonBlock: true
+
+Kafka:
+  Host:
+    - go-lottery-kafka:9092
+  Topic: lottery-participant-dev
+  Group: lottery-participant-dev
+
+

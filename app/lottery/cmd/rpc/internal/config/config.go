@@ -15,4 +15,9 @@ type Config struct {
 		AccessExpire int64
 	}
 	UsercenterRpcConf zrpc.RpcClientConf
+	Kafka             struct {
+		Host  []string
+		Topic string
+		Group string
+	}
 }
