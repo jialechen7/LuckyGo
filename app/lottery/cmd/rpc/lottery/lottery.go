@@ -55,6 +55,7 @@ type (
 	LotteryDetailReq                       = pb.LotteryDetailReq
 	LotteryDetailResp                      = pb.LotteryDetailResp
 	LotteryParticipation                   = pb.LotteryParticipation
+	MessageValue                           = pb.MessageValue
 	Prize                                  = pb.Prize
 	SearchLotteryParticipationReq          = pb.SearchLotteryParticipationReq
 	SearchLotteryParticipationResp         = pb.SearchLotteryParticipationResp

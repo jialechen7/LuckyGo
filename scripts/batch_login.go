@@ -109,12 +109,12 @@ func main() {
 	for i := 0; i < 1000; i++ {
 		mobile := fmt.Sprintf("%s%03d", mobilePrefix, i)
 
-		// 注册用户
-		err := registerUser(mobile, password)
-		if err != nil {
-			fmt.Printf("Error registering user %s: %v\n", mobile, err)
-			continue
-		}
+		//// 注册用户
+		//err := registerUser(mobile, password)
+		//if err != nil {
+		//	fmt.Printf("Error registering user %s: %v\n", mobile, err)
+		//	continue
+		//}
 
 		// 登录用户
 		token, err := loginUser(mobile, password)
