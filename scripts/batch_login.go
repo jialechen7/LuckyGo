@@ -106,7 +106,7 @@ func main() {
 	password := "zZizwGGf8H3nF47"
 	tokens := make([]string, 0, 1000)
 
-	for i := 1; i <= 1000; i++ {
+	for i := 0; i < 1000; i++ {
 		mobile := fmt.Sprintf("%s%03d", mobilePrefix, i)
 
 		//// 注册用户

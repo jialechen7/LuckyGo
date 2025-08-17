@@ -29,11 +29,19 @@ type (
 )
 
 func (c *customPrizeModel) DecrStock(ctx context.Context, prizeId int64) error {
-	err := c.ExecCtx(ctx, func(db *gorm.DB) error {
-		return db.Model(&Prize{}).Where("id = ? and stock > 0", prizeId).Update("stock", gorm.Expr("stock - 1")).Error
-	})
+	return c.ExecCtx(ctx, func(db *gorm.DB) error {
+		tx := db.Model(&Prize{}).
+			Where("id = ? AND stock > 0", prizeId).
+			Update("stock", gorm.Expr("stock - 1"))
 
-	return err
+		if tx.Error != nil {
+			return tx.Error
+		}
+		if tx.RowsAffected == 0 {
+			return ErrRowsAffectedZero
+		}
+		return nil
+	})
 }
 
 func (c *customPrizeModel) FindFirstLevelPrizeByLotteryId(ctx context.Context, lotteryId int64) (*Prize, error) {

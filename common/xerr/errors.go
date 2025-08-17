@@ -13,6 +13,7 @@ func init() {
 	message[DB_UPDATE_AFFECTED_ZERO_ERROR] = "更新数据影响行数为0"
 	message[DB_ERROR_NOT_FOUND] = "数据未找到"
 	message[DB_TRANSACTION_ERROR] = "数据库事务错误"
+	message[REDIS_ERROR] = "redis错误"
 
 	// 抽奖模块
 	message[DB_GETLASTID_ERROR] = "获取最后一个抽奖id失败"
@@ -42,6 +43,7 @@ func init() {
 	message[DB_FIND_LOTTERY_BY_ID_ERR] = "查找抽奖失败"
 	message[DB_FIND_PRIZES_BY_LOTTERY_ID_ERR] = "查找抽奖奖品失败"
 	message[DB_DECR_PRIZE_STOCK_ERR] = "减少奖品库存失败"
+	message[DB_USER_ALREADY_PARTICIPATE_LOTTERY] = "已参与抽奖，请勿重复参与"
 
 	// 用户模块
 	message[DB_INSERT_USER_SPONSOR_ERROR] = "插入用户赞助商失败"
