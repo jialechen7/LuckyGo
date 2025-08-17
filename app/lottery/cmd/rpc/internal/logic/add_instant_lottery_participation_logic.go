@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+  
 	"github.com/IBM/sarama"
 	"github.com/google/uuid"
 	"github.com/jialechen7/go-lottery/app/lottery/cmd/rpc/internal/svc"

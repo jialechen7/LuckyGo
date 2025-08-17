@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"encoding/json"
+
 	"github.com/jialechen7/go-lottery/app/lottery/model"
 	"github.com/jialechen7/go-lottery/common/constants"
 	"github.com/jialechen7/go-lottery/common/xerr"
@@ -43,6 +44,7 @@ func NewAddLotteryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLot
 }
 
 func (l *AddLotteryLogic) AddLottery(in *pb.AddLotteryReq) (*pb.AddLotteryResp, error) {
+	logx.Error(in)
 	var lotteryId int64
 	err := l.svcCtx.TransactCtx(l.ctx, func(db *gorm.DB) error {
 		lottery := &model.Lottery{
@@ -75,10 +77,12 @@ func (l *AddLotteryLogic) AddLottery(in *pb.AddLotteryReq) (*pb.AddLotteryResp, 
 			_ = copier.Copy(prize, pbPrize)
 			prize.LotteryId = lotteryId
 			prize.Stock = prize.Count
+      
 			err := l.svcCtx.PrizeModel.Insert(l.ctx, db, prize)
 			if err != nil {
 				return errors.Wrapf(model.ErrCreatePrize, "AddLotteryLogic Insert Prize error: %v", err)
 			}
+
 			redisPrize := &RedisPrize{
 				LotteryId:        lotteryId,
 				Id:               prize.Id,
